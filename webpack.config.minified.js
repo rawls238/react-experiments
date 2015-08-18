@@ -9,7 +9,8 @@ module.exports = {
   },
   output: {
     filename: 'dist/react-experiments.min.js',
-    libraryTarget: 'umd'
+    libraryTarget: 'umd',
+    library: 'ReactExperiments'
   },
   plugins: [
     new webpack.optimize.UglifyJsPlugin({minimize: true})

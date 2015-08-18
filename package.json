@@ -13,7 +13,7 @@
   "main": "dist/react-experiments.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/facebook/planout/"
+    "url": "https://github.com/HubSpot/react-experiments"
   },
   "keywords": [
     "ab testing",

@@ -7,7 +7,8 @@ module.exports = {
   },
   output: {
     filename: 'dist/react-experiments.js',
-    libraryTarget: 'umd'
+    libraryTarget: 'umd',
+    library: 'ReactExperiments'
   },
   externals: [
     {
