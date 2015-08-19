@@ -175,8 +175,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = {
 	  getExposedExperimentVariation: function getExposedExperimentVariation(childrenComponents, variationName) {
+	    var _this = this;
+
 	    if (!childrenComponents.reduce) {
-	      return enrollInExperiment({}, childrenComponents, variationName);
+	      return this.enrollInExperiment({}, childrenComponents, variationName);
 	    }
 
 	    return childrenComponents.reduce(function (component, child) {
@@ -184,7 +186,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return component;
 	      }
 
-	      return enrollInExperiment(component, child, variationName);
+	      return _this.enrollInExperiment(component, child, variationName);
 	    }, {});
 	  },
 

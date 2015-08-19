@@ -3,7 +3,7 @@ import {DEFAULT_EXPERIMENT_COMPONENT} from './constants';
 export default {
   getExposedExperimentVariation(childrenComponents, variationName) {
     if (!childrenComponents.reduce) {
-        return enrollInExperiment({}, childrenComponents, variationName);
+        return this.enrollInExperiment({}, childrenComponents, variationName);
       }
 
     return childrenComponents.reduce((component, child) => {
@@ -11,7 +11,7 @@ export default {
         return component;
       }
 
-      return enrollInExperiment(component, child, variationName);
+      return this.enrollInExperiment(component, child, variationName);
     }, {})
   },
 
