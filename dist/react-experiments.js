@@ -56,21 +56,21 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 
-	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
-
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
-	var Experiment = _interopRequire(__webpack_require__(1));
+	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
 
-	var Namespace = _interopRequire(__webpack_require__(6));
+	var Experiment = _interopRequireWildcard(__webpack_require__(1));
+
+	var Namespace = _interopRequireWildcard(__webpack_require__(6));
 
 	var Variations = _interopRequireWildcard(__webpack_require__(7));
 
 	var ExperimentClass = _interopRequire(__webpack_require__(8));
 
 	module.exports = {
-	  Experiment: Experiment,
-	  Namespace: Namespace,
+	  Experiment: Experiment.Experiment,
+	  Namespace: Namespace.Namespace,
 	  Variation: Variations.Variation,
 	  Default: Variations.Default,
 	  ExperimentClass: ExperimentClass
@@ -84,13 +84,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
 	var React = _interopRequire(__webpack_require__(2));
 
 	var getExposedExperimentVariation = __webpack_require__(3).getExposedExperimentVariation;
 
 	var suppressAutoExposureLogging = __webpack_require__(5).suppressAutoExposureLogging;
 
-	module.exports = Experiment = React.createClass({
+	var Experiment = React.createClass({
 	  displayName: "Experiment",
 
 	  getDefaultProps: function getDefaultProps() {
@@ -153,6 +157,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return this.renderExposedVariation();
 	  }
 	});
+	exports.Experiment = Experiment;
 
 /***/ },
 /* 2 */
@@ -228,6 +233,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
 	var React = _interopRequire(__webpack_require__(2));
 
 	var DEFAULT_EXPERIMENT_COMPONENT = __webpack_require__(4).DEFAULT_EXPERIMENT_COMPONENT;
@@ -236,7 +245,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var suppressAutoExposureLogging = __webpack_require__(5).suppressAutoExposureLogging;
 
-	module.exports = Namespace = React.createClass({
+	var Namespace = React.createClass({
 	  displayName: "Namespace",
 
 	  getEnrolledExperiment: function getEnrolledExperiment() {
@@ -288,6 +297,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    );
 	  }
 	});
+	exports.Namespace = Namespace;
 
 /***/ },
 /* 7 */
