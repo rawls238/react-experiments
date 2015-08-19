@@ -84,17 +84,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
 	var React = _interopRequire(__webpack_require__(2));
 
 	var getExposedExperimentVariation = __webpack_require__(3).getExposedExperimentVariation;
 
 	var suppressAutoExposureLogging = __webpack_require__(5).suppressAutoExposureLogging;
 
-	var Experiment = React.createClass({
+	module.exports = Experiment = React.createClass({
 	  displayName: "Experiment",
 
 	  getDefaultProps: function getDefaultProps() {
@@ -157,7 +153,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return this.renderExposedVariation();
 	  }
 	});
-	exports.Experiment = Experiment;
 
 /***/ },
 /* 2 */
@@ -221,6 +216,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (experimentClass.setAutoExposureLogging && typeof experimentClass.setAutoExposureLogging == "function") {
 	      experimentClass.setAutoExposureLogging(false);
 	    }
+	    return experimentClass;
 	  }
 	};
 
@@ -232,10 +228,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
 	var React = _interopRequire(__webpack_require__(2));
 
 	var DEFAULT_EXPERIMENT_COMPONENT = __webpack_require__(4).DEFAULT_EXPERIMENT_COMPONENT;
@@ -244,7 +236,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var suppressAutoExposureLogging = __webpack_require__(5).suppressAutoExposureLogging;
 
-	var Namespace = React.createClass({
+	module.exports = Namespace = React.createClass({
 	  displayName: "Namespace",
 
 	  getEnrolledExperiment: function getEnrolledExperiment() {
@@ -296,7 +288,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    );
 	  }
 	});
-	exports.Namespace = Namespace;
 
 /***/ },
 /* 7 */

@@ -3,7 +3,7 @@ import {DEFAULT_EXPERIMENT_COMPONENT} from './constants';
 import {getExposedExperimentVariation} from './experimentEnrollment';
 import {suppressAutoExposureLogging} from './utils';
 
-export const Namespace = React.createClass({
+export default Namespace = React.createClass({
   getEnrolledExperiment() {
     if(!this.props.children.reduce) {
       return this.enrollInNamespace({}, this.props.children);

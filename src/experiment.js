@@ -2,7 +2,7 @@ import React from 'react';
 import {getExposedExperimentVariation} from './experimentEnrollment';
 import {suppressAutoExposureLogging} from './utils';
 
-export const Experiment = React.createClass({
+export default Experiment = React.createClass({
   getDefaultProps() {
     return {
       isEnrolled: true
