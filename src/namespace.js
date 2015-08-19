@@ -1,7 +1,7 @@
 import React from 'react';
 import {DEFAULT_EXPERIMENT_COMPONENT} from './constants';
 import ExperimentEnrollment from './experimentEnrollment';
-import {suppressAutoExposureLogging} from './utils';
+import Utils from './utils';
 
 export const Namespace = React.createClass({
   getEnrolledExperiment() {
@@ -19,7 +19,7 @@ export const Namespace = React.createClass({
   },
 
   enrollInNamespace(component, child) {
-    const experiment = suppressAutoExposureLogging(this.props.experimentClass);
+    const experiment = Utils.suppressAutoExposureLogging(this.props.experimentClass);
     if (child.props.displayName === DEFAULT_EXPERIMENT_COMPONENT) {
       component.defaultComponent = child;
     } else if (child.props.isEnrolled) {

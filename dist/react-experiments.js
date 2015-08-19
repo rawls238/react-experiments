@@ -92,7 +92,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var ExperimentEnrollment = _interopRequire(__webpack_require__(3));
 
-	var suppressAutoExposureLogging = __webpack_require__(5).suppressAutoExposureLogging;
+	var Utils = _interopRequire(__webpack_require__(5));
 
 	var Experiment = React.createClass({
 	  displayName: "Experiment",
@@ -135,7 +135,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return;
 	    }
 
-	    experiment = suppressAutoExposureLogging(this.props.experimentClass);
+	    experiment = Utils.suppressAutoExposureLogging(this.props.experimentClass);
 	    this.setState({
 	      exposedVariation: experiment.get(param)
 	    });
@@ -220,7 +220,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	"use strict";
 
 	module.exports = {
-	  suppressExposureLogging: function suppressExposureLogging(experimentClass) {
+	  suppressAutoExposureLogging: function suppressAutoExposureLogging(experimentClass) {
 	    if (experimentClass.setAutoExposureLogging && typeof experimentClass.setAutoExposureLogging == "function") {
 	      experimentClass.setAutoExposureLogging(false);
 	    }
@@ -246,7 +246,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var ExperimentEnrollment = _interopRequire(__webpack_require__(3));
 
-	var suppressAutoExposureLogging = __webpack_require__(5).suppressAutoExposureLogging;
+	var Utils = _interopRequire(__webpack_require__(5));
 
 	var Namespace = React.createClass({
 	  displayName: "Namespace",
@@ -268,7 +268,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 
 	  enrollInNamespace: function enrollInNamespace(component, child) {
-	    var experiment = suppressAutoExposureLogging(this.props.experimentClass);
+	    var experiment = Utils.suppressAutoExposureLogging(this.props.experimentClass);
 	    if (child.props.displayName === DEFAULT_EXPERIMENT_COMPONENT) {
 	      component.defaultComponent = child;
 	    } else if (child.props.isEnrolled) {

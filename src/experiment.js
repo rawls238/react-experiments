@@ -1,6 +1,6 @@
 import React from 'react';
 import ExperimentEnrollment from './experimentEnrollment';
-import {suppressAutoExposureLogging} from './utils';
+import Utils from './utils';
 
 export const Experiment = React.createClass({
   getDefaultProps() {
@@ -39,7 +39,7 @@ export const Experiment = React.createClass({
       return;
     }
 
-    experiment = suppressAutoExposureLogging(this.props.experimentClass);
+    experiment = Utils.suppressAutoExposureLogging(this.props.experimentClass);
     this.setState({
       exposedVariation: experiment.get(param)
     });

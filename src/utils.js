@@ -1,5 +1,5 @@
 export default {
-  suppressExposureLogging(experimentClass) {
+  suppressAutoExposureLogging(experimentClass) {
     if (experimentClass.setAutoExposureLogging && typeof(experimentClass.setAutoExposureLogging) == "function") {
       experimentClass.setAutoExposureLogging(false);
     }
