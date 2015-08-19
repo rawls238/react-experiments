@@ -1,5 +1,5 @@
 import React from 'react';
-import {getExposedExperimentVariation} from './experimentEnrollment';
+import ExperimentEnrollment from './experimentEnrollment';
 import {suppressAutoExposureLogging} from './utils';
 
 export const Experiment = React.createClass({
@@ -46,7 +46,7 @@ export const Experiment = React.createClass({
   },
 
   renderExposedVariation() {
-    let variationComponent = getExposedExperimentVariation(this.props.children, this.state.exposedVariation);
+    let variationComponent = ExperimentEnrollment.getExposedExperimentVariation(this.props.children, this.state.exposedVariation);
 
     if (variationComponent.exposedVariation) {
       this.props.experimentClass.logExposure();

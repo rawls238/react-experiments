@@ -90,7 +90,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var React = _interopRequire(__webpack_require__(2));
 
-	var getExposedExperimentVariation = __webpack_require__(3).getExposedExperimentVariation;
+	var ExperimentEnrollment = _interopRequire(__webpack_require__(3));
 
 	var suppressAutoExposureLogging = __webpack_require__(5).suppressAutoExposureLogging;
 
@@ -142,7 +142,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 
 	  renderExposedVariation: function renderExposedVariation() {
-	    var variationComponent = getExposedExperimentVariation(this.props.children, this.state.exposedVariation);
+	    var variationComponent = ExperimentEnrollment.getExposedExperimentVariation(this.props.children, this.state.exposedVariation);
 
 	    if (variationComponent.exposedVariation) {
 	      this.props.experimentClass.logExposure();
@@ -174,6 +174,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	var DEFAULT_EXPERIMENT_COMPONENT = __webpack_require__(4).DEFAULT_EXPERIMENT_COMPONENT;
 
 	module.exports = {
+
+	  enrollInExperiment: function enrollInExperiment(component, child, variationName) {
+	    if (variationName && child.props.name === variationName) {
+	      component.exposedVariation = child;
+	    } else if (child.props.displayName === DEFAULT_EXPERIMENT_COMPONENT) {
+	      component.defaultComponent = child;
+	    }
+	    return component;
+	  },
+
 	  getExposedExperimentVariation: function getExposedExperimentVariation(childrenComponents, variationName) {
 	    var _this = this;
 
@@ -188,15 +198,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      return _this.enrollInExperiment(component, child, variationName);
 	    }, {});
-	  },
-
-	  enrollInExperiment: function enrollInExperiment(component, child, variationName) {
-	    if (variationName && child.props.name === variationName) {
-	      component.exposedVariation = child;
-	    } else if (child.props.displayName === DEFAULT_EXPERIMENT_COMPONENT) {
-	      component.defaultComponent = child;
-	    }
-	    return component;
 	  }
 	};
 
@@ -243,7 +244,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var DEFAULT_EXPERIMENT_COMPONENT = __webpack_require__(4).DEFAULT_EXPERIMENT_COMPONENT;
 
-	var getExposedExperimentVariation = __webpack_require__(3).getExposedExperimentVariation;
+	var ExperimentEnrollment = _interopRequire(__webpack_require__(3));
 
 	var suppressAutoExposureLogging = __webpack_require__(5).suppressAutoExposureLogging;
 
@@ -272,7 +273,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      component.defaultComponent = child;
 	    } else if (child.props.isEnrolled) {
 	      var experimentParam = experiment.get(child.props.param);
-	      if (experimentParam && getExposedExperimentVariation(child.props.children, experimentParam).exposedVariation) {
+	      if (experimentParam && ExperimentEnrollment.getExposedExperimentVariation(child.props.children, experimentParam).exposedVariation) {
 	        component.exposedExperiment = child;
 	      }
 	    }

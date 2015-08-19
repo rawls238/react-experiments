@@ -1,6 +1,6 @@
 import React from 'react';
 import {DEFAULT_EXPERIMENT_COMPONENT} from './constants';
-import {getExposedExperimentVariation} from './experimentEnrollment';
+import ExperimentEnrollment from './experimentEnrollment';
 import {suppressAutoExposureLogging} from './utils';
 
 export const Namespace = React.createClass({
@@ -24,7 +24,7 @@ export const Namespace = React.createClass({
       component.defaultComponent = child;
     } else if (child.props.isEnrolled) {
       const experimentParam = experiment.get(child.props.param);
-      if (experimentParam && getExposedExperimentVariation(child.props.children, experimentParam).exposedVariation) {
+      if (experimentParam && ExperimentEnrollment.getExposedExperimentVariation(child.props.children, experimentParam).exposedVariation) {
         component.exposedExperiment = child;
       }
     }
