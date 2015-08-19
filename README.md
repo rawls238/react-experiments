@@ -5,11 +5,13 @@ react-experiments is a Javascript library that assists in defining and managing 
 
 # Installation
 
+```
 npm install react-experiments
+```
 
 # Usage
 
-react-experiments was built to work with [PlanOut.js](https://www.github.com/HubSpot/PlanOut.js) and most of the constructs in it are inspired by the structure of PlanOut.js. This library will work out of the box if you pass it a PlanOut Namespace or Experiment class, but if you want to use your own (potentially more lightweight) methods of assigning experiment parameters and logging exposure then you can extend the base [ExperimentClass](src/experimentClass.js) and pass that as the experimentClass prop to the Experiment class components.
+react-experiments was built to work with [PlanOut.js](https://www.github.com/HubSpot/PlanOut.js) and most of the constructs in it are inspired by the structure of PlanOut.js. This library will work out of the box if you pass it a PlanOut Namespace or Experiment class, but if you want to use your own (potentially more lightweight) methods of assigning experiment parameters and logging exposure then you can extend the base [ExperimentClass](https://github.com/HubSpot/react-experiments/blob/master/src/experimentClass.js) and pass that as the experimentClass prop to the Experiment class components.
 
 ## Using the Experiment Component
 
@@ -17,7 +19,7 @@ Here is a basic A/B test defined using react-experiments:
 
 ```javascript
 import {TestNamespace} from [file where you define your namespace];
-import {Experiment, Variation} from 'react-experiments';
+import {Experiment, Variation} from 'ReactExperiments';
 
 ...
 
@@ -45,7 +47,7 @@ In the case that you need define more than 1 experiment in the same component an
 
 ```javascript
 import {TestNamespace} from [file where you define your namespace];
-import {Namespace, Experiment, Variation} from 'react-experiments';
+import {Namespace, Experiment, Variation} from 'ReactExperiments';
 
 ...
 
