@@ -1,15 +1,20 @@
+var webpack = require("webpack");
+
 module.exports = {
-  entry: './index.js',
+  entry: './build/index.js',
   module: {
     loaders: [
       { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader'},
     ]
   },
   output: {
-    filename: 'dist/react-experiments.js',
+    filename: '../dist/react-experiments.min.js',
     libraryTarget: 'umd',
     library: 'ReactExperiments'
   },
+  plugins: [
+    new webpack.optimize.UglifyJsPlugin({minimize: true})
+  ],
   externals: [
     {
       "react": {

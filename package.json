@@ -9,7 +9,8 @@
     "babel-loader": "^4.0.0",
     "webpack": "^1.5.3",
     "jasmine": "^2.3.2",
-    "jasmine-es6": "^0.0.17"
+    "jasmine-es6": "^0.0.17",
+    "planout": "^1.0.9"
   },
   "description": "react-experiments is a Javascript library that assists in defining and managing UI experiments in React.",
   "main": "dist/react-experiments.js",
