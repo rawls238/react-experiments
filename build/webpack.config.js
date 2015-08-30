@@ -6,7 +6,7 @@ module.exports = {
     ]
   },
   output: {
-    filename: '../dist/react-experiments.js',
+    filename: 'dist/react-experiments.js',
     libraryTarget: 'umd',
     library: 'ReactExperiments'
   },

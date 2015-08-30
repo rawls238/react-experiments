@@ -22,11 +22,11 @@
       }
       return descriptors;
     };
-     
+
     Function.prototype.extend = function extend(proto) {
         var superclass = this;
         var constructor;
-     
+
         if (!proto.hasOwnProperty('constructor')) {
           Object.defineProperty(proto, 'constructor', {
             value: function () {
@@ -39,26 +39,32 @@
           });
         }
         constructor = proto.constructor;
-        
+
         constructor.prototype = Object.create(this.prototype, Object.getOwnPropertyDescriptors(proto));
-        
+
         return constructor;
     };
 
     /* End extend helper */
 
-    var DummyExperiment = window.PlanOut.Experiment.extend({
+    var DemoExperiment = window.PlanOut.Experiment.extend({
       setup: function() {
         this.name = "SampleExperiment";
       },
       assign: function(params, args) {
-        params.set('foo', new window.PlanOut.Ops.Random.UniformChoice({ 'choices': ['Variation A', 'Variation B'], 'unit': args.id }));
+        params.set(
+          'foo',
+          new window.PlanOut.Ops.Random.UniformChoice({
+            'choices': ['Variation A', 'Variation B'],
+            'unit': args.id
+          })
+        );
       },
       configureLogger: function() {
         return;
       },
       log: function(stuff) {
-        return;
+        console.log(stuff);
       },
       getParamNames: function() {
         return this.getDefaultParamNames();
@@ -68,20 +74,24 @@
       }
     });
 
-    window.SampleExperiment = new DummyExperiment({'id': Math.floor(Math.random() * 1000)});
+    window.userid = Math.floor(Math.random() * 1000);
+    window.demo = new DemoExperiment({'id': userid});
   </script>
   <script type="text/jsx">
     var ExampleApp = React.createClass({
       render: function() {
         return (
-          <ReactExperiments.Experiment experimentClass={window.SampleExperiment} param='foo'>
-            <ReactExperiments.Variation name='Variation A'>
-              Variation A
-            </ReactExperiments.Variation>
-            <ReactExperiments.Variation name='Variation B'>
-              Variation B
-            </ReactExperiments.Variation>
-          </ReactExperiments.Experiment>
+          <p>{'User ' + window.userid + ' is assigned to '}
+            <ReactExperiments.VariationExperiment
+              experimentClass={window.demo} param='foo'>
+              <ReactExperiments.Variation name='Variation A'>
+                Variation A
+              </ReactExperiments.Variation>
+              <ReactExperiments.Variation name='Variation B'>
+                Variation B
+              </ReactExperiments.Variation>
+            </ReactExperiments.VariationExperiment>
+          </p>
         );
       }
     });

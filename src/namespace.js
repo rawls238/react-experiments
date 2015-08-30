@@ -19,12 +19,12 @@ export const Namespace = React.createClass({
   },
 
   enrollInNamespace(component, child) {
-    const experiment = Utils.suppressAutoExposureLogging(this.props.experimentClass);
+    const experiment = this.props.experimentClass;
     if (child.props.displayName === DEFAULT_EXPERIMENT_COMPONENT) {
       component.defaultComponent = child;
     } else if (child.props.isEnrolled) {
       const experimentParam = experiment.get(child.props.param);
-      if (experimentParam && ExperimentEnrollment.getExposedExperimentVariation(child.props.children, experimentParam).exposedVariation) {
+      if (experimentParam && ExperimentEnrollment.getVariation(child.props.children, experimentParam).exposedVariation) {
         component.exposedExperiment = child;
       }
     }
