@@ -171,4 +171,11 @@ then exposure will only be logged if the user is enrolled in the 'a' variation a
 
 It is important to note as well that if a user is binned into the Default component then exposure is NOT logged.
 
+## Development
+
+This project is written using ES6 and all build steps / transpilation is done by webpack. In order to develop and test locally, it is necessary to simply run the ```build.sh``` shell script which will take care of transpiling to ES5.
+
+To test API changes locally, open the examples/index.html file locally after building with your most recent changes. The index.html file contains a simple example of using this library paired with the [PlanOut.js sample experiment](https://github.com/HubSpot/PlanOut.js/blob/master/examples/sample_planout_es5.js).
+
+As this project is still rather young, there have not been any tests written for this. However, the infrastructure for adding tests is currently set up using Jasmine-ES6. If you wish to add a test simply add a spec file or add tests to the existing spec files. Tests can be run using ```npm test```.
 
