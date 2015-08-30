@@ -60,7 +60,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
 
-	var VariationExperiment = _interopRequireWildcard(__webpack_require__(1));
+	var Experiment = _interopRequireWildcard(__webpack_require__(1));
 
 	var Namespace = _interopRequireWildcard(__webpack_require__(6));
 
@@ -69,7 +69,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var ExperimentClass = _interopRequire(__webpack_require__(8));
 
 	module.exports = {
-	  VariationExperiment: VariationExperiment.VariationExperiment,
+	  Experiment: Experiment.Experiment,
 	  Namespace: Namespace.Namespace,
 	  Variation: Variations.Variation,
 	  Default: Variations.Default,
@@ -94,8 +94,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var Utils = _interopRequire(__webpack_require__(5));
 
-	var VariationExperiment = React.createClass({
-	  displayName: "VariationExperiment",
+	var Experiment = React.createClass({
+	  displayName: "Experiment",
 
 	  getDefaultProps: function getDefaultProps() {
 	    return {
@@ -105,7 +105,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  getInitialState: function getInitialState() {
 	    return {
-	      variation: null
+	      exposedVariation: null
 	    };
 	  },
 
@@ -130,34 +130,34 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    if (!isEnrolled) {
 	      this.setState({
-	        variation: null
+	        exposedVariation: null
 	      });
 	      return;
 	    }
 
-	    experiment = this.props.experimentClass;
+	    experiment = Utils.suppressAutoExposureLogging(this.props.experimentClass);
 	    this.setState({
-	      variationName: experiment.get(param)
+	      exposedVariation: experiment.get(param)
 	    });
 	  },
 
-	  renderVariation: function renderVariation() {
-	    var variationComponent = ExperimentEnrollment.getVariation(this.props.children, this.state.variationName);
+	  renderExposedVariation: function renderExposedVariation() {
+	    var variationComponent = ExperimentEnrollment.getExposedExperimentVariation(this.props.children, this.state.exposedVariation);
 
-	    if (variationComponent.selectedVariation) {
-	      return variationComponent.selectedVariation;
+	    if (variationComponent.exposedVariation) {
+	      this.props.experimentClass.logExposure();
+	      return variationComponent.exposedVariation;
 	    } else if (variationComponent.defaultComponent) {
 	      return variationComponent.defaultComponent;
 	    }
-	    console.log("poop", this.state.variationName, variationComponent);
 	    return null;
 	  },
 
 	  render: function render() {
-	    return this.renderVariation();
+	    return this.renderExposedVariation();
 	  }
 	});
-	exports.VariationExperiment = VariationExperiment;
+	exports.Experiment = Experiment;
 
 /***/ },
 /* 2 */
@@ -177,23 +177,22 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  enrollInExperiment: function enrollInExperiment(component, child, variationName) {
 	    if (variationName && child.props.name === variationName) {
-	      component.selectedVariation = child;
+	      component.exposedVariation = child;
 	    } else if (child.props.displayName === DEFAULT_EXPERIMENT_COMPONENT) {
 	      component.defaultComponent = child;
 	    }
 	    return component;
 	  },
 
-	  getVariation: function getVariation(childrenComponents, variationName) {
+	  getExposedExperimentVariation: function getExposedExperimentVariation(childrenComponents, variationName) {
 	    var _this = this;
 
-	    // I don't understand what this line does.
 	    if (!childrenComponents.reduce) {
 	      return this.enrollInExperiment({}, childrenComponents, variationName);
 	    }
 
 	    return childrenComponents.reduce(function (component, child) {
-	      if (component.selectedVariation) {
+	      if (component.exposedVariation) {
 	        return component;
 	      }
 
@@ -269,12 +268,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 
 	  enrollInNamespace: function enrollInNamespace(component, child) {
-	    var experiment = this.props.experimentClass;
+	    var experiment = Utils.suppressAutoExposureLogging(this.props.experimentClass);
 	    if (child.props.displayName === DEFAULT_EXPERIMENT_COMPONENT) {
 	      component.defaultComponent = child;
 	    } else if (child.props.isEnrolled) {
 	      var experimentParam = experiment.get(child.props.param);
-	      if (experimentParam && ExperimentEnrollment.getVariation(child.props.children, experimentParam).exposedVariation) {
+	      if (experimentParam && ExperimentEnrollment.getExposedExperimentVariation(child.props.children, experimentParam).exposedVariation) {
 	        component.exposedExperiment = child;
 	      }
 	    }
