@@ -6,8 +6,8 @@
 <body>
   <div class="examples-container"></div>
 
-  <script src="http://cdn.jsdelivr.net/react/0.12.2/react-with-addons.js"></script>
-  <script src="http://cdn.jsdelivr.net/react/0.12.2/JSXTransformer.js"></script>
+  <script src="http://cdn.jsdelivr.net/react/0.13.3/react-with-addons.js"></script>
+  <script src="http://cdn.jsdelivr.net/react/0.13.3/JSXTransformer.js"></script>
   <script src="../node_modules/planout/dist/planout.js"></script>
   <script src="../dist/react-experiments.js"></script>
   <script type="text/javascript">
@@ -55,7 +55,7 @@
         params.set(
           'foo',
           new window.PlanOut.Ops.Random.UniformChoice({
-            'choices': ['Variation A', 'Variation B'],
+            'choices': ['Variation A', 'Variation B', 'bogus'],
             'unit': args.id
           })
         );
@@ -83,13 +83,16 @@
         return (
           <p>{'User ' + window.userid + ' is assigned to '}
             <ReactExperiments.VariationExperiment
-              experimentClass={window.demo} param='foo'>
+              experiment={window.demo} param='foo'>
               <ReactExperiments.Variation name='Variation A'>
                 Variation A
               </ReactExperiments.Variation>
               <ReactExperiments.Variation name='Variation B'>
                 Variation B
               </ReactExperiments.Variation>
+	      <ReactExperiments.DefaultVariation>
+                unknown choice
+              </ReactExperiments.DefaultVariation>
             </ReactExperiments.VariationExperiment>
           </p>
         );

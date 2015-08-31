@@ -19,8 +19,8 @@ export const Namespace = React.createClass({
   },
 
   enrollInNamespace(component, child) {
-    const experiment = this.props.experimentClass;
-    if (child.props.displayName === DEFAULT_EXPERIMENT_COMPONENT) {
+    const experiment = this.props.experiment;
+    if (child.props.name === DEFAULT_EXPERIMENT_COMPONENT) {
       component.defaultComponent = child;
     } else if (child.props.isEnrolled) {
       const experimentParam = experiment.get(child.props.param);
@@ -36,7 +36,7 @@ export const Namespace = React.createClass({
     const experiment = this.getEnrolledExperiment();
     if (experiment.exposedExperiment) {
       return (
-        <Experiment experimentClass={this.props.experimentClass} param={experiment.exposedExperiment.props.param}>
+        <Experiment experiment={this.props.experiment} param={experiment.exposedExperiment.props.param}>
           {experiment.exposedExperiment.props.children}
         </Experiment>
       );
