@@ -68,12 +68,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var ExperimentClass = _interopRequire(__webpack_require__(8));
 
+	var Parametrize = _interopRequireWildcard(__webpack_require__(9));
+
 	module.exports = {
 	  Experiment: Experiment.Experiment,
 	  Namespace: Namespace.Namespace,
 	  Variation: Variations.Variation,
 	  Default: Variations.Default,
-	  ExperimentClass: ExperimentClass
+	  ExperimentClass: ExperimentClass,
+	  Parametrize: Parametrize.Parametrize
 	};
 
 /***/ },
@@ -389,6 +392,63 @@ return /******/ (function(modules) { // webpackBootstrap
 	;
 
 	module.exports = ExperimentClass;
+
+/***/ },
+/* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var React = _interopRequire(__webpack_require__(2));
+
+	var Parametrize = React.createClass({
+	  displayName: "Parametrize",
+
+	  getInitialState: function getInitialState() {
+	    return {
+	      variations: null
+	    };
+	  },
+
+	  componentDidMount: function componentDidMount() {
+	    this.selectVariation();
+	  },
+
+	  selectVariation: function selectVariation() {
+	    var experiment = this.props.experimentClass;
+
+	    if (!experiment || !experiment.inputs) {
+	      console.error("You must pass in an experimentClass instance as a prop");
+	      return;
+	    }
+
+	    this.setState({
+	      variations: experiment.getParams()
+	    });
+	  },
+
+	  renderExperiment: function renderExperiment() {
+	    if (!this.state.variations) {
+	      return null;
+	    }
+
+	    for (var param in this.state.variations) {
+	      this.props.children.props[param] = this.state.variations[param];
+	    }
+	    return this.props.children;
+	  },
+
+	  render: function render() {
+	    return this.renderExperiment();
+	  }
+	});
+	exports.Parametrize = Parametrize;
 
 /***/ }
 /******/ ])

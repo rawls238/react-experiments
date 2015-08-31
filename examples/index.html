@@ -71,7 +71,7 @@
     window.SampleExperiment = new DummyExperiment({'id': Math.floor(Math.random() * 1000)});
   </script>
   <script type="text/jsx">
-    var ExampleApp = React.createClass({
+    /*var ExampleApp = React.createClass({
       render: function() {
         return (
           <ReactExperiments.Experiment experimentClass={window.SampleExperiment} param='foo'>
@@ -84,7 +84,27 @@
           </ReactExperiments.Experiment>
         );
       }
-    });
+    });*/
+
+  var TextComponent = React.createClass({
+    render: function() {
+      return (
+        <span>
+          {this.props.foo}
+        </span>
+      );
+    }
+  });
+
+  var ExampleApp = React.createClass({
+    render: function() {
+      return (
+        <ReactExperiments.Parametrize experimentClass={window.SampleExperiment}>
+          <TextComponent />
+        </ReactExperiments.Parametrize>
+      )
+    }
+  });
 
     React.render(
       <ExampleApp/>,
