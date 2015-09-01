@@ -1,7 +1,7 @@
 import React from 'react';
-import {DEFAULT_EXPERIMENT_COMPONENT} from './constants';
+import {EMPTY_EXPERIMENT_COMPONENT, DEFAULT_EXPERIMENT_COMPONENT} from './constants';
 
-export const Variation = React.createClass({
+export class Variation extends React.Component {
   render() {
     return (
       <span>
@@ -9,15 +9,9 @@ export const Variation = React.createClass({
       </span>
     );
   }
-});
+}
 
-export const Default = React.createClass({
-  getDefaultProps() {
-    return {
-      displayName: DEFAULT_EXPERIMENT_COMPONENT
-    }
-  },
-
+export class DefaultVariation extends React.Component {
   render() {
     return (
       <span>
@@ -25,4 +19,14 @@ export const Default = React.createClass({
       </span>
     );
   }
-});
+}
+DefaultVariation.propTypes = { name: React.PropTypes.string };
+DefaultVariation.defaultProps = {name: DEFAULT_EXPERIMENT_COMPONENT};
+
+export class EmptyDefaultVariation extends React.Component {
+  render() {
+    return null;
+  }
+}
+EmptyDefaultVariation.defaultProps = {name: EMPTY_EXPERIMENT_COMPONENT};
+EmptyDefaultVariation.propTypes = { name: React.PropTypes.string };

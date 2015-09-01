@@ -4,20 +4,21 @@ export default {
 
   enrollInExperiment(component, child, variationName) {
     if (variationName && child.props.name === variationName) {
-      component.exposedVariation = child;
+      component.selectedVariation = child;
     } else if (child.props.displayName === DEFAULT_EXPERIMENT_COMPONENT) {
       component.defaultComponent = child;
     }
     return component;
   },
-  
-  getExposedExperimentVariation(childrenComponents, variationName) {
+
+  getVariation(childrenComponents, variationName) {
+    // I don't understand what this line does.
     if (!childrenComponents.reduce) {
       return this.enrollInExperiment({}, childrenComponents, variationName);
     }
 
     return childrenComponents.reduce((component, child) => {
-      if (component.exposedVariation) {
+      if (component.selectedVariation) {
         return component;
       }
 
