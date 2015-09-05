@@ -1,10 +1,27 @@
 import React from 'react';
-import {DEFAULT_EXPERIMENT_COMPONENT} from './constants';
 
 export const Variation = React.createClass({
+  getInitialState() {
+    return {
+      shouldRender: false
+    }
+  },
+
   contextTypes: {
     experimentParameters: React.PropTypes.object.isRequired,
     experimentProps: React.PropTypes.object.isRequired
+  },
+
+  componentWillUpdate(props, state) {
+    if (state.shouldRender) {
+      this.context.experimentProps.experimentEnrolled();
+    }
+  },
+
+  componentDidMount() {
+    if (!this.state.shouldRender) {
+      this.shouldRenderVariation();
+    }
   },
 
   shouldRenderVariation() {
@@ -12,15 +29,18 @@ export const Variation = React.createClass({
     const paramName = this.props.param || this.context.experimentProps.param;
     if (this.context.experimentParameters) {
       if(this.context.experimentParameters[paramName] === name) {
-        return true;
+        this.setState({
+          shouldRender: true
+        });
       }
     }
   },
 
   render() {
-    if (!this.shouldRenderVariation()) {
+    if (!this.state.shouldRender) {
       return null;
     }
+
     return (
       <span>
         {this.props.children}
@@ -30,7 +50,15 @@ export const Variation = React.createClass({
 });
 
 export const Default = React.createClass({
+  contextTypes: {
+    experimentProps: React.PropTypes.object.isRequired
+  },
+
   render() {
+    if (this.context.experimentProps.hasRendered) {
+      return null;
+    }
+
     return (
       <span>
         {this.props.children}
