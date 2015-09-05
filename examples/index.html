@@ -59,6 +59,14 @@
             'unit': args.id
           })
         );
+
+        params.set(
+          'test2',
+          new window.PlanOut.Ops.Random.UniformChoice({
+            'choices': ['Num1', 'Num2'],
+            'unit': args.id
+          })
+        );
       },
       configureLogger: function() {
         return;
@@ -77,15 +85,33 @@
     window.demo = new DemoExperiment({'id': userid});
   </script>
   <script type="text/jsx">
+
+    var NestedVariations = React.createClass({
+      render: function() {
+        return (
+          <div>
+            <ReactExperiments.Variation name='Num1' param='test2'>
+              Num 1
+            </ReactExperiments.Variation>
+            <ReactExperiments.Variation name='Num2' param='test2'>
+              Num 2
+            </ReactExperiments.Variation>
+          </div>
+        );
+      }
+    });
+
     var VariationExperiment = React.createClass({
       render: function() {
         return (
             <ReactExperiments.Experiment experimentClass={window.demo} param='foo'>
               <ReactExperiments.Variation name='Variation A'>
                 Variation A
+                <NestedVariations />
               </ReactExperiments.Variation>
               <ReactExperiments.Variation name='Variation B'>
                 Variation B
+                <NestedVariations />
               </ReactExperiments.Variation>
               <ReactExperiments.Default>
                 test

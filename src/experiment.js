@@ -16,7 +16,7 @@ const Experiment = React.createClass({
     };
   },
 
-  enrolledinVariation() {
+  enrolledInVariation() {
     if (!this.state.hasRendered) {
       this.setState({
         hasRendered: true
@@ -34,7 +34,7 @@ const Experiment = React.createClass({
     }
 
     return (
-      <Parametrize experimentClass={experimentClass} param={param} enrolledinVariation={enrolledinVariation} hasRendered={this.state.hasRendered}>
+      <Parametrize experimentClass={experimentClass} param={param} enrolledInVariation={this.enrolledInVariation} hasRendered={this.state.hasRendered}>
         {this.props.children}
       </Parametrize>
     );

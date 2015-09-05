@@ -14,14 +14,12 @@ export const Variation = React.createClass({
 
   componentWillUpdate(props, state) {
     if (state.shouldRender) {
-      this.context.experimentProps.experimentEnrolled();
+      this.context.experimentProps.enrolledInVariation();
     }
   },
 
   componentDidMount() {
-    if (!this.state.shouldRender) {
-      this.shouldRenderVariation();
-    }
+    this.shouldRenderVariation();
   },
 
   shouldRenderVariation() {
@@ -36,6 +34,22 @@ export const Variation = React.createClass({
     }
   },
 
+  cloneIfReactElement(child) {
+    if (React.isValidElement(child)) {
+      return React.addons.cloneWithProps(child, {});
+    }
+    return child;
+  },
+
+  renderChildren() {
+    if (React.Children.count(this.props.children) === 1) {
+      return this.cloneIfReactElement(this.props.children);
+    }
+    return this.props.children.map((child) => {
+      return this.cloneIfReactElement(child);
+    });
+  },
+
   render() {
     if (!this.state.shouldRender) {
       return null;
@@ -43,7 +57,7 @@ export const Variation = React.createClass({
 
     return (
       <span>
-        {this.props.children}
+        {this.renderChildren()}
       </span>
     );
   }

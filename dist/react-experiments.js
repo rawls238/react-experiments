@@ -104,7 +104,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	  },
 
-	  experimentEnrolled: function experimentEnrolled() {
+	  enrolledInVariation: function enrolledInVariation() {
 	    if (!this.state.hasRendered) {
 	      this.setState({
 	        hasRendered: true
@@ -119,7 +119,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var experimentClass = _props.experimentClass;
 
 	    if (!shouldEnroll) {
-	      return null;
+	      return;
 	    } else if (!experimentClass) {
 	      console.error("You must pass in an experimentClass instance as a prop");
 	      return;
@@ -127,7 +127,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    return React.createElement(
 	      Parametrize,
-	      { experimentClass: experimentClass, param: param, experimentEnrolled: this.experimentEnrolled, hasRendered: this.state.hasRendered },
+	      { experimentClass: experimentClass, param: param, enrolledInVariation: this.enrolledInVariation, hasRendered: this.state.hasRendered },
 	      this.props.children
 	    );
 	  },
@@ -248,14 +248,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  componentWillUpdate: function componentWillUpdate(props, state) {
 	    if (state.shouldRender) {
-	      this.context.experimentProps.experimentEnrolled();
+	      this.context.experimentProps.enrolledInVariation();
 	    }
 	  },
 
 	  componentDidMount: function componentDidMount() {
-	    if (!this.state.shouldRender) {
-	      this.shouldRenderVariation();
-	    }
+	    this.shouldRenderVariation();
 	  },
 
 	  shouldRenderVariation: function shouldRenderVariation() {
@@ -270,6 +268,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  },
 
+	  cloneIfReactElement: function cloneIfReactElement(child) {
+	    if (React.isValidElement(child)) {
+	      return React.addons.cloneWithProps(child, {});
+	    }
+	    return child;
+	  },
+
+	  renderChildren: function renderChildren() {
+	    var _this = this;
+
+	    if (React.Children.count(this.props.children) === 1) {
+	      return this.cloneIfReactElement(this.props.children);
+	    }
+	    return this.props.children.map(function (child) {
+	      return _this.cloneIfReactElement(child);
+	    });
+	  },
+
 	  render: function render() {
 	    if (!this.state.shouldRender) {
 	      return null;
@@ -278,7 +294,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return React.createElement(
 	      "span",
 	      null,
-	      this.props.children
+	      this.renderChildren()
 	    );
 	  }
 	});
