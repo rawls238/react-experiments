@@ -47,18 +47,24 @@
 
     /* End extend helper */
 
-    var DummyExperiment = window.PlanOut.Experiment.extend({
+    var DemoExperiment = window.PlanOut.Experiment.extend({
       setup: function() {
         this.name = "SampleExperiment";
       },
       assign: function(params, args) {
-        params.set('foo', new window.PlanOut.Ops.Random.UniformChoice({ 'choices': ['Variation A', 'Variation B'], 'unit': args.id }));
+        params.set(
+          'foo',
+          new window.PlanOut.Ops.Random.UniformChoice({
+            'choices': ['Variation A', 'Variation B'],
+            'unit': args.id
+          })
+        );
       },
       configureLogger: function() {
         return;
       },
       log: function(stuff) {
-        return;
+        console.log(stuff);
       },
       getParamNames: function() {
         return this.getDefaultParamNames();
@@ -67,39 +73,38 @@
         return;
       }
     });
-
-    window.SampleExperiment = new DummyExperiment({'id': Math.floor(Math.random() * 1000)});
+    window.userid = Math.floor(Math.random() * 1000);
+    window.demo = new DemoExperiment({'id': userid});
   </script>
   <script type="text/jsx">
-    var ExampleApp = React.createClass({
+    var VariationExperiment = React.createClass({
       render: function() {
         return (
-          <ReactExperiments.Experiment experimentClass={window.SampleExperiment} param='foo'>
-            <ReactExperiments.Variation name='Variation A'>
-              Variation A
-            </ReactExperiments.Variation>
-            <ReactExperiments.Variation name='Variation B'>
-              Variation B
-            </ReactExperiments.Variation>
-            <ReactExperiments.Default>
-              test
-            </ReactExperiments.Default>
-          </ReactExperiments.Experiment>
+            <ReactExperiments.Experiment experimentClass={window.demo} param='foo'>
+              <ReactExperiments.Variation name='Variation A'>
+                Variation A
+              </ReactExperiments.Variation>
+              <ReactExperiments.Variation name='Variation B'>
+                Variation B
+              </ReactExperiments.Variation>
+              <ReactExperiments.Default>
+                test
+              </ReactExperiments.Default>
+            </ReactExperiments.Experiment>
         );
       }
     });
     
-    /*
     var FooComponent = React.createClass({
       contextTypes: {
-        parameters: React.PropTypes.object.isRequired
+        experimentParameters: React.PropTypes.object.isRequired
       },
 
       render: function() {
         return (
           <span>
             This is passed down by context:
-            {this.context.parameters.foo}
+            {this.context.experimentParameters.foo}
           </span>
         );
       }
@@ -109,7 +114,7 @@
       render: function() {
         return (
           <span>
-            This is passed down by props: {this.props.parameters.foo}
+            This is passed down by props: {this.props.experimentParameters.foo}
             <br />
             <FooComponent />
           </span>
@@ -117,18 +122,36 @@
       }
     });
     
-    var ExampleApp = React.createClass({
+    var ParametrizeExperiment = React.createClass({
       render: function() {
         return (
-          <ReactExperiments.Parametrize experimentClass={window.SampleExperiment}>
+          <ReactExperiments.Parametrize experimentClass={window.demo}>
             <TextComponent />
           </ReactExperiments.Parametrize>
         );
       }
-    });*/
+    });
+
+    var ExperimentExamples = React.createClass({
+      render: function() {
+        return (
+          <div>
+            <span>Your user id is {window.userid}</span>
+            <br />
+            <span>This is an experiment just using the parametrize component</span>
+            <br />
+            <ParametrizeExperiment />
+            <br />
+            <span>This is an experiment using the Variation components</span>
+            <VariationExperiment />
+          </div>
+        );
+      }
+
+    });
 
     React.render(
-      <ExampleApp/>,
+      <ExperimentExamples/>,
       document.getElementsByClassName('examples-container')[0]
     );
   </script>
