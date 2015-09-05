@@ -3,8 +3,16 @@ import React from 'react';
 export const Parametrize = React.createClass({
   getInitialState() {
     return {
-      variations: null
+      parameters: null
     };
+  },
+
+  childContextTypes: {
+    parameters: React.PropTypes.object.isRequired
+  },
+
+  getChildContext () {
+    return { parameters: this.state.parameters };
   },
 
   componentDidMount() {
@@ -20,18 +28,15 @@ export const Parametrize = React.createClass({
     }
 
     this.setState({
-      variations: experiment.getParams()
+      parameters: experiment.getParams()
     });
   },
 
   renderExperiment() {
-    if (!this.state.variations) {
+    if (!this.state.parameters) {
       return null;
     }
 
-    for (let param in this.state.variations) {
-      this.props.children.props[param] = this.state.variations[param];
-    }
     return this.props.children;
   },
 
