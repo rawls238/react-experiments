@@ -20,10 +20,14 @@ const Experiment = React.createClass({
     }
 
     return (
-      <Parametrize experimentClass={experimentClass} param={param}>
+      <Parametrize experimentClass={experimentClass} param={param} unRender={this.unRender}>
         {this.props.children}
       </Parametrize>
     );
+  },
+
+  unRender() {
+    return this.destroyComponent();
   },
 
   render() {
