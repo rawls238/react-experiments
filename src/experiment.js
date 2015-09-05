@@ -1,8 +1,38 @@
 import React from 'react';
-import ExperimentEnrollment from './experimentEnrollment';
-import Utils from './utils';
+import Parametrize from './parametrize';
 
-export const Experiment = React.createClass({
+
+const Experiment = React.createClass({
+  getDefaultProps() {
+    return {
+      isEnrolled: true,
+      param: null
+    };
+  },
+
+  renderExposedVariation() {
+    const { param, isEnrolled, experimentClass } = this.props;
+    if (!isEnrolled) {
+      return null;
+    } else if (!experimentClass) {
+      console.error("You must pass in an experimentClass instance as a prop");
+      return;
+    }
+
+    return (
+      <Parametrize experimentClass={experimentClass} param={param}>
+        {this.props.children}
+      </Parametrize>
+    );
+  },
+
+  render() {
+    return this.renderExposedVariation();
+  }
+});
+
+/*
+const Experiment = React.createClass({
   getDefaultProps() {
     return {
       isEnrolled: true
@@ -60,4 +90,6 @@ export const Experiment = React.createClass({
   render() {
     return this.renderExposedVariation();
   }
-});
+});*/
+
+export default Experiment;

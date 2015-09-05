@@ -71,7 +71,7 @@
     window.SampleExperiment = new DummyExperiment({'id': Math.floor(Math.random() * 1000)});
   </script>
   <script type="text/jsx">
-    /*var ExampleApp = React.createClass({
+    var ExampleApp = React.createClass({
       render: function() {
         return (
           <ReactExperiments.Experiment experimentClass={window.SampleExperiment} param='foo'>
@@ -84,17 +84,18 @@
           </ReactExperiments.Experiment>
         );
       }
-    });*/
-
+    });
+    
+    /*
     var FooComponent = React.createClass({
       contextTypes: {
         parameters: React.PropTypes.object.isRequired
       },
 
       render: function() {
-        debugger;
         return (
           <span>
+            This is passed down by context:
             {this.context.parameters.foo}
           </span>
         );
@@ -105,6 +106,8 @@
       render: function() {
         return (
           <span>
+            This is passed down by props: {this.props.parameters.foo}
+            <br />
             <FooComponent />
           </span>
         );
@@ -119,7 +122,7 @@
           </ReactExperiments.Parametrize>
         );
       }
-    });
+    });*/
 
     React.render(
       <ExampleApp/>,

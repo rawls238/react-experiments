@@ -1,19 +1,21 @@
 import React from 'react';
 
-export const Parametrize = React.createClass({
+const Parametrize = React.createClass({
   getInitialState() {
     return {
-      parameters: null
+      experimentParameters: null
     };
   },
 
   childContextTypes: {
-    parameters: React.PropTypes.object.isRequired
+    experimentParameters: React.PropTypes.object.isRequired,
+    experimentProps: React.PropTypes.object.isRequired
   },
 
   getChildContext() {
     return { 
-      parameters: this.state.parameters 
+      experimentParameters: this.state.parameters,
+      experimentProps: this.props 
     };
   },
 
@@ -40,7 +42,7 @@ export const Parametrize = React.createClass({
     }
 
     const renderedChildren = React.Children.map(this.props.children, (child) => {
-      return React.addons.cloneWithProps(child, { parameters: this.state.parameters } );                
+      return React.addons.cloneWithProps(child, { experimentParameters: this.state.parameters, experimentProps: this.props } );                
     });
 
     return (
@@ -54,3 +56,5 @@ export const Parametrize = React.createClass({
     return this.renderExperiment();
   }
 });
+
+export default Parametrize;
