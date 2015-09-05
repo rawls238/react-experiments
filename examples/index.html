@@ -87,10 +87,15 @@
     });*/
 
   var TextComponent = React.createClass({
-    render: function() {
+  contextTypes: function() {
+    parameters: React.PropTypes.object.isRequired
+  },
+
+   render: function() {
       return (
         <span>
-          {this.props.foo}
+          hello
+          {this.context.foo}
         </span>
       );
     }
