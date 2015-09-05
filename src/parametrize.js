@@ -24,7 +24,7 @@ const Parametrize = React.createClass({
   },
 
   selectVariation() {
-    let experiment = this.props.experimentClass;
+    const experiment = this.props.experimentClass;
 
     if (!experiment || !experiment.inputs) {
       console.error("You must pass in an experimentClass instance as a prop");
