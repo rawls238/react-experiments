@@ -34,19 +34,12 @@ export const Variation = React.createClass({
     }
   },
 
-  cloneIfReactElement(child) {
-    if (React.isValidElement(child)) {
-      return React.addons.cloneWithProps(child, {});
-    }
-    return child;
-  },
-
   renderChildren() {
-    if (React.Children.count(this.props.children) === 1) {
-      return this.cloneIfReactElement(this.props.children);
-    }
-    return this.props.children.map((child) => {
-      return this.cloneIfReactElement(child);
+    React.Children.map(this.props.children, (child) => {
+      if (React.isValidElement(child)) {
+        return React.addons.cloneWithProps(child, {});
+      }
+      return child;
     });
   },
 

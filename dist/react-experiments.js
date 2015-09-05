@@ -268,21 +268,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  },
 
-	  cloneIfReactElement: function cloneIfReactElement(child) {
-	    if (React.isValidElement(child)) {
-	      return React.addons.cloneWithProps(child, {});
-	    }
-	    return child;
-	  },
-
 	  renderChildren: function renderChildren() {
-	    var _this = this;
-
-	    if (React.Children.count(this.props.children) === 1) {
-	      return this.cloneIfReactElement(this.props.children);
-	    }
-	    return this.props.children.map(function (child) {
-	      return _this.cloneIfReactElement(child);
+	    React.Children.map(this.props.children, function (child) {
+	      if (React.isValidElement(child)) {
+	        return React.addons.cloneWithProps(child, {});
+	      }
+	      return child;
 	    });
 	  },
 
