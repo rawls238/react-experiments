@@ -86,30 +86,40 @@
       }
     });*/
 
-  var TextComponent = React.createClass({
-  contextTypes: function() {
-    parameters: React.PropTypes.object.isRequired
-  },
+    var FooComponent = React.createClass({
+      contextTypes: {
+        parameters: React.PropTypes.object.isRequired
+      },
 
-   render: function() {
-      return (
-        <span>
-          hello
-          {this.context.foo}
-        </span>
-      );
-    }
-  });
+      render: function() {
+        debugger;
+        return (
+          <span>
+            {this.context.parameters.foo}
+          </span>
+        );
+      }
+    });
 
-  var ExampleApp = React.createClass({
-    render: function() {
-      return (
-        <ReactExperiments.Parametrize experimentClass={window.SampleExperiment}>
-          <TextComponent />
-        </ReactExperiments.Parametrize>
-      )
-    }
-  });
+    var TextComponent = React.createClass({ 
+      render: function() {
+        return (
+          <span>
+            <FooComponent />
+          </span>
+        );
+      }
+    });
+    
+    var ExampleApp = React.createClass({
+      render: function() {
+        return (
+          <ReactExperiments.Parametrize experimentClass={window.SampleExperiment}>
+            <TextComponent />
+          </ReactExperiments.Parametrize>
+        );
+      }
+    });
 
     React.render(
       <ExampleApp/>,

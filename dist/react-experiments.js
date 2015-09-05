@@ -412,7 +412,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  getInitialState: function getInitialState() {
 	    return {
-	      variations: null
+	      parameters: null
+	    };
+	  },
+
+	  childContextTypes: {
+	    parameters: React.PropTypes.object.isRequired
+	  },
+
+	  getChildContext: function getChildContext() {
+	    return {
+	      parameters: this.state.parameters
 	    };
 	  },
 
@@ -429,19 +439,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    this.setState({
-	      variations: experiment.getParams()
+	      parameters: experiment.getParams()
 	    });
 	  },
 
 	  renderExperiment: function renderExperiment() {
-	    if (!this.state.variations) {
+	    var _this = this;
+
+	    if (!this.state.parameters) {
 	      return null;
 	    }
 
-	    for (var param in this.state.variations) {
-	      this.props.children.props[param] = this.state.variations[param];
-	    }
-	    return this.props.children;
+	    var renderedChildren = React.Children.map(this.props.children, function (child) {
+	      return React.addons.cloneWithProps(child, { parameters: _this.state.parameters });
+	    });
+
+	    return React.createElement(
+	      "div",
+	      null,
+	      renderedChildren
+	    );
 	  },
 
 	  render: function render() {

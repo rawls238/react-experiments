@@ -11,8 +11,10 @@ export const Parametrize = React.createClass({
     parameters: React.PropTypes.object.isRequired
   },
 
-  getChildContext () {
-    return { parameters: this.state.parameters };
+  getChildContext() {
+    return { 
+      parameters: this.state.parameters 
+    };
   },
 
   componentDidMount() {
@@ -37,7 +39,15 @@ export const Parametrize = React.createClass({
       return null;
     }
 
-    return this.props.children;
+    const renderedChildren = React.Children.map(this.props.children, (child) => {
+      return React.addons.cloneWithProps(child, { parameters: this.state.parameters } );                
+    });
+
+    return (
+      <div>
+        { renderedChildren }  
+      </div>
+    );
   },
 
   render() {
