@@ -119,10 +119,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var experimentClass = _props.experimentClass;
 
 	    if (!shouldEnroll) {
-	      return;
+	      return null;
 	    } else if (!experimentClass) {
 	      console.error("You must pass in an experimentClass instance as a prop");
-	      return;
+	      return null;
 	    }
 
 	    return React.createElement(
@@ -165,13 +165,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 
 	  childContextTypes: {
-	    experimentParameters: React.PropTypes.object.isRequired,
+	    experimentParameters: React.PropTypes.object,
 	    experimentProps: React.PropTypes.object.isRequired
 	  },
 
 	  getChildContext: function getChildContext() {
 	    return {
-	      experimentParameters: this.state.parameters,
+	      experimentParameters: this.state.experimentParameters,
 	      experimentProps: this.props
 	    };
 	  },
@@ -189,19 +189,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    this.setState({
-	      parameters: experiment.getParams()
+	      experimentParameters: experiment.getParams()
 	    });
 	  },
 
 	  renderExperiment: function renderExperiment() {
 	    var _this = this;
 
-	    if (!this.state.parameters) {
+	    if (!this.state.experimentParameters) {
 	      return null;
 	    }
 
 	    var renderedChildren = React.Children.map(this.props.children, function (child) {
-	      return React.addons.cloneWithProps(child, { experimentParameters: _this.state.parameters, experimentProps: _this.props });
+	      return React.addons.cloneWithProps(child, { experimentParameters: _this.state.experimentParameters, experimentProps: _this.props });
 	    });
 
 	    return React.createElement(
@@ -259,12 +259,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  shouldRenderVariation: function shouldRenderVariation() {
 	    var name = this.props.name;
 	    var paramName = this.props.param || this.context.experimentProps.param;
-	    if (this.context.experimentParameters) {
-	      if (this.context.experimentParameters[paramName] === name) {
-	        this.setState({
-	          shouldRender: true
-	        });
-	      }
+	    if (this.context.experimentParameters && this.context.experimentParameters[paramName] === name) {
+	      this.setState({
+	        shouldRender: true
+	      });
 	    }
 	  },
 
@@ -284,7 +282,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    return React.createElement(
 	      "span",
-	      null,
+	      { className: "experiment-variation-component" },
 	      this.renderChildren()
 	    );
 	  }

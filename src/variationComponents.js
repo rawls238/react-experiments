@@ -25,12 +25,10 @@ export const Variation = React.createClass({
   shouldRenderVariation() {
     const name = this.props.name;
     const paramName = this.props.param || this.context.experimentProps.param;
-    if (this.context.experimentParameters) {
-      if(this.context.experimentParameters[paramName] === name) {
-        this.setState({
-          shouldRender: true
-        });
-      }
+    if (this.context.experimentParameters && this.context.experimentParameters[paramName] === name) {
+      this.setState({
+        shouldRender: true
+      });
     }
   },
 
@@ -49,7 +47,7 @@ export const Variation = React.createClass({
     }
 
     return (
-      <span>
+      <span className='experiment-variation-component'>
         {this.renderChildren()}
       </span>
     );

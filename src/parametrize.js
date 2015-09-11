@@ -8,13 +8,13 @@ const Parametrize = React.createClass({
   },
 
   childContextTypes: {
-    experimentParameters: React.PropTypes.object.isRequired,
+    experimentParameters: React.PropTypes.object,
     experimentProps: React.PropTypes.object.isRequired
   },
 
   getChildContext() {
     return { 
-      experimentParameters: this.state.parameters,
+      experimentParameters: this.state.experimentParameters,
       experimentProps: this.props 
     };
   },
@@ -32,17 +32,17 @@ const Parametrize = React.createClass({
     }
 
     this.setState({
-      parameters: experiment.getParams()
+      experimentParameters: experiment.getParams()
     });
   },
 
   renderExperiment() {
-    if (!this.state.parameters) {
+    if (!this.state.experimentParameters) {
       return null;
     }
 
     const renderedChildren = React.Children.map(this.props.children, (child) => {
-      return React.addons.cloneWithProps(child, { experimentParameters: this.state.parameters, experimentProps: this.props } );                
+      return React.addons.cloneWithProps(child, { experimentParameters: this.state.experimentParameters, experimentProps: this.props } );                
     });
 
     return (

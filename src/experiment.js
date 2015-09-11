@@ -1,7 +1,6 @@
 import React from 'react';
 import Parametrize from './parametrize';
 
-
 const Experiment = React.createClass({
   getDefaultProps() {
     return {
@@ -27,10 +26,10 @@ const Experiment = React.createClass({
   renderExposedVariation() {
     const { param, shouldEnroll, experimentClass } = this.props;
     if (!shouldEnroll) {
-      return;
+      return null;
     } else if (!experimentClass) {
       console.error("You must pass in an experimentClass instance as a prop");
-      return;
+      return null;
     }
 
     return (

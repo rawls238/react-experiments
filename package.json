@@ -8,9 +8,9 @@
     "babel-core": "^4.0.1",
     "babel-loader": "^4.0.0",
     "webpack": "^1.5.3",
-    "jasmine": "^2.3.2",
-    "jasmine-es6": "^0.0.17",
-    "planout": "^1.0.9"
+    "babel-jest": "5.0.1",
+    "planout": "^1.0.9",
+    "jest-cli": "~0.4.0"
   },
   "description": "react-experiments is a Javascript library that assists in defining and managing UI experiments in React.",
   "main": "dist/react-experiments.js",
@@ -29,8 +29,26 @@
     "Guy Aridor",
     "Matthew Rheault"
   ],
+  "jest": {
+    "scriptPreprocessor": "node_modules/babel-jest",
+    "testFileExtensions": [
+      "es6",
+      "js"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "es6"
+    ],
+    "unmockedModulePathPatterns": [
+      "dist/",
+      "src/",
+      "__tests__/utils",
+      "node_modules/"
+    ]
+  },
   "scripts": {
-    "test": "./node_modules/jasmine-es6/bin/jasmine.js"
+    "test": "jest"
   },
   "license": "MIT"
 }
