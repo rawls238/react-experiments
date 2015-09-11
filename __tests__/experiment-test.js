@@ -14,19 +14,19 @@ describe('Test experiment component', () => {
       <ReactExperiments.Experiment param='foo' experimentClass={exp}>
         <ReactExperiments.Variation name='Variation A'>
           <span className='variation-a'>
-            foo
+            foofuckingawesome
           </span>
         </ReactExperiments.Variation>
         <ReactExperiments.Variation name='Variation B'>
           <span className='variation-b'>
-            foo
+            foofuckingawesome
           </span>
         </ReactExperiments.Variation>
       </ReactExperiments.Experiment>
     );
     expect(TestUtils.scryRenderedDOMComponentsWithClass(
       experimentComponent,
-      'experiment-variation-component'
+      'variation-b'
     ).length).toBe(1);
   });
 });

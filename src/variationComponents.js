@@ -33,7 +33,7 @@ export const Variation = React.createClass({
   },
 
   renderChildren() {
-    React.Children.map(this.props.children, (child) => {
+    return React.Children.map(this.props.children, (child) => {
       if (React.isValidElement(child)) {
         return React.addons.cloneWithProps(child, {});
       }

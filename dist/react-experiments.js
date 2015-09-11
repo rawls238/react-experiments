@@ -267,7 +267,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 
 	  renderChildren: function renderChildren() {
-	    React.Children.map(this.props.children, function (child) {
+	    return React.Children.map(this.props.children, function (child) {
 	      if (React.isValidElement(child)) {
 	        return React.addons.cloneWithProps(child, {});
 	      }
