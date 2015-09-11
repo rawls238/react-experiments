@@ -9,7 +9,7 @@ describe('Test experiment component', () => {
     expect(exp.get('foo')).toEqual('Variation B');
   });
 
-  it('renders only one variation', () => {
+  it('renders only one, correct variation', () => {
     const experimentComponent = TestUtils.renderIntoDocument(
       <ReactExperiments.Experiment param='foo' experimentClass={exp}>
         <ReactExperiments.Variation name='Variation A'>
@@ -24,6 +24,10 @@ describe('Test experiment component', () => {
         </ReactExperiments.Variation>
       </ReactExperiments.Experiment>
     );
+    expect(TestUtils.scryRenderedDOMComponentsWithClass(
+      experimentComponent,
+      'experiment-variation-component'
+    ).length).toBe(1);
     expect(TestUtils.scryRenderedDOMComponentsWithClass(
       experimentComponent,
       'variation-b'
