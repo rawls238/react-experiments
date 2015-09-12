@@ -1,9 +1,13 @@
 import React from 'react/addons';
-import {exp} from './utils/experimentUtils';
+import {exp, clearLogs, getLogLength} from './utils/experimentUtils';
 import ReactExperiments from '../dist/react-experiments';
 
 const TestUtils = React.addons.TestUtils;
 describe('Test experiment component', () => {
+
+  beforeEach(() => {
+    clearLogs();
+  });
 
   it('fetches the right value', () => {
     expect(exp.get('foo')).toEqual('Variation B');
@@ -36,6 +40,8 @@ describe('Test experiment component', () => {
       experimentComponent,
       'variation-b'
     ).length).toBe(1);
+
+    expect(getLogLength()).toEqual(1);
   });
 
   it('renders the default variation when needed', () => {

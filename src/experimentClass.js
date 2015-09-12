@@ -1,10 +1,10 @@
 class ExperimentClass {
-  get(name) {
-    throw "IMPLEMENT get";
+  getParams() {
+    throw "IMPLEMENT getParams";
   }
 
   logExposure(opts) {
-    throw "IMPLEMENT logExposure"
+    throw "IMPLEMENT logExposure";
   }
 
   getName() {

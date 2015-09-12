@@ -183,13 +183,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	  selectVariation: function selectVariation() {
 	    var experiment = this.props.experimentClass;
 
-	    if (!experiment || !experiment.inputs) {
+	    if (!experiment || !experiment.getParams) {
 	      console.error("You must pass in an experimentClass instance as a prop");
 	      return;
 	    }
 
 	    this.setState({
 	      experimentParameters: experiment.getParams()
+	    });
+
+	    //should be a no-op if using a PlanOut class, but need this for custom experiment classes
+	    experiment.logExposure({
+	      params: this.state.experimentParameters,
+	      name: experiment.getName()
 	    });
 	  },
 
@@ -326,9 +332,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 
 	  _createClass(ExperimentClass, {
-	    get: {
-	      value: function get(name) {
-	        throw "IMPLEMENT get";
+	    getParams: {
+	      value: function getParams() {
+	        throw "IMPLEMENT getParams";
 	      }
 	    },
 	    logExposure: {

@@ -1,5 +1,6 @@
 import PlanOut from 'PlanOut';
 
+let globalLog = [];
 class DefaultExperiment extends PlanOut.Experiment {
   setup() {
     this.name = "SampleExperiment";
@@ -28,7 +29,7 @@ class DefaultExperiment extends PlanOut.Experiment {
   }
 
   log(stuff) {
-    return;
+    globalLog.push(stuff);
   }
 
   getParamNames() {
@@ -42,4 +43,12 @@ class DefaultExperiment extends PlanOut.Experiment {
 
 const exp = new DefaultExperiment({ id: '233' });
 
-export default { exp };
+const clearLogs = () => {
+  globalLog = [];
+}
+
+const getLogLength = () => {
+  return globalLog.length;
+}
+
+export default { exp, clearLogs, getLogLength };
