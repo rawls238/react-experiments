@@ -41,6 +41,39 @@ class DefaultExperiment extends PlanOut.Experiment {
   }
 };
 
+class DefaultNamespace extends PlanOut.Namespace.SimpleNamespace {
+
+  setupDefaults() {
+    this.numSegments = 100;
+  }
+
+  setup() {
+    this.setName('MyNamespace');
+    this.setPrimaryUnit('id');
+  }
+
+  setupExperiments() {
+    this.addExperiment('SampleExperiment', DefaultExperiment, 100);
+  }
+};
+
+class DefaultEmptyNamespace extends PlanOut.Namespace.SimpleNamespace {
+
+  setupDefaults() {
+    this.numSegments = 100;
+  }
+
+  setup() {
+    this.setName('MyNamespace');
+    this.setPrimaryUnit('id');
+  }
+
+  setupExperiments() {
+    return;
+  }
+};
+
+
 const expInitializeObject = { id: 233 };
 
 const clearLogs = () => {
@@ -51,4 +84,4 @@ const getLogLength = () => {
   return globalLog.length;
 }
 
-export default { DefaultExperiment, expInitializeObject, clearLogs, getLogLength };
+export default { DefaultExperiment, DefaultEmptyNamespace, DefaultNamespace, expInitializeObject, clearLogs, getLogLength };

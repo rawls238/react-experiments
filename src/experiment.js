@@ -25,7 +25,7 @@ const Experiment = React.createClass({
 
   renderExposedVariation() {
     const { param, shouldEnroll, experiment, experimentName } = this.props;
-    
+
     if (!shouldEnroll) {
       return null;
     } else if (!experiment) {
@@ -39,7 +39,7 @@ const Experiment = React.createClass({
     return (
       <Parametrize 
         experiment={experiment} 
-        experimentName='SampleExperiment'
+        experimentName={experimentName}
         param={param} 
         enrolledInVariation={this.enrolledInVariation} 
         hasRendered={this.state.hasRendered}>

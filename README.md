@@ -11,13 +11,13 @@ npm install react-experiments
 
 # Usage
 
-react-experiments was built to work with [PlanOut.js](https://www.github.com/HubSpot/PlanOut.js) and most of the constructs in it are inspired by the structure of PlanOut.js. This library will work out of the box if you pass it a PlanOut Namespace or Experiment class, but if you want to use your own (potentially more lightweight) methods of assigning experiment parameters and logging exposure then you can extend the base [ExperimentClass](https://github.com/HubSpot/react-experiments/blob/master/src/experimentClass.js) and pass that as the experimentClass prop to the Experiment class components.
+react-experiments was built to work with [PlanOut.js](https://www.github.com/HubSpot/PlanOut.js) and most of the constructs in it are inspired by the structure of PlanOut.js. This library will work out of the box if you pass it an instantiated PlanOut Namespace or Experiment class, but if you want to use your own methods of assigning experiment parameters and logging exposure then you can extend the base [experiment class](https://github.com/HubSpot/react-experiments/blob/master/src/experimentClass.js) and pass that as the experiment prop to the Experiment class components.
 
 ## Philosophy
 
 This library makes the assumption that there are two types of experiment parameters: 
 
-1) Parameters that correspond to parametrizations of existing variables and components. For instance, if one is running an experiment to test which shade of blue optimizes the click rate of the button then the parameter values could correspond to the different hex codes for the different shades of blue.
+1) Parameters that correspond to parametrizations of existing variables and components. For instance, if one is running an experiment to test which shade of blue optimizes the click rate of the button then the the values that your experiment parameters map to would correspond something such as the different hex codes for the different shades of blue.
 
 2) "Branching" parameters where the parameter values correspond to different "variations" of the experiment. For instance, if one is testing two completely different user interfaces then one could define the experiment as follows:
 
@@ -27,12 +27,11 @@ ui = uniformChoice(choices=['control', 'new']);
 
 and the application logic to implement this experiment would effectively be an if statement around the two UIs.
 
-
-Building off this, this library provides two ways to implement UI experiments using the Experiment component:
+Building off this, this library provides two ways to implement UI experiments. Both methods use the Experiment component:
 
 ### Parametrizations
 
-The Experiment component by default passes down experiment parameters to its immediate children as props. It also makes the experiment parameters available to all its descendants using context.
+The Experiment component by default passes down experiment parameters to its immediate children as props under ```experimentParameters``` and to all its descendants using context. Likewise, any props passed into 
 
 This plays very nicely with the first type of experimental parameters specified above. Here is an example of this:
 
@@ -67,7 +66,7 @@ This plays very nicely with the first type of experimental parameters specified 
   var ParametrizeExperiment = React.createClass({
     render: function() {
       return (
-        <ReactExperiments.Parametrize experimentClass={window.demo}>
+        <ReactExperiments.Parametrize experiment={window.demo}>
           <TextComponent />
         </ReactExperiments.Parametrize>
       );
@@ -87,7 +86,7 @@ import {Experiment, Variation} from 'ReactExperiments';
 
 ...
 
-<Experiment experimentClass={TestNamespace} param='show_text'>
+<Experiment experiment={TestNamespace} param='show_text'>
   <Variation name="experimental">    
     Example A  
   </Variation>   
@@ -110,7 +109,7 @@ There are two cases where an experiment component will render nothing:
 It is also possible to implement "nested" variations by passing a specific parameter name as a prop to the Variation component instead of the Experiment component.
 
 ```
-<Experiment experimentClass={TestNamespace}>
+<Experiment experiment={TestNamespace}>
   <Variation param="show_text" name="experimental">
     a
     <Variation param="show_sign" name="show">
@@ -140,7 +139,7 @@ Here are two examples using the Experiment component. Suppose that for user X, t
 
 Example A:
 ```javascript
-<Experiment experimentClass={TestNamespace} param='foo'>
+<Experiment experiment={TestNamespace} param='foo'>
   <Variation name='foo'>
     foo
   </Variation>
@@ -151,7 +150,7 @@ Example A:
 ```
 Example B:
 ```javascript
-<Experiment experimentClass={TestNamespace}>
+<Experiment experiment={TestNamespace}>
   <Variation name='foo'>
     foo
   </Variation>
@@ -170,9 +169,13 @@ Example B:
 For user X in the example A, the Default component renders since for user X foo maps to bar and there is no variation component defined for bar and therefore foobar will render.
 In Example B, there is a variation component defined for bar and in this case bar will render.
 
+## Customized Experiment Components
+
+If you want to create your own experiment component you can extend the base Parametrize component which is a fairly generic component that parametrizes its descendants with the experiment parameters of the experiment class passed in.
+
 ## Logging
 
-react-experiments logs an exposure event when it determines that a user should be enrolled in an experiment (i.e. the shouldEnroll flag is not false). 
+react-experiments logs an exposure event when it determines that a user should be enrolled in an experiment (i.e. the shouldEnroll prop is not false). 
 
 ## Development
 

@@ -133,7 +133,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      Parametrize,
 	      {
 	        experiment: experiment,
-	        experimentName: "SampleExperiment",
+	        experimentName: experimentName,
 	        param: param,
 	        enrolledInVariation: this.enrolledInVariation,
 	        hasRendered: this.state.hasRendered },
@@ -185,11 +185,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	  },
 
-	  componentDidMount: function componentDidMount() {
+	  componentWillMount: function componentWillMount() {
 	    this.selectVariation();
 	  },
 
 	  selectVariation: function selectVariation() {
+	    var params = {};
 	    var _props = this.props;
 	    var experiment = _props.experiment;
 	    var param = _props.param;
@@ -201,20 +202,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    if (param) {
-	      var params = {};
 	      params[param] = experiment.get(param);
+
 	      this.setState({
 	        experimentParameters: params
 	      });
 	    } else {
+	      params = experiment.getParams(experimentName) || {};
+
 	      this.setState({
-	        experimentParameters: experiment.getParams(experimentName)
+	        experimentParameters: params
 	      });
 	    }
-
 	    if (!experiment.previouslyLogged()) {
 	      experiment.logExposure({
-	        params: this.state.experimentParameters,
+	        params: params,
 	        name: experiment.getName()
 	      });
 	    }

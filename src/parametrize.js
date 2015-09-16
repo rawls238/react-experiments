@@ -19,12 +19,13 @@ const Parametrize = React.createClass({
     };
   },
 
-  componentDidMount() {
+  componentWillMount() {
     this.selectVariation();
   },
 
   selectVariation() {
     const { experiment, param, experimentName } = this.props;
+    let params = {};
 
     if (!experiment || !experiment.getParams) {
       console.error("You must pass in an experiment instance as a prop");
@@ -32,20 +33,22 @@ const Parametrize = React.createClass({
     }
 
     if (param) {
-      let params = {};
       params[param] = experiment.get(param);
+
       this.setState({
         experimentParameters: params
       });
     } else {
+      params = experiment.getParams(experimentName) || {};
+
       this.setState({
-        experimentParameters: experiment.getParams(experimentName)
+        experimentParameters: params
       });
     }
 
     if (!experiment.previouslyLogged()) {
       experiment.logExposure({
-        params: this.state.experimentParameters,
+        params: params,
         name: experiment.getName()
       });
     }
