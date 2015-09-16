@@ -1,4 +1,4 @@
-class ExperimentClass {
+class experimentClass {
   getParams() {
     throw "IMPLEMENT getParams";
   }
@@ -10,6 +10,10 @@ class ExperimentClass {
   getName() {
     throw "IMPLEMENT getName";
   }
+
+  previouslyLogged() {
+    throw "IMPLEMENT previouslyLogged";
+  }
 };
 
-export default ExperimentClass;
+export default experimentClass;

@@ -24,22 +24,31 @@ const Parametrize = React.createClass({
   },
 
   selectVariation() {
-    const experiment = this.props.experimentClass;
+    const { experiment, param, experimentName } = this.props;
 
     if (!experiment || !experiment.getParams) {
-      console.error("You must pass in an experimentClass instance as a prop");
+      console.error("You must pass in an experiment instance as a prop");
       return;
     }
 
-    this.setState({
-      experimentParameters: experiment.getParams()
-    });
+    if (param) {
+      let params = {};
+      params[param] = experiment.get(param);
+      this.setState({
+        experimentParameters: params
+      });
+    } else {
+      this.setState({
+        experimentParameters: experiment.getParams(experimentName)
+      });
+    }
 
-    //should be a no-op if using a PlanOut class, but need this for custom experiment classes
-    experiment.logExposure({
-      params: this.state.experimentParameters,
-      name: experiment.getName()
-    });
+    if (!experiment.previouslyLogged()) {
+      experiment.logExposure({
+        params: this.state.experimentParameters,
+        name: experiment.getName()
+      });
+    }
   },
 
   renderExperiment() {

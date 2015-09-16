@@ -1,9 +1,14 @@
 import React from 'react/addons';
-import {exp} from './utils/experimentUtils';
+import {DefaultExperiment, expInitializeObject} from './utils/experimentUtils';
 import ReactExperiments from '../dist/react-experiments';
 
+let exp;
 const TestUtils = React.addons.TestUtils;
 describe('Test parametrize component', () => {
+
+  beforeEach(() => {
+    exp = new DefaultExperiment(expInitializeObject);
+  });
 
   it('should work with parametrize using props', () => {
     const ParametrizedComponent = React.createClass({
@@ -16,7 +21,7 @@ describe('Test parametrize component', () => {
       }
     });
     const parametrized = TestUtils.renderIntoDocument(
-      <ReactExperiments.Parametrize experimentClass={exp}>
+      <ReactExperiments.Parametrize experiment={exp}>
         <ParametrizedComponent />
       </ReactExperiments.Parametrize>
     );
@@ -66,7 +71,7 @@ describe('Test parametrize component', () => {
     });
 
     const parametrized = TestUtils.renderIntoDocument(
-      <ReactExperiments.Parametrize experimentClass={exp}>
+      <ReactExperiments.Parametrize experiment={exp}>
         <ParametrizedComponent />
       </ReactExperiments.Parametrize>
     );
@@ -101,7 +106,7 @@ describe('Test parametrize component', () => {
     const Parametrized = React.createClass({
       render() {
         return (
-          <ReactExperiments.Parametrize experimentClass={exp}>
+          <ReactExperiments.Parametrize experiment={exp}>
             <TestComponent test={this.props.test}/>
           </ReactExperiments.Parametrize>
         );

@@ -1,12 +1,14 @@
 import React from 'react/addons';
-import {exp, clearLogs, getLogLength} from './utils/experimentUtils';
+import {DefaultExperiment, expInitializeObject, clearLogs, getLogLength} from './utils/experimentUtils';
 import ReactExperiments from '../dist/react-experiments';
 
+let exp;
 const TestUtils = React.addons.TestUtils;
 describe('Test experiment component', () => {
 
   beforeEach(() => {
     clearLogs();
+    exp = new DefaultExperiment(expInitializeObject);
   });
 
   it('fetches the right value', () => {
@@ -15,7 +17,7 @@ describe('Test experiment component', () => {
 
   it('renders only one, correct variation', () => {
     const experimentComponent = TestUtils.renderIntoDocument(
-      <ReactExperiments.Experiment param='foo' experimentClass={exp}>
+      <ReactExperiments.Experiment param='foo' experiment={exp}>
         <ReactExperiments.Variation name='Variation A'>
           <span className='variation-a'>
             foo
@@ -46,7 +48,7 @@ describe('Test experiment component', () => {
 
   it('renders the default variation when needed', () => {
     const experimentComponent = TestUtils.renderIntoDocument(
-      <ReactExperiments.Experiment experimentClass={exp}>
+      <ReactExperiments.Experiment experiment={exp} experimentName='SampleExperiment'>
         <ReactExperiments.Variation name='foo'>
           foo
         </ReactExperiments.Variation>
@@ -65,7 +67,7 @@ describe('Test experiment component', () => {
 
   it('renders correctly when parameters are specified via the Variation component', () => {
     const experimentComponent = TestUtils.renderIntoDocument(
-      <ReactExperiments.Experiment experimentClass={exp}>
+      <ReactExperiments.Experiment experiment={exp} experimentName='SampleExperiment'>
         <ReactExperiments.Variation param ='foo' name = 'Variation B'>
           <div className='foo-variation'>
             foo
@@ -90,7 +92,7 @@ describe('Test experiment component', () => {
 
   it('works with nested variations', () => {
     const experimentComponent = TestUtils.renderIntoDocument(
-      <ReactExperiments.Experiment experimentClass={exp}>
+      <ReactExperiments.Experiment experiment={exp} experimentName='SampleExperiment'>
         <ReactExperiments.Variation param ='foo' name = 'Variation B'>
           <ReactExperiments.Variation param = 'test2' name='Num1'>
             <div className='foo-variation'>
@@ -117,7 +119,7 @@ describe('Test experiment component', () => {
 
   it('renders nothing with no defualt variation', () => {
     const experimentComponent = TestUtils.renderIntoDocument(
-      <ReactExperiments.Experiment experimentClass={exp}>
+      <ReactExperiments.Experiment experiment={exp} experimentName='SampleExperiment'>
         <ReactExperiments.Variation param ='foobar' name = 'Variation B'>
           <div className='foobar'>
             test
@@ -133,7 +135,7 @@ describe('Test experiment component', () => {
 
   it('handles enrollment properly', () => {
     const experimentComponent = TestUtils.renderIntoDocument(
-      <ReactExperiments.Experiment experimentClass={exp} shouldEnroll={false}>
+      <ReactExperiments.Experiment experiment={exp} shouldEnroll={false} experimentName='SampleExperiment'>
         <div className='foo'>
           test
         </div>
@@ -145,7 +147,7 @@ describe('Test experiment component', () => {
     ).length).toBe(0);
 
     const experimentComponent2 = TestUtils.renderIntoDocument(
-      <ReactExperiments.Experiment experimentClass={exp} shouldEnroll={true}>
+      <ReactExperiments.Experiment experiment={exp} experimentName='SampleExperiment' shouldEnroll={true}>
         <div className='foo'>
           test
         </div>

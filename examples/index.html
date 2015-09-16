@@ -104,7 +104,7 @@
     var VariationExperiment = React.createClass({
       render: function() {
         return (
-            <ReactExperiments.Experiment experimentClass={window.demo} param='foo'>
+            <ReactExperiments.Experiment experiment={window.demo} param='foo'>
               <ReactExperiments.Variation name='Variation A'>
                 Variation A
                 <NestedVariations />
@@ -151,7 +151,7 @@
     var ParametrizeExperiment = React.createClass({
       render: function() {
         return (
-          <ReactExperiments.Parametrize experimentClass={window.demo}>
+          <ReactExperiments.Parametrize experiment={window.demo}>
             <TextComponent />
           </ReactExperiments.Parametrize>
         );

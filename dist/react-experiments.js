@@ -64,7 +64,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var Variations = _interopRequireWildcard(__webpack_require__(4));
 
-	var ExperimentClass = _interopRequire(__webpack_require__(5));
+	var experimentClass = _interopRequire(__webpack_require__(5));
 
 	var Parametrize = _interopRequire(__webpack_require__(3));
 
@@ -72,7 +72,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  Experiment: Experiment,
 	  Variation: Variations.Variation,
 	  Default: Variations.Default,
-	  ExperimentClass: ExperimentClass,
+	  experimentClass: experimentClass,
 	  Parametrize: Parametrize
 	};
 
@@ -116,18 +116,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var _props = this.props;
 	    var param = _props.param;
 	    var shouldEnroll = _props.shouldEnroll;
-	    var experimentClass = _props.experimentClass;
+	    var experiment = _props.experiment;
+	    var experimentName = _props.experimentName;
 
 	    if (!shouldEnroll) {
 	      return null;
-	    } else if (!experimentClass) {
-	      console.error("You must pass in an experimentClass instance as a prop");
+	    } else if (!experiment) {
+	      console.error("You must pass in an experiment instance as a prop");
+	      return null;
+	    } else if (!param && !experimentName) {
+	      console.error("You must pass in either a param name or experiment name as a prop");
 	      return null;
 	    }
 
 	    return React.createElement(
 	      Parametrize,
-	      { experimentClass: experimentClass, param: param, enrolledInVariation: this.enrolledInVariation, hasRendered: this.state.hasRendered },
+	      {
+	        experiment: experiment,
+	        experimentName: "SampleExperiment",
+	        param: param,
+	        enrolledInVariation: this.enrolledInVariation,
+	        hasRendered: this.state.hasRendered },
 	      this.props.children
 	    );
 	  },
@@ -181,22 +190,34 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 
 	  selectVariation: function selectVariation() {
-	    var experiment = this.props.experimentClass;
+	    var _props = this.props;
+	    var experiment = _props.experiment;
+	    var param = _props.param;
+	    var experimentName = _props.experimentName;
 
 	    if (!experiment || !experiment.getParams) {
-	      console.error("You must pass in an experimentClass instance as a prop");
+	      console.error("You must pass in an experiment instance as a prop");
 	      return;
 	    }
 
-	    this.setState({
-	      experimentParameters: experiment.getParams()
-	    });
+	    if (param) {
+	      var params = {};
+	      params[param] = experiment.get(param);
+	      this.setState({
+	        experimentParameters: params
+	      });
+	    } else {
+	      this.setState({
+	        experimentParameters: experiment.getParams(experimentName)
+	      });
+	    }
 
-	    //should be a no-op if using a PlanOut class, but need this for custom experiment classes
-	    experiment.logExposure({
-	      params: this.state.experimentParameters,
-	      name: experiment.getName()
-	    });
+	    if (!experiment.previouslyLogged()) {
+	      experiment.logExposure({
+	        params: this.state.experimentParameters,
+	        name: experiment.getName()
+	      });
+	    }
 	  },
 
 	  renderExperiment: function renderExperiment() {
@@ -326,12 +347,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 
-	var ExperimentClass = (function () {
-	  function ExperimentClass() {
-	    _classCallCheck(this, ExperimentClass);
+	var experimentClass = (function () {
+	  function experimentClass() {
+	    _classCallCheck(this, experimentClass);
 	  }
 
-	  _createClass(ExperimentClass, {
+	  _createClass(experimentClass, {
 	    getParams: {
 	      value: function getParams() {
 	        throw "IMPLEMENT getParams";
@@ -346,15 +367,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function getName() {
 	        throw "IMPLEMENT getName";
 	      }
+	    },
+	    previouslyLogged: {
+	      value: function previouslyLogged() {
+	        throw "IMPLEMENT previouslyLogged";
+	      }
 	    }
 	  });
 
-	  return ExperimentClass;
+	  return experimentClass;
 	})();
 
 	;
 
-	module.exports = ExperimentClass;
+	module.exports = experimentClass;
 
 /***/ }
 /******/ ])

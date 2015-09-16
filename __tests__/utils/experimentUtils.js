@@ -37,11 +37,11 @@ class DefaultExperiment extends PlanOut.Experiment {
   }
 
   previouslyLogged() {
-    return;
+    return this._exposureLogged;
   }
 };
 
-const exp = new DefaultExperiment({ id: '233' });
+const expInitializeObject = { id: 233 };
 
 const clearLogs = () => {
   globalLog = [];
@@ -51,4 +51,4 @@ const getLogLength = () => {
   return globalLog.length;
 }
 
-export default { exp, clearLogs, getLogLength };
+export default { DefaultExperiment, expInitializeObject, clearLogs, getLogLength };
