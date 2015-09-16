@@ -34,13 +34,16 @@ Building off this, this library provides two ways to implement UI experiments. B
 The Experiment component accepts the following props:
 
 1) experiment - an instantiated PlanOut namespace or experiment class or a custom experimentClass. [REQUIRED]
+
 2) param - the param name that the Experiment component will be associated with. Use this if you only want your component to deal with one assignment parameter. [REQUIRED if experimentName not provided]
+
 3) experimentName - the name of the experiment that the component corresponds with. This is particularly important if you are passing in a namespace class. If you are passing in a namespace class then experimentName should correspond to the name of the experiment within the namespace that this component should handle. Use this if you want your component to deal with any arbitrary number of parameters. [REQUIRED if param not provided]
+
 4) shouldEnroll - this determines whether or not the user should be enrolled in the experiment or not. It defauls to true. If false is passed in nothing is returned and no exposure is logged. [OPTIONAL]
 
 ### Parametrizations
 
-The Experiment component by default passes down experiment parameters to its immediate children as props under ```experimentParameters``` and to all its descendants using context. Likewise, any props passed into 
+The Experiment component by default passes down experiment parameters to its immediate children as props under ```experimentParameters``` and to all its descendants using context.
 
 This plays very nicely with the first type of experimental parameters specified above. Here is an example of this:
 
@@ -75,9 +78,9 @@ This plays very nicely with the first type of experimental parameters specified 
   var ParametrizeExperiment = React.createClass({
     render: function() {
       return (
-        <ReactExperiments.Parametrize experiment={window.demo}>
+        <ReactExperiments.Experiment experiment={window.demo} experimentName='SimpleExperiment'>
           <TextComponent />
-        </ReactExperiments.Parametrize>
+        </ReactExperiments.Experiment>
       );
     }
   });
@@ -180,7 +183,7 @@ In Example B, there is a variation component defined for bar and in this case ba
 
 ## Customized Experiment Components
 
-If you want to create your own experiment component you can extend the base Parametrize component which is a fairly generic component that parametrizes its descendants with the experiment parameters of the experiment class passed in.
+If you want to create your own experiment component you can extend the base Parametrize component which is a fairly generic component that parametrizes its descendants with the experiment parameters of the experiment class passed in as well as any props passed to the component.
 
 ## Logging
 
