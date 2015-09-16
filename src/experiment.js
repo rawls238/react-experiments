@@ -5,7 +5,8 @@ const Experiment = React.createClass({
   getDefaultProps() {
     return {
       shouldEnroll: true,
-      param: null
+      param: null,
+      experimentName: null
     };
   },
 

@@ -1,5 +1,5 @@
 class experimentClass {
-  getParams() {
+  getParams(experimentName) {
     throw "IMPLEMENT getParams";
   }
 

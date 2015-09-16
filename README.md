@@ -29,6 +29,15 @@ and the application logic to implement this experiment would effectively be an i
 
 Building off this, this library provides two ways to implement UI experiments. Both methods use the Experiment component:
 
+## Experiment component
+
+The Experiment component accepts the following props:
+
+1) experiment - an instantiated PlanOut namespace or experiment class or a custom experimentClass. [REQUIRED]
+2) param - the param name that the Experiment component will be associated with. Use this if you only want your component to deal with one assignment parameter. [REQUIRED if experimentName not provided]
+3) experimentName - the name of the experiment that the component corresponds with. This is particularly important if you are passing in a namespace class. If you are passing in a namespace class then experimentName should correspond to the name of the experiment within the namespace that this component should handle. Use this if you want your component to deal with any arbitrary number of parameters. [REQUIRED if param not provided]
+4) shouldEnroll - this determines whether or not the user should be enrolled in the experiment or not. It defauls to true. If false is passed in nothing is returned and no exposure is logged. [OPTIONAL]
+
 ### Parametrizations
 
 The Experiment component by default passes down experiment parameters to its immediate children as props under ```experimentParameters``` and to all its descendants using context. Likewise, any props passed into 
@@ -37,19 +46,19 @@ This plays very nicely with the first type of experimental parameters specified 
 
 ```javascript
   var FooComponent = React.createClass({
-      contextTypes: {
-        experimentParameters: React.PropTypes.object.isRequired
-      },
+    contextTypes: {
+      experimentParameters: React.PropTypes.object.isRequired
+    },
 
-      render: function() {
-        return (
-          <span>
-            This is passed down by context:
-            {this.context.experimentParameters.foo}
-          </span>
-        );
-      }
-    });
+    render: function() {
+      return (
+        <span>
+          This is passed down by context:
+          {this.context.experimentParameters.foo}
+        </span>
+      );
+    }
+  });
 
   var TextComponent = React.createClass({ 
     render: function() {
@@ -109,7 +118,7 @@ There are two cases where an experiment component will render nothing:
 It is also possible to implement "nested" variations by passing a specific parameter name as a prop to the Variation component instead of the Experiment component.
 
 ```
-<Experiment experiment={TestNamespace}>
+<Experiment experiment={TestNamespace} experimentName='SimpleExperiment'>
   <Variation param="show_text" name="experimental">
     a
     <Variation param="show_sign" name="show">

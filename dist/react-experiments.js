@@ -190,11 +190,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 
 	  selectVariation: function selectVariation() {
-	    var params = {};
 	    var _props = this.props;
 	    var experiment = _props.experiment;
 	    var param = _props.param;
 	    var experimentName = _props.experimentName;
+
+	    var params = {};
 
 	    if (!experiment || !experiment.getParams) {
 	      console.error("You must pass in an experiment instance as a prop");
@@ -214,10 +215,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        experimentParameters: params
 	      });
 	    }
+
 	    if (!experiment.previouslyLogged()) {
 	      experiment.logExposure({
 	        params: params,
-	        name: experiment.getName()
+	        name: experiment.name
 	      });
 	    }
 	  },
@@ -356,7 +358,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  _createClass(experimentClass, {
 	    getParams: {
-	      value: function getParams() {
+	      value: function getParams(experimentName) {
 	        throw "IMPLEMENT getParams";
 	      }
 	    },

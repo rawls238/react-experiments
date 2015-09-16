@@ -49,7 +49,7 @@ const Parametrize = React.createClass({
     if (!experiment.previouslyLogged()) {
       experiment.logExposure({
         params: params,
-        name: experiment.getName()
+        name: experiment.name
       });
     }
   },
