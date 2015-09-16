@@ -94,7 +94,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  getDefaultProps: function getDefaultProps() {
 	    return {
 	      shouldEnroll: true,
-	      param: null
+	      param: null,
+	      experimentName: null
 	    };
 	  },
 
