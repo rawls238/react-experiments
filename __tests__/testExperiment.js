@@ -18,16 +18,16 @@ describe('Test experiment component', () => {
   it('renders only one, correct variation', () => {
     const experimentComponent = TestUtils.renderIntoDocument(
       <ReactExperiments.Experiment param='foo' experiment={exp}>
-        <ReactExperiments.Variation name='Variation A'>
+        <ReactExperiments.When value='Variation A'>
           <span className='variation-a'>
             foo
           </span>
-        </ReactExperiments.Variation>
-        <ReactExperiments.Variation name='Variation B'>
+        </ReactExperiments.When>
+        <ReactExperiments.When value='Variation B'>
           <span className='variation-b'>
             foo
           </span>
-        </ReactExperiments.Variation>
+        </ReactExperiments.When>
       </ReactExperiments.Experiment>
     );
 
@@ -49,9 +49,9 @@ describe('Test experiment component', () => {
   it('renders the default variation when needed', () => {
     const experimentComponent = TestUtils.renderIntoDocument(
       <ReactExperiments.Experiment experiment={exp} experimentName='SampleExperiment'>
-        <ReactExperiments.Variation name='foo'>
+        <ReactExperiments.When value='foo'>
           foo
-        </ReactExperiments.Variation>
+        </ReactExperiments.When>
         <ReactExperiments.Default>
           <div className='default-div'>
             Test
@@ -68,11 +68,11 @@ describe('Test experiment component', () => {
   it('renders correctly when parameters are specified via the Variation component', () => {
     const experimentComponent = TestUtils.renderIntoDocument(
       <ReactExperiments.Experiment experiment={exp} experimentName='SampleExperiment'>
-        <ReactExperiments.Variation param ='foo' name = 'Variation B'>
+        <ReactExperiments.When param ='foo' value = 'Variation B'>
           <div className='foo-variation'>
             foo
           </div>
-        </ReactExperiments.Variation>
+        </ReactExperiments.When>
         <ReactExperiments.Default>
           <div className='default-div'>
             Test
@@ -93,13 +93,13 @@ describe('Test experiment component', () => {
   it('works with nested variations', () => {
     const experimentComponent = TestUtils.renderIntoDocument(
       <ReactExperiments.Experiment experiment={exp} experimentName='SampleExperiment'>
-        <ReactExperiments.Variation param ='foo' name = 'Variation B'>
-          <ReactExperiments.Variation param = 'test2' name='Num1'>
+        <ReactExperiments.When param ='foo' value = 'Variation B'>
+          <ReactExperiments.When param = 'test2' value='Num1'>
             <div className='foo-variation'>
               foo
             </div>
-          </ReactExperiments.Variation>
-        </ReactExperiments.Variation>
+          </ReactExperiments.When>
+        </ReactExperiments.When>
         <ReactExperiments.Default>
           <div className='default-div'>
             Test
@@ -120,11 +120,11 @@ describe('Test experiment component', () => {
   it('renders nothing with no defualt variation', () => {
     const experimentComponent = TestUtils.renderIntoDocument(
       <ReactExperiments.Experiment experiment={exp} experimentName='SampleExperiment'>
-        <ReactExperiments.Variation param ='foobar' name = 'Variation B'>
+        <ReactExperiments.When param ='foobar' value = 'Variation B'>
           <div className='foobar'>
             test
           </div>
-        </ReactExperiments.Variation>
+        </ReactExperiments.When>
       </ReactExperiments.Experiment>
     );
     expect(TestUtils.scryRenderedDOMComponentsWithClass(

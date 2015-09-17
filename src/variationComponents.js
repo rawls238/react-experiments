@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const Variation = React.createClass({
+export const When = React.createClass({
   getInitialState() {
     return {
       shouldRender: false
@@ -23,9 +23,9 @@ export const Variation = React.createClass({
   },
 
   shouldRenderVariation() {
-    const name = this.props.name;
+    const value = this.props.value;
     const paramName = this.props.param || this.context.experimentProps.param;
-    if (this.context.experimentParameters && this.context.experimentParameters[paramName] === name) {
+    if (this.context.experimentParameters && this.context.experimentParameters[paramName] === value) {
       this.setState({
         shouldRender: true
       });

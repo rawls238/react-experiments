@@ -13,16 +13,16 @@ describe('Test that experiment component works with namespaces', () => {
     const namespace = new DefaultNamespace(expInitializeObject);
     const experimentComponent = TestUtils.renderIntoDocument(
       <ReactExperiments.Experiment experimentName='SampleExperiment' experiment={namespace}>
-        <ReactExperiments.Variation param='foo' name='Variation A'>
+        <ReactExperiments.When param='foo' value='Variation A'>
           <span className='variation-a'>
             foo
           </span>
-        </ReactExperiments.Variation>
-        <ReactExperiments.Variation param='foo' name='Variation B'>
+        </ReactExperiments.When>
+        <ReactExperiments.When param='foo' value='Variation B'>
           <span className='variation-b'>
             foo
           </span>
-        </ReactExperiments.Variation>
+        </ReactExperiments.When>
       </ReactExperiments.Experiment>);
 
      //renders only one variation
@@ -44,16 +44,16 @@ describe('Test that experiment component works with namespaces', () => {
     const emptyNamespace = new DefaultEmptyNamespace(expInitializeObject);
     const experimentComponent = TestUtils.renderIntoDocument(
       <ReactExperiments.Experiment experimentName='SampleExperiment' experiment={emptyNamespace}>
-        <ReactExperiments.Variation param='foo' name='Variation A'>
+        <ReactExperiments.When param='foo' value='Variation A'>
           <span className='variation-a'>
             foo
           </span>
-        </ReactExperiments.Variation>
-        <ReactExperiments.Variation param='foo' name='Variation B'>
+        </ReactExperiments.When>
+        <ReactExperiments.When param='foo' value='Variation B'>
           <span className='variation-b'>
             foo
           </span>
-        </ReactExperiments.Variation>
+        </ReactExperiments.When>
         <ReactExperiments.Default>
           <span className='default'>
             rawr

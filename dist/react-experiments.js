@@ -70,7 +70,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = {
 	  Experiment: Experiment,
-	  Variation: Variations.Variation,
+	  When: Variations.When,
 	  Default: Variations.Default,
 	  experimentClass: experimentClass,
 	  Parametrize: Parametrize
@@ -264,8 +264,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var React = _interopRequire(__webpack_require__(2));
 
-	var Variation = React.createClass({
-	  displayName: "Variation",
+	var When = React.createClass({
+	  displayName: "When",
 
 	  getInitialState: function getInitialState() {
 	    return {
@@ -289,9 +289,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 
 	  shouldRenderVariation: function shouldRenderVariation() {
-	    var name = this.props.name;
+	    var value = this.props.value;
 	    var paramName = this.props.param || this.context.experimentProps.param;
-	    if (this.context.experimentParameters && this.context.experimentParameters[paramName] === name) {
+	    if (this.context.experimentParameters && this.context.experimentParameters[paramName] === value) {
 	      this.setState({
 	        shouldRender: true
 	      });
@@ -320,7 +320,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	});
 
-	exports.Variation = Variation;
+	exports.When = When;
 	var Default = React.createClass({
 	  displayName: "Default",
 

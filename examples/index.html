@@ -90,12 +90,12 @@
       render: function() {
         return (
           <div>
-            <ReactExperiments.Variation name='Num1' param='test2'>
+            <ReactExperiments.When value='Num1' param='test2'>
               Num 1
-            </ReactExperiments.Variation>
-            <ReactExperiments.Variation name='Num2' param='test2'>
+            </ReactExperiments.When>
+            <ReactExperiments.When value='Num2' param='test2'>
               Num 2
-            </ReactExperiments.Variation>
+            </ReactExperiments.When>
           </div>
         );
       }
@@ -105,14 +105,14 @@
       render: function() {
         return (
             <ReactExperiments.Experiment experiment={window.demo} param='foo'>
-              <ReactExperiments.Variation name='Variation A'>
+              <ReactExperiments.When value='Variation A'>
                 Variation A
                 <NestedVariations />
-              </ReactExperiments.Variation>
-              <ReactExperiments.Variation name='Variation B'>
+              </ReactExperiments.When>
+              <ReactExperiments.When value='Variation B'>
                 Variation B
                 <NestedVariations />
-              </ReactExperiments.Variation>
+              </ReactExperiments.When>
               <ReactExperiments.Default>
                 test
               </ReactExperiments.Default>

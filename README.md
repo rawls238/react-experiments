@@ -94,17 +94,17 @@ Here is a simple A/B test implemented using the Experiment component and "branch
 
 ```javascript
 import {TestNamespace} from [file where you define your namespace];
-import {Experiment, Variation} from 'ReactExperiments';
+import {Experiment, When} from 'ReactExperiments';
 
 ...
 
 <Experiment experiment={TestNamespace} param='show_text'>
-  <Variation name="experimental">    
+  <When value="experimental">    
     Example A  
-  </Variation>   
-  <Variation name='control'>   
+  </When>   
+  <When value='control'>   
     Example B  
-  </Variation>   
+  </When>   
 </Experiment>
 ```
 
@@ -122,24 +122,24 @@ It is also possible to implement "nested" variations by passing a specific param
 
 ```
 <Experiment experiment={TestNamespace} experimentName='SimpleExperiment'>
-  <Variation param="show_text" name="experimental">
+  <When param="show_text" value="experimental">
     a
-    <Variation param="show_sign" name="show">
+    <When param="show_sign" value="show">
       show_sign
-    </Variation>
-    <Variation param="show_sign" name="hide">
+    </When>
+    <When param="show_sign" value="hide">
       hide_sign
-    </Variation>
-  </Variation>
-  <Variation param="show_text" name="control">
+    </When>
+  </When>
+  <When param="show_text" value="control">
     b
-    <Variation param="show_sign" name="show">
+    <When param="show_sign" value="show">
       show_sign
-    </Variation>
-    <Variation param="show_sign" name="hide">
+    </When>
+    <When param="show_sign" value="hide">
       hide_sign
-    </Variation>
-  </Variation>
+    </When>
+  </When>
 </Experiment>
 ```
 
@@ -152,9 +152,9 @@ Here are two examples using the Experiment component. Suppose that for user X, t
 Example A:
 ```javascript
 <Experiment experiment={TestNamespace} param='foo'>
-  <Variation name='foo'>
+  <When value='foo'>
     foo
-  </Variation>
+  </When>
   <Default>
     foobar
   </Default>
@@ -163,15 +163,15 @@ Example A:
 Example B:
 ```javascript
 <Experiment experiment={TestNamespace}>
-  <Variation name='foo'>
+  <When value='foo'>
     foo
-  </Variation>
-  <Variation name='bar'>
+  </When>
+  <When value='bar'>
     bar
-  </Variation>
-  <Variation name='test'>
+  </When>
+  <When value='test'>
     test
-  </Variation>
+  </When>
   <Default>
     foobar
   </Default>
