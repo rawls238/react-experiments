@@ -14,6 +14,10 @@ class experimentClass {
   previouslyLogged() {
     throw "IMPLEMENT previouslyLogged";
   }
+
+  shouldFetchExperimentParameter(name) {
+    throw "IMPLEMENT shouldFetchExperimentParameter";
+  }
 };
 
 export default experimentClass;

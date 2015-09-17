@@ -12,13 +12,13 @@ describe('Test that experiment component works with namespaces', () => {
   it('works when the user is enrolled in the namespace', () => {
     const namespace = new DefaultNamespace(expInitializeObject);
     const experimentComponent = TestUtils.renderIntoDocument(
-      <ReactExperiments.Experiment experimentName='SampleExperiment' experiment={namespace}>
-        <ReactExperiments.When param='foo' value='Variation A'>
+      <ReactExperiments.Experiment on='foo' experimentName='SampleExperiment' experiment={namespace}>
+        <ReactExperiments.When value='Variation A'>
           <span className='variation-a'>
             foo
           </span>
         </ReactExperiments.When>
-        <ReactExperiments.When param='foo' value='Variation B'>
+        <ReactExperiments.When value='Variation B'>
           <span className='variation-b'>
             foo
           </span>
@@ -43,13 +43,13 @@ describe('Test that experiment component works with namespaces', () => {
   it('default component works when the user is not enrolled in a namespace', () => {
     const emptyNamespace = new DefaultEmptyNamespace(expInitializeObject);
     const experimentComponent = TestUtils.renderIntoDocument(
-      <ReactExperiments.Experiment experimentName='SampleExperiment' experiment={emptyNamespace}>
-        <ReactExperiments.When param='foo' value='Variation A'>
+      <ReactExperiments.Experiment on='foo' experimentName='SampleExperiment' experiment={emptyNamespace}>
+        <ReactExperiments.When value='Variation A'>
           <span className='variation-a'>
             foo
           </span>
         </ReactExperiments.When>
-        <ReactExperiments.When param='foo' value='Variation B'>
+        <ReactExperiments.When value='Variation B'>
           <span className='variation-b'>
             foo
           </span>

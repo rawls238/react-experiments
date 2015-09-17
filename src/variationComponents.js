@@ -24,7 +24,7 @@ export const When = React.createClass({
 
   shouldRenderVariation() {
     const value = this.props.value;
-    const paramName = this.props.param || this.context.experimentProps.on;
+    const paramName = this.context.experimentProps.on;
     if (this.context.experimentParameters && this.context.experimentParameters[paramName] === value) {
       this.setState({
         shouldRender: true

@@ -65,62 +65,10 @@ describe('Test experiment component', () => {
     ).length).toBe(1);
   });
 
-  it('renders correctly when parameters are specified via the Variation component', () => {
+  it('renders nothing with no default variation', () => {
     const experimentComponent = TestUtils.renderIntoDocument(
-      <ReactExperiments.Experiment experiment={exp} experimentName='SampleExperiment'>
-        <ReactExperiments.When param ='foo' value = 'Variation B'>
-          <div className='foo-variation'>
-            foo
-          </div>
-        </ReactExperiments.When>
-        <ReactExperiments.Default>
-          <div className='default-div'>
-            Test
-          </div>
-        </ReactExperiments.Default>
-      </ReactExperiments.Experiment>
-    );
-    expect(TestUtils.scryRenderedDOMComponentsWithClass(
-      experimentComponent,
-      'foo-variation'
-    ).length).toBe(1);
-    expect(TestUtils.scryRenderedDOMComponentsWithClass(
-      experimentComponent,
-      'default-div'
-    ).length).toBe(0);
-  });
-
-  it('works with nested variations', () => {
-    const experimentComponent = TestUtils.renderIntoDocument(
-      <ReactExperiments.Experiment experiment={exp} experimentName='SampleExperiment'>
-        <ReactExperiments.When param ='foo' value = 'Variation B'>
-          <ReactExperiments.When param = 'test2' value='Num1'>
-            <div className='foo-variation'>
-              foo
-            </div>
-          </ReactExperiments.When>
-        </ReactExperiments.When>
-        <ReactExperiments.Default>
-          <div className='default-div'>
-            Test
-          </div>
-        </ReactExperiments.Default>
-      </ReactExperiments.Experiment>
-    );
-    expect(TestUtils.scryRenderedDOMComponentsWithClass(
-      experimentComponent,
-      'foo-variation'
-    ).length).toBe(1);
-    expect(TestUtils.scryRenderedDOMComponentsWithClass(
-      experimentComponent,
-      'default-div'
-    ).length).toBe(0);
-  });
-
-  it('renders nothing with no defualt variation', () => {
-    const experimentComponent = TestUtils.renderIntoDocument(
-      <ReactExperiments.Experiment experiment={exp} experimentName='SampleExperiment'>
-        <ReactExperiments.When param ='foobar' value = 'Variation B'>
+      <ReactExperiments.Experiment experiment={exp} on='foob' experimentName='SampleExperiment'>
+        <ReactExperiments.When value = 'Variation B'>
           <div className='foobar'>
             test
           </div>

@@ -160,4 +160,50 @@ describe('Test parametrize component', () => {
       exp.get('foo')
     ).length).toBe(0);
   });
+
+  it('should work with the withExperimentParams component', () => {
+    const Button = React.createClass({
+      render() {
+        return (
+          <div>
+            <div className={this.props.foo}>
+              test
+            </div>
+            <div className={this.props.test2}>
+              testing2
+            </div>
+            <div className={this.props.other}>
+              testing3
+            </div>
+          </div>
+        );
+      }
+    });
+
+    const ExpButton = ReactExperiments.withExperimentParams(Button);
+
+    const otherVal = 'ha';
+    const parametrized = TestUtils.renderIntoDocument(
+      <ReactExperiments.Experiment experiment={exp}>
+        <ExpButton other={otherVal} />
+      </ReactExperiments.Experiment>
+    );
+    expect(TestUtils.scryRenderedDOMComponentsWithClass(
+      parametrized,
+      exp.get('foo')
+    ).length).toBe(1);
+
+    expect(TestUtils.scryRenderedDOMComponentsWithClass(
+      parametrized,
+      exp.get('test2')
+    ).length).toBe(1);
+
+    expect(TestUtils.scryRenderedDOMComponentsWithClass(
+      parametrized,
+      otherVal
+    ).length).toBe(1);
+
+
+
+  });
 });

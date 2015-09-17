@@ -7,16 +7,14 @@ class DefaultExperiment extends PlanOut.Experiment {
   }
 
   assign(params, args) {
-    params.set(
-      'foo',
+    params.set('foo',
       new PlanOut.Ops.Random.UniformChoice({
         'choices': ['Variation A', 'Variation B'],
         'unit': args.id
       })
     );
 
-    params.set(
-      'test2',
+    params.set('test2',
       new PlanOut.Ops.Random.UniformChoice({
         'choices': ['Num1', 'Num2'],
         'unit': args.id

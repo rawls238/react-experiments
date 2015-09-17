@@ -32,9 +32,6 @@ const Experiment = React.createClass({
     } else if (!experiment) {
       console.error("You must pass in an experiment instance as a prop");
       return null;
-    } else if (!on && !experimentName) {
-      console.error("You must pass in either a parameter to branch on or experiment name as a prop");
-      return null;
     }
 
     return (

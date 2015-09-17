@@ -128,9 +128,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    } else if (!experiment) {
 	      console.error("You must pass in an experiment instance as a prop");
 	      return null;
-	    } else if (!on && !experimentName) {
-	      console.error("You must pass in either a parameter to branch on or experiment name as a prop");
-	      return null;
 	    }
 
 	    return React.createElement(
@@ -198,7 +195,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var experiment = _props.experiment;
 	    var experimentName = _props.experimentName;
 
-	    var branchOn = this.props.on;
 	    var params = {};
 
 	    if (!experiment || !experiment.getParams) {
@@ -206,21 +202,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return;
 	    }
 
-	    if (branchOn) {
-	      params[branchOn] = experiment.get(branchOn);
+	    params = experiment.getParams(experimentName) || {};
+	    this.setState({
+	      experimentParameters: params
+	    });
 
-	      this.setState({
-	        experimentParameters: params
-	      });
-	    } else {
-	      params = experiment.getParams(experimentName) || {};
-
-	      this.setState({
-	        experimentParameters: params
-	      });
-	    }
-
-	    if (!experiment.previouslyLogged()) {
+	    if (experiment.previouslyLogged() === false) {
 	      experiment.logExposure({
 	        params: params,
 	        name: experiment.getName()
@@ -293,7 +280,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  shouldRenderVariation: function shouldRenderVariation() {
 	    var value = this.props.value;
-	    var paramName = this.props.param || this.context.experimentProps.on;
+	    var paramName = this.context.experimentProps.on;
 	    if (this.context.experimentParameters && this.context.experimentParameters[paramName] === value) {
 	      this.setState({
 	        shouldRender: true
@@ -380,6 +367,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function previouslyLogged() {
 	        throw "IMPLEMENT previouslyLogged";
 	      }
+	    },
+	    shouldFetchExperimentParameter: {
+	      value: function shouldFetchExperimentParameter(name) {
+	        throw "IMPLEMENT shouldFetchExperimentParameter";
+	      }
 	    }
 	  });
 
@@ -402,15 +394,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var React = _interopRequire(__webpack_require__(2));
 
-	module.exports = function (experimentParams) {
-	  return function (Component) {
-	    return React.createClass({
-	      contextTypes: experimentParams,
-	      render: function render() {
-	        return React.createElement(Component, _extends({}, this.props, this.context));
-	      }
-	    });
-	  };
+	module.exports = function (Component) {
+	  return React.createClass({
+	    contextTypes: {
+	      experimentParameters: React.PropTypes.object.isRequired
+	    },
+
+	    render: function render() {
+	      return React.createElement(Component, _extends({}, this.props, this.context.experimentParameters));
+	    }
+	  });
 	};
 
 /***/ }

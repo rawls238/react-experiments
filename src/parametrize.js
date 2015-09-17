@@ -25,7 +25,6 @@ const Parametrize = React.createClass({
 
   fetchParameters() {
     const { experiment, experimentName } = this.props;
-    const branchOn = this.props.on;
     let params = {};
 
     if (!experiment || !experiment.getParams) {
@@ -33,21 +32,12 @@ const Parametrize = React.createClass({
       return;
     }
 
-    if (branchOn) {
-      params[branchOn] = experiment.get(branchOn);
-      
-      this.setState({
-        experimentParameters: params
-      });
-    } else {
-      params = experiment.getParams(experimentName) || {};
+    params = experiment.getParams(experimentName) || {};
+    this.setState({
+      experimentParameters: params
+    });
 
-      this.setState({
-        experimentParameters: params
-      });
-    }
-
-    if (!experiment.previouslyLogged()) {
+    if (experiment.previouslyLogged() === false) {
       experiment.logExposure({
         params: params,
         name: experiment.getName()
