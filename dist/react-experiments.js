@@ -68,12 +68,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var Parametrize = _interopRequire(__webpack_require__(3));
 
+	var withExperimentParams = _interopRequire(__webpack_require__(6));
+
 	module.exports = {
 	  Experiment: Experiment,
 	  When: Variations.When,
 	  Default: Variations.Default,
 	  experimentClass: experimentClass,
-	  Parametrize: Parametrize
+	  Parametrize: Parametrize,
+	  withExperimentParams: withExperimentParams
 	};
 
 /***/ },
@@ -115,7 +118,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  renderExposedVariation: function renderExposedVariation() {
 	    var _props = this.props;
-	    var param = _props.param;
+	    var on = _props.on;
 	    var shouldEnroll = _props.shouldEnroll;
 	    var experiment = _props.experiment;
 	    var experimentName = _props.experimentName;
@@ -125,8 +128,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    } else if (!experiment) {
 	      console.error("You must pass in an experiment instance as a prop");
 	      return null;
-	    } else if (!param && !experimentName) {
-	      console.error("You must pass in either a param name or experiment name as a prop");
+	    } else if (!on && !experimentName) {
+	      console.error("You must pass in either a parameter to branch on or experiment name as a prop");
 	      return null;
 	    }
 
@@ -135,7 +138,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      {
 	        experiment: experiment,
 	        experimentName: experimentName,
-	        param: param,
+	        on: on,
 	        enrolledInVariation: this.enrolledInVariation,
 	        hasRendered: this.state.hasRendered },
 	      this.props.children
@@ -187,15 +190,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 
 	  componentWillMount: function componentWillMount() {
-	    this.selectVariation();
+	    this.fetchParameters();
 	  },
 
-	  selectVariation: function selectVariation() {
+	  fetchParameters: function fetchParameters() {
 	    var _props = this.props;
 	    var experiment = _props.experiment;
-	    var param = _props.param;
 	    var experimentName = _props.experimentName;
 
+	    var branchOn = this.props.on;
 	    var params = {};
 
 	    if (!experiment || !experiment.getParams) {
@@ -203,8 +206,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return;
 	    }
 
-	    if (param) {
-	      params[param] = experiment.get(param);
+	    if (branchOn) {
+	      params[branchOn] = experiment.get(branchOn);
 
 	      this.setState({
 	        experimentParameters: params
@@ -220,7 +223,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (!experiment.previouslyLogged()) {
 	      experiment.logExposure({
 	        params: params,
-	        name: experiment.name
+	        name: experiment.getName()
 	      });
 	    }
 	  },
@@ -290,7 +293,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  shouldRenderVariation: function shouldRenderVariation() {
 	    var value = this.props.value;
-	    var paramName = this.props.param || this.context.experimentProps.param;
+	    var paramName = this.props.param || this.context.experimentProps.on;
 	    if (this.context.experimentParameters && this.context.experimentParameters[paramName] === value) {
 	      this.setState({
 	        shouldRender: true
@@ -386,6 +389,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	;
 
 	module.exports = experimentClass;
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var React = _interopRequire(__webpack_require__(2));
+
+	module.exports = function (experimentParams) {
+	  return function (Component) {
+	    return React.createClass({
+	      contextTypes: experimentParams,
+	      render: function render() {
+	        return React.createElement(Component, _extends({}, this.props, this.context));
+	      }
+	    });
+	  };
+	};
 
 /***/ }
 /******/ ])

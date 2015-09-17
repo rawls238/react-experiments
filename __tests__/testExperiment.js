@@ -17,7 +17,7 @@ describe('Test experiment component', () => {
 
   it('renders only one, correct variation', () => {
     const experimentComponent = TestUtils.renderIntoDocument(
-      <ReactExperiments.Experiment param='foo' experiment={exp}>
+      <ReactExperiments.Experiment on='foo' experiment={exp}>
         <ReactExperiments.When value='Variation A'>
           <span className='variation-a'>
             foo

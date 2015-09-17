@@ -25,15 +25,15 @@ const Experiment = React.createClass({
   },
 
   renderExposedVariation() {
-    const { param, shouldEnroll, experiment, experimentName } = this.props;
+    const { on, shouldEnroll, experiment, experimentName } = this.props;
 
     if (!shouldEnroll) {
       return null;
     } else if (!experiment) {
       console.error("You must pass in an experiment instance as a prop");
       return null;
-    } else if (!param && !experimentName) {
-      console.error("You must pass in either a param name or experiment name as a prop");
+    } else if (!on && !experimentName) {
+      console.error("You must pass in either a parameter to branch on or experiment name as a prop");
       return null;
     }
 
@@ -41,7 +41,7 @@ const Experiment = React.createClass({
       <Parametrize 
         experiment={experiment} 
         experimentName={experimentName}
-        param={param} 
+        on={on} 
         enrolledInVariation={this.enrolledInVariation} 
         hasRendered={this.state.hasRendered}>
 
