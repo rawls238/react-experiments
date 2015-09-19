@@ -184,9 +184,9 @@ describe('Test parametrize component', () => {
 
     const otherVal = 'ha';
     const parametrized = TestUtils.renderIntoDocument(
-      <ReactExperiments.Experiment experiment={exp}>
+      <ReactExperiments.ABTest experiment={exp}>
         <ExpButton other={otherVal} />
-      </ReactExperiments.Experiment>
+      </ReactExperiments.ABTest>
     );
     expect(TestUtils.scryRenderedDOMComponentsWithClass(
       parametrized,

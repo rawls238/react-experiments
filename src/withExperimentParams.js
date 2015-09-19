@@ -5,10 +5,10 @@ export default (Component) => {
     contextTypes: {
       experimentParameters: React.PropTypes.object.isRequired
     },
-    
+
     render() {
       return (
-        <Component {...this.props} {...this.context.experimentParameters} />
+        <Component {...this.props} {...this.context.experimentParameters}/>
       );
     }
   });

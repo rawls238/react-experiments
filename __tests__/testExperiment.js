@@ -17,7 +17,7 @@ describe('Test experiment component', () => {
 
   it('renders only one, correct variation', () => {
     const experimentComponent = TestUtils.renderIntoDocument(
-      <ReactExperiments.Experiment on='foo' experiment={exp}>
+      <ReactExperiments.ABTest on='foo' experiment={exp}>
         <ReactExperiments.When value='Variation A'>
           <span className='variation-a'>
             foo
@@ -28,7 +28,7 @@ describe('Test experiment component', () => {
             foo
           </span>
         </ReactExperiments.When>
-      </ReactExperiments.Experiment>
+      </ReactExperiments.ABTest>
     );
 
     //renders only one variation
@@ -48,7 +48,7 @@ describe('Test experiment component', () => {
 
   it('renders the default variation when needed', () => {
     const experimentComponent = TestUtils.renderIntoDocument(
-      <ReactExperiments.Experiment experiment={exp} experimentName='SampleExperiment'>
+      <ReactExperiments.ABTest experiment={exp} experimentName='SampleExperiment'>
         <ReactExperiments.When value='foo'>
           foo
         </ReactExperiments.When>
@@ -57,7 +57,7 @@ describe('Test experiment component', () => {
             Test
           </div>
         </ReactExperiments.Default>
-      </ReactExperiments.Experiment>
+      </ReactExperiments.ABTest>
     );
     expect(TestUtils.scryRenderedDOMComponentsWithClass(
       experimentComponent,
@@ -67,13 +67,13 @@ describe('Test experiment component', () => {
 
   it('renders nothing with no default variation', () => {
     const experimentComponent = TestUtils.renderIntoDocument(
-      <ReactExperiments.Experiment experiment={exp} on='foob' experimentName='SampleExperiment'>
+      <ReactExperiments.ABTest experiment={exp} on='foob' experimentName='SampleExperiment'>
         <ReactExperiments.When value = 'Variation B'>
           <div className='foobar'>
             test
           </div>
         </ReactExperiments.When>
-      </ReactExperiments.Experiment>
+      </ReactExperiments.ABTest>
     );
     expect(TestUtils.scryRenderedDOMComponentsWithClass(
       experimentComponent,
@@ -83,11 +83,11 @@ describe('Test experiment component', () => {
 
   it('handles enrollment properly', () => {
     const experimentComponent = TestUtils.renderIntoDocument(
-      <ReactExperiments.Experiment experiment={exp} shouldEnroll={false} experimentName='SampleExperiment'>
+      <ReactExperiments.ABTest experiment={exp} shouldEnroll={false} experimentName='SampleExperiment'>
         <div className='foo'>
           test
         </div>
-      </ReactExperiments.Experiment>
+      </ReactExperiments.ABTest>
     );
     expect(TestUtils.scryRenderedDOMComponentsWithClass(
       experimentComponent,
@@ -95,11 +95,11 @@ describe('Test experiment component', () => {
     ).length).toBe(0);
 
     const experimentComponent2 = TestUtils.renderIntoDocument(
-      <ReactExperiments.Experiment experiment={exp} experimentName='SampleExperiment' shouldEnroll={true}>
+      <ReactExperiments.ABTest experiment={exp} experimentName='SampleExperiment' shouldEnroll={true}>
         <div className='foo'>
           test
         </div>
-      </ReactExperiments.Experiment>
+      </ReactExperiments.ABTest>
     );
     expect(TestUtils.scryRenderedDOMComponentsWithClass(
       experimentComponent2,

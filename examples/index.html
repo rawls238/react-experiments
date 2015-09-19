@@ -104,7 +104,7 @@
     var VariationExperiment = React.createClass({
       render: function() {
         return (
-            <ReactExperiments.Experiment experiment={window.demo} param='foo'>
+            <ReactExperiments.ABTest experiment={window.demo} param='foo'>
               <ReactExperiments.When value='Variation A'>
                 Variation A
                 <NestedVariations />
@@ -116,7 +116,7 @@
               <ReactExperiments.Default>
                 test
               </ReactExperiments.Default>
-            </ReactExperiments.Experiment>
+            </ReactExperiments.ABTest>
         );
       }
     });
@@ -177,7 +177,7 @@
     });
 
     React.render(
-      <ExperimentExamples/>,
+      <ABTestExamples/>,
       document.getElementsByClassName('examples-container')[0]
     );
   </script>

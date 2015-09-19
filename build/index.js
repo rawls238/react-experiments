@@ -1,11 +1,11 @@
-import Experiment from '../src/experiment';
 import * as Variations from '../src/variationComponents';
 import experimentClass from '../src/experimentClass';
+import ABTest from '../src/abtest';
 import Parametrize from '../src/parametrize';
 import withExperimentParams from '../src/withExperimentParams';
 
 export default {
-  Experiment: Experiment,
+  ABTest: ABTest,
   When: Variations.When,
   Default: Variations.Default,
   experimentClass: experimentClass,

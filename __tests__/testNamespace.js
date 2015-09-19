@@ -12,7 +12,7 @@ describe('Test that experiment component works with namespaces', () => {
   it('works when the user is enrolled in the namespace', () => {
     const namespace = new DefaultNamespace(expInitializeObject);
     const experimentComponent = TestUtils.renderIntoDocument(
-      <ReactExperiments.Experiment on='foo' experimentName='SampleExperiment' experiment={namespace}>
+      <ReactExperiments.ABTest on='foo' experimentName='SampleExperiment' experiment={namespace}>
         <ReactExperiments.When value='Variation A'>
           <span className='variation-a'>
             foo
@@ -23,7 +23,7 @@ describe('Test that experiment component works with namespaces', () => {
             foo
           </span>
         </ReactExperiments.When>
-      </ReactExperiments.Experiment>);
+      </ReactExperiments.ABTest>);
 
      //renders only one variation
     expect(TestUtils.scryRenderedDOMComponentsWithClass(
@@ -43,7 +43,7 @@ describe('Test that experiment component works with namespaces', () => {
   it('default component works when the user is not enrolled in a namespace', () => {
     const emptyNamespace = new DefaultEmptyNamespace(expInitializeObject);
     const experimentComponent = TestUtils.renderIntoDocument(
-      <ReactExperiments.Experiment on='foo' experimentName='SampleExperiment' experiment={emptyNamespace}>
+      <ReactExperiments.ABTest on='foo' experimentName='SampleExperiment' experiment={emptyNamespace}>
         <ReactExperiments.When value='Variation A'>
           <span className='variation-a'>
             foo
@@ -59,7 +59,7 @@ describe('Test that experiment component works with namespaces', () => {
             rawr
           </span>
         </ReactExperiments.Default>
-      </ReactExperiments.Experiment>);
+      </ReactExperiments.ABTest>);
 
     expect(TestUtils.scryRenderedDOMComponentsWithClass(
       experimentComponent,

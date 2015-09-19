@@ -56,22 +56,22 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 
-	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
-
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
-	var Experiment = _interopRequire(__webpack_require__(1));
+	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
 
-	var Variations = _interopRequireWildcard(__webpack_require__(4));
+	var Variations = _interopRequireWildcard(__webpack_require__(1));
 
-	var experimentClass = _interopRequire(__webpack_require__(5));
+	var experimentClass = _interopRequire(__webpack_require__(3));
 
-	var Parametrize = _interopRequire(__webpack_require__(3));
+	var ABTest = _interopRequire(__webpack_require__(4));
+
+	var Parametrize = _interopRequire(__webpack_require__(5));
 
 	var withExperimentParams = _interopRequire(__webpack_require__(6));
 
 	module.exports = {
-	  Experiment: Experiment,
+	  ABTest: ABTest,
 	  When: Variations.When,
 	  Default: Variations.Default,
 	  experimentClass: experimentClass,
@@ -81,167 +81,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 1 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
-
-	var React = _interopRequire(__webpack_require__(2));
-
-	var Parametrize = _interopRequire(__webpack_require__(3));
-
-	var Experiment = React.createClass({
-	  displayName: "Experiment",
-
-	  getDefaultProps: function getDefaultProps() {
-	    return {
-	      shouldEnroll: true,
-	      param: null,
-	      experimentName: null
-	    };
-	  },
-
-	  getInitialState: function getInitialState() {
-	    return {
-	      hasRendered: false
-	    };
-	  },
-
-	  enrolledInVariation: function enrolledInVariation() {
-	    if (!this.state.hasRendered) {
-	      this.setState({
-	        hasRendered: true
-	      });
-	    }
-	  },
-
-	  renderExposedVariation: function renderExposedVariation() {
-	    var _props = this.props;
-	    var on = _props.on;
-	    var shouldEnroll = _props.shouldEnroll;
-	    var experiment = _props.experiment;
-	    var experimentName = _props.experimentName;
-
-	    if (!shouldEnroll) {
-	      return null;
-	    } else if (!experiment) {
-	      console.error("You must pass in an experiment instance as a prop");
-	      return null;
-	    }
-
-	    return React.createElement(
-	      Parametrize,
-	      {
-	        experiment: experiment,
-	        experimentName: experimentName,
-	        on: on,
-	        enrolledInVariation: this.enrolledInVariation,
-	        hasRendered: this.state.hasRendered },
-	      this.props.children
-	    );
-	  },
-
-	  render: function render() {
-	    return this.renderExposedVariation();
-	  }
-	});
-
-	module.exports = Experiment;
-
-/***/ },
-/* 2 */
-/***/ function(module, exports) {
-
-	module.exports = __WEBPACK_EXTERNAL_MODULE_2__;
-
-/***/ },
-/* 3 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
-
-	var React = _interopRequire(__webpack_require__(2));
-
-	var Parametrize = React.createClass({
-	  displayName: "Parametrize",
-
-	  getInitialState: function getInitialState() {
-	    return {
-	      experimentParameters: null
-	    };
-	  },
-
-	  childContextTypes: {
-	    experimentParameters: React.PropTypes.object,
-	    experimentProps: React.PropTypes.object.isRequired
-	  },
-
-	  getChildContext: function getChildContext() {
-	    return {
-	      experimentParameters: this.state.experimentParameters,
-	      experimentProps: this.props
-	    };
-	  },
-
-	  componentWillMount: function componentWillMount() {
-	    this.fetchParameters();
-	  },
-
-	  fetchParameters: function fetchParameters() {
-	    var _props = this.props;
-	    var experiment = _props.experiment;
-	    var experimentName = _props.experimentName;
-
-	    var params = {};
-
-	    if (!experiment || !experiment.getParams) {
-	      console.error("You must pass in an experiment instance as a prop");
-	      return;
-	    }
-
-	    params = experiment.getParams(experimentName) || {};
-	    this.setState({
-	      experimentParameters: params
-	    });
-
-	    if (experiment.previouslyLogged() === false) {
-	      experiment.logExposure({
-	        params: params,
-	        name: experiment.getName()
-	      });
-	    }
-	  },
-
-	  renderExperiment: function renderExperiment() {
-	    var _this = this;
-
-	    if (!this.state.experimentParameters) {
-	      return null;
-	    }
-
-	    var renderedChildren = React.Children.map(this.props.children, function (child) {
-	      return React.addons.cloneWithProps(child, { experimentParameters: _this.state.experimentParameters, experimentProps: _this.props });
-	    });
-
-	    return React.createElement(
-	      "div",
-	      null,
-	      renderedChildren
-	    );
-	  },
-
-	  render: function render() {
-	    return this.renderExperiment();
-	  }
-	});
-
-	module.exports = Parametrize;
-
-/***/ },
-/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -333,7 +172,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.Default = Default;
 
 /***/ },
-/* 5 */
+/* 2 */
+/***/ function(module, exports) {
+
+	module.exports = __WEBPACK_EXTERNAL_MODULE_2__;
+
+/***/ },
+/* 3 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -381,6 +226,161 @@ return /******/ (function(modules) { // webpackBootstrap
 	;
 
 	module.exports = experimentClass;
+
+/***/ },
+/* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+
+	var React = _interopRequire(__webpack_require__(2));
+
+	var Parametrize = _interopRequire(__webpack_require__(5));
+
+	var ABTest = React.createClass({
+	  displayName: "ABTest",
+
+	  getDefaultProps: function getDefaultProps() {
+	    return {
+	      shouldEnroll: true,
+	      param: null,
+	      experimentName: null
+	    };
+	  },
+
+	  getInitialState: function getInitialState() {
+	    return {
+	      hasRendered: false
+	    };
+	  },
+
+	  enrolledInVariation: function enrolledInVariation() {
+	    if (!this.state.hasRendered) {
+	      this.setState({
+	        hasRendered: true
+	      });
+	    }
+	  },
+
+	  renderExposedVariation: function renderExposedVariation() {
+	    var _props = this.props;
+	    var on = _props.on;
+	    var shouldEnroll = _props.shouldEnroll;
+	    var experiment = _props.experiment;
+	    var experimentName = _props.experimentName;
+
+	    if (!shouldEnroll) {
+	      return null;
+	    } else if (!experiment) {
+	      console.error("You must pass in an experiment instance as a prop");
+	      return null;
+	    }
+
+	    return React.createElement(
+	      Parametrize,
+	      {
+	        experiment: experiment,
+	        experimentName: experimentName,
+	        on: on,
+	        enrolledInVariation: this.enrolledInVariation,
+	        hasRendered: this.state.hasRendered },
+	      this.props.children
+	    );
+	  },
+
+	  render: function render() {
+	    return this.renderExposedVariation();
+	  }
+	});
+
+	module.exports = ABTest;
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+
+	var React = _interopRequire(__webpack_require__(2));
+
+	var Parametrize = React.createClass({
+	  displayName: "Parametrize",
+
+	  getInitialState: function getInitialState() {
+	    return {
+	      experimentParameters: null
+	    };
+	  },
+
+	  childContextTypes: {
+	    experimentParameters: React.PropTypes.object,
+	    experimentProps: React.PropTypes.object.isRequired
+	  },
+
+	  getChildContext: function getChildContext() {
+	    return {
+	      experimentParameters: this.state.experimentParameters,
+	      experimentProps: this.props
+	    };
+	  },
+
+	  componentWillMount: function componentWillMount() {
+	    this.fetchParameters();
+	  },
+
+	  fetchParameters: function fetchParameters() {
+	    var _props = this.props;
+	    var experiment = _props.experiment;
+	    var experimentName = _props.experimentName;
+
+	    var params = {};
+
+	    if (!experiment || !experiment.getParams) {
+	      console.error("You must pass in an experiment instance as a prop");
+	      return;
+	    }
+
+	    params = experiment.getParams(experimentName) || {};
+	    this.setState({
+	      experimentParameters: params
+	    });
+
+	    if (experiment.previouslyLogged() === false) {
+	      experiment.logExposure({
+	        params: params,
+	        name: experiment.getName()
+	      });
+	    }
+	  },
+
+	  renderExperiment: function renderExperiment() {
+	    var _this = this;
+
+	    if (!this.state.experimentParameters) {
+	      return null;
+	    }
+
+	    var renderedChildren = React.Children.map(this.props.children, function (child) {
+	      return React.addons.cloneWithProps(child, { experimentParameters: _this.state.experimentParameters, experimentProps: _this.props });
+	    });
+
+	    return React.createElement(
+	      "div",
+	      null,
+	      renderedChildren
+	    );
+	  },
+
+	  render: function render() {
+	    return this.renderExperiment();
+	  }
+	});
+
+	module.exports = Parametrize;
 
 /***/ },
 /* 6 */

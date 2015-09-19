@@ -1,7 +1,7 @@
 import React from 'react';
 import Parametrize from './parametrize';
 
-const Experiment = React.createClass({
+const ABTest = React.createClass({
   getDefaultProps() {
     return {
       shouldEnroll: true,
@@ -53,4 +53,4 @@ const Experiment = React.createClass({
   }
 });
 
-export default Experiment;
+export default ABTest;
