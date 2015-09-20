@@ -78,40 +78,22 @@
         return this.getDefaultParamNames();
       },
       previouslyLogged: function() {
-        return;
+        return this._exposureLogged;
       }
     });
     window.userid = Math.floor(Math.random() * 1000);
     window.demo = new DemoExperiment({'id': userid});
   </script>
   <script type="text/jsx">
-
-    var NestedVariations = React.createClass({
-      render: function() {
-        return (
-          <div>
-            <ReactExperiments.When value='Num1' param='test2'>
-              Num 1
-            </ReactExperiments.When>
-            <ReactExperiments.When value='Num2' param='test2'>
-              Num 2
-            </ReactExperiments.When>
-          </div>
-        );
-      }
-    });
-
     var VariationExperiment = React.createClass({
       render: function() {
         return (
-            <ReactExperiments.ABTest experiment={window.demo} param='foo'>
+            <ReactExperiments.ABTest experiment={window.demo} on='foo'>
               <ReactExperiments.When value='Variation A'>
                 Variation A
-                <NestedVariations />
               </ReactExperiments.When>
               <ReactExperiments.When value='Variation B'>
                 Variation B
-                <NestedVariations />
               </ReactExperiments.When>
               <ReactExperiments.Default>
                 test
@@ -140,13 +122,15 @@
       render: function() {
         return (
           <span>
-            This is passed down by props: {this.props.experimentParameters.foo}
+            This is passed down by props: {this.props.foo}
             <br />
             <FooComponent />
           </span>
         );
       }
     });
+
+    TextComponent = ReactExperiments.withExperimentParams(TextComponent);
     
     var ParametrizeExperiment = React.createClass({
       render: function() {
@@ -168,7 +152,7 @@
             <br />
             <ParametrizeExperiment />
             <br />
-            <span>This is an experiment using the Variation components</span>
+            <span>This is an experiment using the ABTest component</span>
             <VariationExperiment />
           </div>
         );
@@ -177,7 +161,7 @@
     });
 
     React.render(
-      <ABTestExamples/>,
+      <ExperimentExamples/>,
       document.getElementsByClassName('examples-container')[0]
     );
   </script>

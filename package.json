@@ -9,7 +9,7 @@
     "babel-loader": "^4.0.0",
     "webpack": "^1.5.3",
     "babel-jest": "5.0.1",
-    "planout": "^1.2.1",
+    "planout": "^1.2.2",
     "jest-cli": "~0.4.0"
   },
   "description": "react-experiments is a Javascript library that assists in defining and managing UI experiments in React.",

@@ -14,15 +14,16 @@ describe('Test parametrize component', () => {
     const ParametrizedComponent = React.createClass({
       render() {
         return (
-          <span className={this.props.experimentParameters.foo}>
-            this.props.experimentParameters.foo;
+          <span className={this.props.foo}>
+            this.props.foo;
           </span>
         );
       }
     });
+    const ParametrizedComponentWithParams = ReactExperiments.withExperimentParams(ParametrizedComponent);
     const parametrized = TestUtils.renderIntoDocument(
-      <ReactExperiments.Parametrize experiment={exp}>
-        <ParametrizedComponent />
+      <ReactExperiments.Parametrize experiment={exp} experimentName={exp.getName()}>
+        <ParametrizedComponentWithParams />
       </ReactExperiments.Parametrize>
     );
     expect(TestUtils.scryRenderedDOMComponentsWithClass(
@@ -71,7 +72,7 @@ describe('Test parametrize component', () => {
     });
 
     const parametrized = TestUtils.renderIntoDocument(
-      <ReactExperiments.Parametrize experiment={exp}>
+      <ReactExperiments.Parametrize experiment={exp} experimentName={exp.getName()}>
         <ParametrizedComponent />
       </ReactExperiments.Parametrize>
     );
@@ -106,7 +107,7 @@ describe('Test parametrize component', () => {
     const Parametrized = React.createClass({
       render() {
         return (
-          <ReactExperiments.Parametrize experiment={exp}>
+          <ReactExperiments.Parametrize experiment={exp} experimentName={exp.getName()}>
             <TestComponent test={this.props.test}/>
           </ReactExperiments.Parametrize>
         );
@@ -184,9 +185,9 @@ describe('Test parametrize component', () => {
 
     const otherVal = 'ha';
     const parametrized = TestUtils.renderIntoDocument(
-      <ReactExperiments.ABTest experiment={exp}>
+      <ReactExperiments.Parametrize experiment={exp} experimentName={exp.getName()}>
         <ExpButton other={otherVal} />
-      </ReactExperiments.ABTest>
+      </ReactExperiments.Parametrize>
     );
     expect(TestUtils.scryRenderedDOMComponentsWithClass(
       parametrized,

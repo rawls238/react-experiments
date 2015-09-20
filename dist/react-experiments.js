@@ -276,6 +276,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    } else if (!experiment) {
 	      console.error("You must pass in an experiment instance as a prop");
 	      return null;
+	    } else if (!experimentName) {
+	      console.error("You must pass an experiment name as prop");
+	      return null;
+	    } else if (!on) {
+	      console.error("You must pass an 'on' prop indicating what parameter you want to branch off");
+	      return null;
 	    }
 
 	    return React.createElement(
@@ -358,14 +364,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 
 	  renderExperiment: function renderExperiment() {
-	    var _this = this;
-
 	    if (!this.state.experimentParameters) {
 	      return null;
 	    }
 
 	    var renderedChildren = React.Children.map(this.props.children, function (child) {
-	      return React.addons.cloneWithProps(child, { experimentParameters: _this.state.experimentParameters, experimentProps: _this.props });
+	      return React.addons.cloneWithProps(child, {});
 	    });
 
 	    return React.createElement(

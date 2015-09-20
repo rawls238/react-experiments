@@ -74,4 +74,97 @@ describe('Test that experiment component works with namespaces', () => {
 
     expect(getLogLength()).toEqual(0);
   });
+
+  it('works when enrolled in the namespace with parametrize', () => {
+    const namespace = new DefaultNamespace(expInitializeObject);
+    let SampleComponent = React.createClass({
+      getClassName() {
+        return this.props.foo || 'default'
+      },
+
+      render() {
+        return (
+          <div className={this.getClassName()}>
+            Test
+          </div>
+        );
+      }
+    });
+    SampleComponent = ReactExperiments.withExperimentParams(SampleComponent);
+    const experimentComponent = TestUtils.renderIntoDocument(
+      <ReactExperiments.Parametrize experimentName='SampleExperiment' experiment={namespace}>
+        <SampleComponent />
+      </ReactExperiments.Parametrize>
+    );
+
+    expect(TestUtils.scryRenderedDOMComponentsWithClass(
+      experimentComponent,
+      'Variation B'
+    ).length).toBe(1);
+
+    //renders the correct variation
+    expect(TestUtils.scryRenderedDOMComponentsWithClass(
+      experimentComponent,
+      'default'
+    ).length).toBe(0);
+
+    expect(getLogLength()).toEqual(1);
+
+    const experimentComponent2 = TestUtils.renderIntoDocument(
+      <ReactExperiments.Parametrize experimentName='SimpleExperiment' experiment={namespace}>
+        <SampleComponent />
+      </ReactExperiments.Parametrize>
+    );
+
+    expect(TestUtils.scryRenderedDOMComponentsWithClass(
+      experimentComponent2,
+      'Variation B'
+    ).length).toBe(0);
+
+    //renders the correct variation
+    expect(TestUtils.scryRenderedDOMComponentsWithClass(
+      experimentComponent2,
+      'default'
+    ).length).toBe(1);
+
+    expect(getLogLength()).toEqual(1);
+  });
+
+
+  it('default component works when the user is not enrolled in a namespace', () => {
+    const emptyNamespace = new DefaultEmptyNamespace(expInitializeObject);
+    let SampleComponent = React.createClass({
+      getClassName() {
+        return this.props.foo || 'default'
+      },
+
+      render() {
+        return (
+          <div className={this.getClassName()}>
+            Test
+          </div>
+        );
+      }
+    });
+    SampleComponent = ReactExperiments.withExperimentParams(SampleComponent);
+    const experimentComponent = TestUtils.renderIntoDocument(
+      <ReactExperiments.Parametrize experimentName='SampleExperiment' experiment={emptyNamespace}>
+        <SampleComponent />
+      </ReactExperiments.Parametrize>
+    );
+
+    expect(TestUtils.scryRenderedDOMComponentsWithClass(
+      experimentComponent,
+      'Variation B'
+    ).length).toBe(0);
+
+    //renders the correct variation
+    expect(TestUtils.scryRenderedDOMComponentsWithClass(
+      experimentComponent,
+      'default'
+    ).length).toBe(1);
+
+    expect(getLogLength()).toEqual(0);
+  });
+
 });

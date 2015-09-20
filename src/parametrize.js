@@ -51,7 +51,7 @@ const Parametrize = React.createClass({
     }
 
     const renderedChildren = React.Children.map(this.props.children, (child) => {
-      return React.addons.cloneWithProps(child, { experimentParameters: this.state.experimentParameters, experimentProps: this.props } );                
+      return React.addons.cloneWithProps(child, {});
     });
 
     return (

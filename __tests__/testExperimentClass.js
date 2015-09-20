@@ -33,9 +33,13 @@ describe('Test experiment', () => {
 
   it('should work with experiment Class', () => {
     const Comp = React.createClass({
+      contextTypes: {
+        experimentParameters: React.PropTypes.object.isRequired
+      },
+
       render() {
         return (
-          <div className={this.props.experimentParameters[paramKey]}>
+          <div className={this.context.experimentParameters[paramKey]}>
             Test
           </div>
         );
