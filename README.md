@@ -30,6 +30,7 @@ signupText = uniformChoice(choices=['Signup', 'Join now'])
 <Parametrize experiment={DummyExperiment} experimentName='SampleExperiment'>
   <Signup />
 </Parametrize>
+```
 
 3) Suppose your Signup component looks something like this:
 ```javascript
@@ -79,9 +80,9 @@ let Parent = React.createClass({
 
 The following are the props for the Parametrize component:
 
-experiment: This is an instance of a PlanOut.js experiment / namespace class or the base experimentClass. [REQUIRED]
+**experiment**: This is an instance of a PlanOut.js experiment / namespace class or the base experimentClass. [REQUIRED]
 
-experimentName: This is the name of the experiment. It is particularly important if you're using a PlanOut.js namespace since this corresponds to the name of the experiment WITHIN the namespace, not the name of the namespace itself. This is required so that exposure gets logged correctly. [REQUIRED]
+**experimentName**: This is the name of the experiment. It is particularly important if you're using a PlanOut.js namespace since this corresponds to the name of the experiment WITHIN the namespace, not the name of the namespace itself. This is required so that exposure gets logged correctly. [REQUIRED]
 
 [any arbitrary prop]: You can pass arbitrary props to the Parametrize component and they will be available via context.experimentProps in all descendants of the Parametrize component.
 
@@ -117,13 +118,13 @@ The ABTest component above branches off the value of ```this.props.experiment.ge
 
 The ABTest component takes the following as props:
 
-1) experiment - an instantiated PlanOut namespace or experiment class or a custom experimentClass. [REQUIRED]
+**experiment** - an instantiated PlanOut namespace or experiment class or a custom experimentClass. [REQUIRED]
 
-2) on - the parameter name to "branch" off [REQUIRED]
+**on** - the parameter name to "branch" off [REQUIRED]
 
-3) experimentName - the name of the experiment that the component corresponds with. This is particularly important if you are passing in a namespace class. If you are passing in a namespace class then experimentName should correspond to the name of the experiment within the namespace that this component should handle. Use this if you want your component to deal with any arbitrary number of parameters. [REQUIRED]
+**experimentName** - the name of the experiment that the component corresponds with. This is particularly important if you are passing in a namespace class. If you are passing in a namespace class then experimentName should correspond to the name of the experiment within the namespace that this component should handle. Use this if you want your component to deal with any arbitrary number of parameters. [REQUIRED]
 
-4) shouldEnroll - this determines whether or not the user should be enrolled in the experiment or not. It defauls to true. If false is passed in nothing is returned and no exposure is logged. [OPTIONAL]
+**shouldEnroll** - this determines whether or not the user should be enrolled in the experiment or not. It defauls to true. If false is passed in nothing is returned and no exposure is logged. [OPTIONAL]
 
 ## Customized Experiment Components
 
