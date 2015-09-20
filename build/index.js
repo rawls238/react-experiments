@@ -1,12 +1,14 @@
-import * as Experiment from '../src/experiment';
-import * as Namespace from '../src/namespace';
 import * as Variations from '../src/variationComponents';
-import ExperimentClass from '../src/experimentClass';
+import experimentClass from '../src/experimentClass';
+import ABTest from '../src/abtest';
+import Parametrize from '../src/parametrize';
+import withExperimentParams from '../src/withExperimentParams';
 
 export default {
-  Experiment: Experiment.Experiment,
-  Namespace: Namespace.Namespace,
-  Variation: Variations.Variation,
+  ABTest: ABTest,
+  When: Variations.When,
   Default: Variations.Default,
-  ExperimentClass: ExperimentClass
+  experimentClass: experimentClass,
+  Parametrize: Parametrize,
+  withExperimentParams: withExperimentParams
 };

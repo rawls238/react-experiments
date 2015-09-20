@@ -11,171 +11,134 @@ npm install react-experiments
 
 # Usage
 
-react-experiments was built to work with [PlanOut.js](https://www.github.com/HubSpot/PlanOut.js) and most of the constructs in it are inspired by the structure of PlanOut.js. This library will work out of the box if you pass it a PlanOut Namespace or Experiment class, but if you want to use your own (potentially more lightweight) methods of assigning experiment parameters and logging exposure then you can extend the base [ExperimentClass](https://github.com/HubSpot/react-experiments/blob/master/src/experimentClass.js) and pass that as the experimentClass prop to the Experiment class components.
+react-experiments was built to work with [PlanOut.js](https://www.github.com/HubSpot/PlanOut.js) and most of its constructs are inspired by the structure of PlanOut.js. This library will work out of the box if you pass it an instantiated PlanOut Namespace or Experiment class, but if you want to use your own methods of assigning experiment parameters and logging exposure then you can extend the base [experiment class](https://github.com/HubSpot/react-experiments/blob/master/src/experimentClass.js) and pass that as the experiment prop to the Experiment class components.
 
-## Using the Experiment Component
 
-Here is a basic A/B test defined using react-experiments:
+## Implementing an experiment
 
-```javascript
-import {TestNamespace} from [file where you define your namespace];
-import {Experiment, Variation} from 'ReactExperiments';
+This library serves as a way to declaratively implement UI experiments that are defined via PlanOut. The standard usage of this library is as follows:
 
-...
+1) Define experiment via PlanOut script / API. The PlanOut parameters that you set should map to the props on which you  want to run an experiment. Let's use the [sample PlanOut.js experiment](https://github.com/HubSpot/PlanOut.js/blob/master/examples/sample_planout_es5.js#L41) as an example, which is effectively: 
 
-<Experiment experimentClass={TestNamespace} param='show_text'>
-  <Variation name="experimental">    
-    Example A  
-  </Variation>   
-  <Variation name='control'>   
-    Example B  
-  </Variation>   
-</Experiment>
+```
+signupText = uniformChoice(choices=['Signup', 'Join now'])
 ```
 
-The name passed into Variation as a prop should be the experimental value that the parameter will resolve to. For example, in this case Example A will be rendered if the 'show_text' param maps to the value "experimental" and Example B will be rendered if the 'show_text param maps to the value "control".
+2) Wrap the component where you want to implement your UI experiment with the Parametrize component provided by the library. As an example,
 
-There are two cases where an experiment component will render nothing:
-
-1) If, in the example above, the 'show_text' param mapped to the value 'foobar' then the Experiment component will render nothing. 
-
-2) If you want to have conditional enrollment in an experiment then you can pass down an isEnrolled prop to the Experiment component. If the user is not enrolled in the experiment then nothing will render.
-
-## Namespace Usage
-
-In the case that you need define more than 1 experiment in the same component and want to ensure that any given user only views at most one experiment, then you can wrap your experiment components inside of a ```Namespace``` components as such:
-
-```javascript
-import {TestNamespace} from [file where you define your namespace];
-import {Namespace, Experiment, Variation} from 'ReactExperiments';
-
-...
-
-<Namespace experimentClass={TestNamespace}>
-  <Experiment param='foo'>
-    <Variation name="experimental">    
-     [some html]   
-    </Variation>   
-    <Variation name='control'>   
-      [some html]   
-    </Variation>   
-  </Experiment>
-  <Experiment param='bar'>
-    <Variation name="experimental">    
-     [some html]   
-    </Variation>   
-    <Variation name='control'>   
-      [some html]   
-    </Variation>   
-  </Experiment>
-</Namespace>
+```
+<Parametrize experiment={DummyExperiment} experimentName='SampleExperiment'>
+  <Signup />
+</Parametrize>
 ```
 
-## Default Component
-
-The Default component will render in the case that the experiment param does not map to any of the Variation components. The Default component can be used in both an Experiment component and a Namespace component.
-
-Here are two examples using the Experiment component. Suppose that for user X, the parameter foo maps to the value bar.
-
-Example A:
+3) Suppose your Signup component looks something like this:
 ```javascript
-<Experiment experimentClass={TestNamespace} param='foo'>
-  <Variation name='foo'>
-    foo
-  </Variation>
+  render() {
+    return (
+      <div>
+        {this.props.signupText}
+      </div>
+    );
+  }
+```
+
+Now, you can just use the ```WithExperimentParams``` component provided by the library and wrap the Signup component with it.
+```
+Signup = withExperimentParams(Signup);
+```
+
+Now you should be all set to run the sample experiment. The Signup component will render 'Sign up' or 'Join now' based on the randomized parameter assigned by PlanOut.js.
+
+To put it all together,
+
+```javascript
+let Signup = React.createClass({
+  render() {
+    return (
+      <div>
+        {this.props.signupText}
+      </div>
+    );
+  }
+});
+
+Signup = withExperimentParams(Signup);
+exp = new DummyExperiment({ id: 'this_is_the_user_id'});
+
+let Parent = React.createClass({
+  render() {
+    ...
+    <Parametrize experiment={exp} experimentName='SampleExperiment'>
+      <Signup />
+    </Parametrize>
+  }
+});
+```
+
+###Parametrize component
+
+The following are the props for the Parametrize component:
+
+**experiment**: This is an instance of a PlanOut.js experiment / namespace class or the base experimentClass. [REQUIRED]
+
+**experimentName**: This is the name of the experiment. It is particularly important if you're using a PlanOut.js namespace, since this corresponds to the name of the experiment WITHIN the namespace, not the name of the namespace itself. This is required so that exposure gets logged correctly. [REQUIRED]
+
+[any arbitrary prop]: You can pass arbitrary props to the Parametrize component and they will be available via context.experimentProps in all descendants of the Parametrize component.
+
+
+### ABTest component:
+
+There are two common types of experimental parameters:
+
+1) Parameters that correspond to parametrizations of existing variables and components. For instance, if one is running an experiment to test which shade of blue optimizes the click rate of the button, then the values to which your experiment parameters map would correspond to something such as the different hex codes for the different shades of blue.
+
+2) "Branching" parameters where the parameter values correspond to different "variations" of the experiment. For instance, if one is testing two completely different user interfaces then it wouldn't make sense to parametrize every aspect that has changed, but rather to bin users into either 'Variation A' or 'Variation B'.
+
+While the core component of this library focuses on the first type of parameter, it also includes some convenience components built around the Parametrize component for running "branching" experiments.
+
+```javascript
+<ABTest on='foo' experiment={TestNamespace} experimentName='SimpleExperiment' shouldEnroll={this.shouldEnroll()}>
+  <When value='foobar'>
+    variation 1
+  </When>
+  <When value='bar'>
+    variation 2
+  </When>
+  <When value='test'>
+    variation 3
+  </When>
   <Default>
-    foobar
+    variation default
   </Default>
-</Experiment>
-```
-Example B:
-```javascript
-<Experiment experimentClass={TestNamespace}>
-  <Variation name='foo'>
-    foo
-  </Variation>
-  <Variation name='bar'>
-    bar
-  </Variation>
-  <Variation name='test'>
-    test
-  </Variation>
-  <Default>
-    foobar
-  </Default>
-</Experiment>
+</ABTest>
 ```
 
-For user X in the example A, the Default component renders since for user X foo maps to bar and there is no variation component defined for bar and therefore foobar will render.
-In Example B, there is a variation component defined for bar and in this case bar will render.
+The ABTest component above branches off the value of ```this.props.experiment.get(this.props.on);```, ```TestNamespace.get('foo')``` in this case, and renders the When component where ```ABTest.props.experiment.get(ABTest.props.on) === ABTest.props.value```. If it doesn't find a corresponding When component to render then the Default component will render. This component makes implementing an experiment using "branching" parameters easy.
 
-The same general pattern also holds for Namespace components, except Default components will only be respected when they are not in an Experiment component.
+The ABTest component takes the following as props:
 
-For instance, in this example the Default component will not be rendered.
-```javascript
-<Namespace experimentClass={TestNamespace} param='foo'>
-  <Experiment param='foo'>
-    <Variation name='foo'>
-      test
-    </Variation>
-    <Default>
-      default
-    </Default>
-  </Experiment>
-</Namespace>
-```
+**experiment** - an instantiated PlanOut namespace or experiment class or a custom experimentClass. [REQUIRED]
 
-However, in this example the Default component will be rendered.
-```javascript
-<Namespace experimentClass={TestNamespace} param='foo'>
-  <Experiment param='foo'>
-    <Variation name='foo'>
-      test
-    </Variation>
-  </Experiment>
-  <Default>
-    default
-  </Default>
-</Namespace>
-```
+**on** - the parameter name to "branch" off [REQUIRED]
+
+**experimentName** - the name of the experiment with which the component corresponds. This is particularly important if you are passing in a namespace class. If you are passing in a namespace class then experimentName should correspond to the name of the experiment within the namespace that this component should handle. Use this if you want your component to deal with any arbitrary number of parameters. [REQUIRED]
+
+**shouldEnroll** - this determines whether or not the user should be enrolled in the experiment or not. It defaults to true. If false is passed, nothing is returned and no exposure is logged. [OPTIONAL]
+
+## Customized Experiment Components
+
+If you want to create your own experiment component you can extend the base Parametrize component.
 
 ## Logging
 
-react-experiments logs an exposure event when it renders a Variation component. Since it only logs exposure when the component actually renders, not when the experiment value is assigned, you can implement the same Experiment component across multiple different React components and be certain that logExposure only gets invoked when the variation the user is enrolled in actually is shown to the user.
-
-Suppose you have two pages - /start and /welcome. If you have an experiment that is defined as follows:
-
-```javascript
-sampleParam = uniformChoice(choices=['a', 'b'], unit=userid)
-```
-
-Suppose you define the following Experiment component on the /start page:
-```javascript
-<Experiment experimentClass={foo} param='sampleParam'>
-  <Variation name='a'>
-    test a
-  </Variation>
-</Experiment>
-```
-
-and the following Experiment component on the /welcome page:
-```javascript
-<Experiment experimentClass={foo} param='sampleParam'>
-  <Variation name='b'>
-    test b
-  </Variation>
-</Experiment>
-```
-
-then exposure will only be logged if the user is enrolled in the 'a' variation and is viewing the /start page or the user is enrolled in the 'b' variation and is viewing the /welcome page.
-
-It is important to note as well that if a user is binned into the Default component then exposure is NOT logged.
+react-experiments logs an exposure event when it determines that a user should be enrolled in an experiment (i.e. the shouldEnroll prop is not false). 
 
 ## Development
 
-This project is written using ES6 and all build steps / transpilation are done by webpack. In order to develop and test locally, it is necessary to simply run the ```build.sh``` shell script which will take care of transpiling to ES5.
+This project is written using ES6 and all build steps / transpilation are done by webpack. Be sure to run ```npm install``` to install the necessary development dependencies. In order to develop and test locally, it is necessary to simply run the ```build.sh``` shell script which will take care of transpiling to ES5 and running tests.
 
 To test API changes locally, open the examples/index.html file locally after building with your most recent changes. The index.html file contains a simple example of using this library paired with the [PlanOut.js sample experiment](https://github.com/HubSpot/PlanOut.js/blob/master/examples/sample_planout_es5.js).
 
-As this project is still rather young and the primary interface is still in a bit of flux, there have not been any tests written for this. However, the infrastructure for adding tests is currently set up using [Jasmine-ES6](https://www.npmjs.com/package/jasmine-es6). If you wish to add a test simply add a spec file or add tests to the existing spec files. Tests can be run using ```npm test```.
+Please be sure to add tests to this project when making changes. This project uses [Jest](https://facebook.github.io/jest/) for running tests. Tests can be run either by building the project using build.sh or by using ```npm test```.
 

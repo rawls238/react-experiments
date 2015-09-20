@@ -60,20 +60,23 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
 
-	var Experiment = _interopRequireWildcard(__webpack_require__(1));
+	var Variations = _interopRequireWildcard(__webpack_require__(1));
 
-	var Namespace = _interopRequireWildcard(__webpack_require__(6));
+	var experimentClass = _interopRequire(__webpack_require__(3));
 
-	var Variations = _interopRequireWildcard(__webpack_require__(7));
+	var ABTest = _interopRequire(__webpack_require__(4));
 
-	var ExperimentClass = _interopRequire(__webpack_require__(8));
+	var Parametrize = _interopRequire(__webpack_require__(5));
+
+	var withExperimentParams = _interopRequire(__webpack_require__(6));
 
 	module.exports = {
-	  Experiment: Experiment.Experiment,
-	  Namespace: Namespace.Namespace,
-	  Variation: Variations.Variation,
+	  ABTest: ABTest,
+	  When: Variations.When,
 	  Default: Variations.Default,
-	  ExperimentClass: ExperimentClass
+	  experimentClass: experimentClass,
+	  Parametrize: Parametrize,
+	  withExperimentParams: withExperimentParams
 	};
 
 /***/ },
@@ -90,257 +93,75 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var React = _interopRequire(__webpack_require__(2));
 
-	var ExperimentEnrollment = _interopRequire(__webpack_require__(3));
-
-	var Utils = _interopRequire(__webpack_require__(5));
-
-	var Experiment = React.createClass({
-	  displayName: "Experiment",
-
-	  getDefaultProps: function getDefaultProps() {
-	    return {
-	      isEnrolled: true
-	    };
-	  },
+	var When = React.createClass({
+	  displayName: "When",
 
 	  getInitialState: function getInitialState() {
 	    return {
-	      exposedVariation: null
+	      shouldRender: false
 	    };
+	  },
+
+	  contextTypes: {
+	    experimentParameters: React.PropTypes.object.isRequired,
+	    experimentProps: React.PropTypes.object.isRequired
+	  },
+
+	  componentWillUpdate: function componentWillUpdate(props, state) {
+	    if (state.shouldRender) {
+	      this.context.experimentProps.enrolledInVariation();
+	    }
 	  },
 
 	  componentDidMount: function componentDidMount() {
-	    this.selectVariation();
+	    this.shouldRenderVariation();
 	  },
 
-	  selectVariation: function selectVariation() {
-	    var experiment = undefined;
-	    var _props = this.props;
-	    var param = _props.param;
-	    var isEnrolled = _props.isEnrolled;
-
-	    if (!this.props.experimentClass || !this.props.experimentClass.inputs) {
-	      console.error("You must pass in an experimentClass instance as a prop");
-	      return;
-	    }
-
-	    if (React.Children.count(this.props.children) === 0) {
-	      throw "You must have at least one variation in an experiment";
-	    }
-
-	    if (!isEnrolled) {
+	  shouldRenderVariation: function shouldRenderVariation() {
+	    var value = this.props.value;
+	    var paramName = this.context.experimentProps.on;
+	    if (this.context.experimentParameters && this.context.experimentParameters[paramName] === value) {
 	      this.setState({
-	        exposedVariation: null
+	        shouldRender: true
 	      });
-	      return;
 	    }
+	  },
 
-	    experiment = Utils.suppressAutoExposureLogging(this.props.experimentClass);
-	    this.setState({
-	      exposedVariation: experiment.get(param)
+	  renderChildren: function renderChildren() {
+	    return React.Children.map(this.props.children, function (child) {
+	      if (React.isValidElement(child)) {
+	        return React.addons.cloneWithProps(child, {});
+	      }
+	      return child;
 	    });
 	  },
 
-	  renderExposedVariation: function renderExposedVariation() {
-	    var variationComponent = ExperimentEnrollment.getExposedExperimentVariation(this.props.children, this.state.exposedVariation);
-
-	    if (variationComponent.exposedVariation) {
-	      this.props.experimentClass.logExposure();
-	      return variationComponent.exposedVariation;
-	    } else if (variationComponent.defaultComponent) {
-	      return variationComponent.defaultComponent;
-	    }
-	    return null;
-	  },
-
 	  render: function render() {
-	    return this.renderExposedVariation();
-	  }
-	});
-	exports.Experiment = Experiment;
-
-/***/ },
-/* 2 */
-/***/ function(module, exports) {
-
-	module.exports = __WEBPACK_EXTERNAL_MODULE_2__;
-
-/***/ },
-/* 3 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var DEFAULT_EXPERIMENT_COMPONENT = __webpack_require__(4).DEFAULT_EXPERIMENT_COMPONENT;
-
-	module.exports = {
-
-	  enrollInExperiment: function enrollInExperiment(component, child, variationName) {
-	    if (variationName && child.props.name === variationName) {
-	      component.exposedVariation = child;
-	    } else if (child.props.displayName === DEFAULT_EXPERIMENT_COMPONENT) {
-	      component.defaultComponent = child;
-	    }
-	    return component;
-	  },
-
-	  getExposedExperimentVariation: function getExposedExperimentVariation(childrenComponents, variationName) {
-	    var _this = this;
-
-	    if (!childrenComponents.reduce) {
-	      return this.enrollInExperiment({}, childrenComponents, variationName);
+	    if (!this.state.shouldRender) {
+	      return null;
 	    }
 
-	    return childrenComponents.reduce(function (component, child) {
-	      if (component.exposedVariation) {
-	        return component;
-	      }
-
-	      return _this.enrollInExperiment(component, child, variationName);
-	    }, {});
-	  }
-	};
-
-/***/ },
-/* 4 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	var DEFAULT_EXPERIMENT_COMPONENT = "DEFAULT";
-	exports.DEFAULT_EXPERIMENT_COMPONENT = DEFAULT_EXPERIMENT_COMPONENT;
-
-/***/ },
-/* 5 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	module.exports = {
-	  suppressAutoExposureLogging: function suppressAutoExposureLogging(experimentClass) {
-	    if (experimentClass.setAutoExposureLogging && typeof experimentClass.setAutoExposureLogging == "function") {
-	      experimentClass.setAutoExposureLogging(false);
-	    }
-	    return experimentClass;
-	  }
-	};
-
-/***/ },
-/* 6 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var React = _interopRequire(__webpack_require__(2));
-
-	var DEFAULT_EXPERIMENT_COMPONENT = __webpack_require__(4).DEFAULT_EXPERIMENT_COMPONENT;
-
-	var ExperimentEnrollment = _interopRequire(__webpack_require__(3));
-
-	var Utils = _interopRequire(__webpack_require__(5));
-
-	var Namespace = React.createClass({
-	  displayName: "Namespace",
-
-	  getEnrolledExperiment: function getEnrolledExperiment() {
-	    var _this = this;
-
-	    if (!this.props.children.reduce) {
-	      return this.enrollInNamespace({}, this.props.children);
-	    }
-
-	    return this.props.children.reduce(function (component, child) {
-	      if (component.exposedExperiment) {
-	        return component;
-	      }
-
-	      return _this.enrollInNamespace(component, child);
-	    }, {});
-	  },
-
-	  enrollInNamespace: function enrollInNamespace(component, child) {
-	    var experiment = Utils.suppressAutoExposureLogging(this.props.experimentClass);
-	    if (child.props.displayName === DEFAULT_EXPERIMENT_COMPONENT) {
-	      component.defaultComponent = child;
-	    } else if (child.props.isEnrolled) {
-	      var experimentParam = experiment.get(child.props.param);
-	      if (experimentParam && ExperimentEnrollment.getExposedExperimentVariation(child.props.children, experimentParam).exposedVariation) {
-	        component.exposedExperiment = child;
-	      }
-	    }
-	    return component;
-	  },
-
-	  renderEnrolledExperiment: function renderEnrolledExperiment() {
-	    var experiment = this.getEnrolledExperiment();
-	    if (experiment.exposedExperiment) {
-	      return React.createElement(
-	        Experiment,
-	        { experimentClass: this.props.experimentClass, param: experiment.exposedExperiment.props.param },
-	        experiment.exposedExperiment.props.children
-	      );
-	    }
-	    return experiment.defaultComponent;
-	  },
-
-	  render: function render() {
 	    return React.createElement(
 	      "span",
-	      null,
-	      this.renderEnrolledExperiment()
-	    );
-	  }
-	});
-	exports.Namespace = Namespace;
-
-/***/ },
-/* 7 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var React = _interopRequire(__webpack_require__(2));
-
-	var DEFAULT_EXPERIMENT_COMPONENT = __webpack_require__(4).DEFAULT_EXPERIMENT_COMPONENT;
-
-	var Variation = React.createClass({
-	  displayName: "Variation",
-
-	  render: function render() {
-	    return React.createElement(
-	      "span",
-	      null,
-	      this.props.children
+	      { className: "experiment-variation-component" },
+	      this.renderChildren()
 	    );
 	  }
 	});
 
-	exports.Variation = Variation;
+	exports.When = When;
 	var Default = React.createClass({
 	  displayName: "Default",
 
-	  getDefaultProps: function getDefaultProps() {
-	    return {
-	      displayName: DEFAULT_EXPERIMENT_COMPONENT
-	    };
+	  contextTypes: {
+	    experimentProps: React.PropTypes.object.isRequired
 	  },
 
 	  render: function render() {
+	    if (this.context.experimentProps.hasRendered) {
+	      return null;
+	    }
+
 	    return React.createElement(
 	      "span",
 	      null,
@@ -351,7 +172,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.Default = Default;
 
 /***/ },
-/* 8 */
+/* 2 */
+/***/ function(module, exports) {
+
+	module.exports = __WEBPACK_EXTERNAL_MODULE_2__;
+
+/***/ },
+/* 3 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -360,15 +187,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 
-	var ExperimentClass = (function () {
-	  function ExperimentClass() {
-	    _classCallCheck(this, ExperimentClass);
+	var experimentClass = (function () {
+	  function experimentClass() {
+	    _classCallCheck(this, experimentClass);
 	  }
 
-	  _createClass(ExperimentClass, {
-	    get: {
-	      value: function get(name) {
-	        throw "IMPLEMENT get";
+	  _createClass(experimentClass, {
+	    getParams: {
+	      value: function getParams(experimentName) {
+	        throw "IMPLEMENT getParams";
 	      }
 	    },
 	    logExposure: {
@@ -380,15 +207,208 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function getName() {
 	        throw "IMPLEMENT getName";
 	      }
+	    },
+	    previouslyLogged: {
+	      value: function previouslyLogged() {
+	        throw "IMPLEMENT previouslyLogged";
+	      }
+	    },
+	    shouldFetchExperimentParameter: {
+	      value: function shouldFetchExperimentParameter(name) {
+	        throw "IMPLEMENT shouldFetchExperimentParameter";
+	      }
 	    }
 	  });
 
-	  return ExperimentClass;
+	  return experimentClass;
 	})();
 
 	;
 
-	module.exports = ExperimentClass;
+	module.exports = experimentClass;
+
+/***/ },
+/* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+
+	var React = _interopRequire(__webpack_require__(2));
+
+	var Parametrize = _interopRequire(__webpack_require__(5));
+
+	var ABTest = React.createClass({
+	  displayName: "ABTest",
+
+	  getDefaultProps: function getDefaultProps() {
+	    return {
+	      shouldEnroll: true,
+	      param: null,
+	      experimentName: null
+	    };
+	  },
+
+	  getInitialState: function getInitialState() {
+	    return {
+	      hasRendered: false
+	    };
+	  },
+
+	  enrolledInVariation: function enrolledInVariation() {
+	    if (!this.state.hasRendered) {
+	      this.setState({
+	        hasRendered: true
+	      });
+	    }
+	  },
+
+	  renderExposedVariation: function renderExposedVariation() {
+	    var _props = this.props;
+	    var on = _props.on;
+	    var shouldEnroll = _props.shouldEnroll;
+	    var experiment = _props.experiment;
+	    var experimentName = _props.experimentName;
+
+	    if (!shouldEnroll) {
+	      return null;
+	    } else if (!experiment) {
+	      console.error("You must pass in an experiment instance as a prop");
+	      return null;
+	    } else if (!experimentName) {
+	      console.error("You must pass an experiment name as prop");
+	      return null;
+	    } else if (!on) {
+	      console.error("You must pass an 'on' prop indicating what parameter you want to branch off");
+	      return null;
+	    }
+
+	    return React.createElement(
+	      Parametrize,
+	      {
+	        experiment: experiment,
+	        experimentName: experimentName,
+	        on: on,
+	        enrolledInVariation: this.enrolledInVariation,
+	        hasRendered: this.state.hasRendered },
+	      this.props.children
+	    );
+	  },
+
+	  render: function render() {
+	    return this.renderExposedVariation();
+	  }
+	});
+
+	module.exports = ABTest;
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+
+	var React = _interopRequire(__webpack_require__(2));
+
+	var Parametrize = React.createClass({
+	  displayName: "Parametrize",
+
+	  getInitialState: function getInitialState() {
+	    return {
+	      experimentParameters: null
+	    };
+	  },
+
+	  childContextTypes: {
+	    experimentParameters: React.PropTypes.object,
+	    experimentProps: React.PropTypes.object.isRequired
+	  },
+
+	  getChildContext: function getChildContext() {
+	    return {
+	      experimentParameters: this.state.experimentParameters,
+	      experimentProps: this.props
+	    };
+	  },
+
+	  componentWillMount: function componentWillMount() {
+	    this.fetchParameters();
+	  },
+
+	  fetchParameters: function fetchParameters() {
+	    var _props = this.props;
+	    var experiment = _props.experiment;
+	    var experimentName = _props.experimentName;
+
+	    var params = {};
+
+	    if (!experiment || !experiment.getParams) {
+	      console.error("You must pass in an experiment instance as a prop");
+	      return;
+	    }
+
+	    params = experiment.getParams(experimentName) || {};
+	    this.setState({
+	      experimentParameters: params
+	    });
+
+	    if (experiment.previouslyLogged() === false) {
+	      experiment.logExposure({
+	        params: params,
+	        name: experiment.getName()
+	      });
+	    }
+	  },
+
+	  renderExperiment: function renderExperiment() {
+	    if (!this.state.experimentParameters) {
+	      return null;
+	    }
+
+	    var renderedChildren = React.Children.map(this.props.children, function (child) {
+	      return React.addons.cloneWithProps(child, {});
+	    });
+
+	    return React.createElement(
+	      "div",
+	      null,
+	      renderedChildren
+	    );
+	  },
+
+	  render: function render() {
+	    return this.renderExperiment();
+	  }
+	});
+
+	module.exports = Parametrize;
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var React = _interopRequire(__webpack_require__(2));
+
+	module.exports = function (Component) {
+	  return React.createClass({
+	    contextTypes: {
+	      experimentParameters: React.PropTypes.object.isRequired
+	    },
+
+	    render: function render() {
+	      return React.createElement(Component, _extends({}, this.props, this.context.experimentParameters));
+	    }
+	  });
+	};
 
 /***/ }
 /******/ ])
