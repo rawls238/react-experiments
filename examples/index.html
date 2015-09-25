@@ -88,7 +88,7 @@
     var VariationExperiment = React.createClass({
       render: function() {
         return (
-            <ReactExperiments.ABTest experiment={window.demo} on='foo'>
+            <ReactExperiments.ABTest experiment={window.demo} experimentName='SampleExperiment' on='foo'>
               <ReactExperiments.When value='Variation A'>
                 Variation A
               </ReactExperiments.When>
