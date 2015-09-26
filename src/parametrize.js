@@ -25,14 +25,13 @@ const Parametrize = React.createClass({
 
   fetchParameters() {
     const { experiment, experimentName } = this.props;
-    let params = {};
 
     if (!experiment || !experiment.getParams) {
       console.error("You must pass in an experiment instance as a prop");
       return;
     }
 
-    params = experiment.getParams(experimentName) || {};
+    const params = experiment.getParams(experimentName) || {};
     this.setState({
       experimentParameters: params
     });

@@ -343,14 +343,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var experiment = _props.experiment;
 	    var experimentName = _props.experimentName;
 
-	    var params = {};
-
 	    if (!experiment || !experiment.getParams) {
 	      console.error("You must pass in an experiment instance as a prop");
 	      return;
 	    }
 
-	    params = experiment.getParams(experimentName) || {};
+	    var params = experiment.getParams(experimentName) || {};
 	    this.setState({
 	      experimentParameters: params
 	    });
