@@ -54,9 +54,9 @@ const Parametrize = React.createClass({
     });
 
     return (
-      <div>
+      <span>
         { renderedChildren }  
-      </div>
+      </span>
     );
   },
 

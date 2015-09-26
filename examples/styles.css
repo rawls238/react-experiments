@@ -1,0 +1,13 @@
+body {background: whitesmoke;color: #282828;font-family: 'Roboto', sans-serif;font-weight: 400;}
+img {max-width: 100%;}
+.wrap {width: 100%;max-width: 600px;margin: 0 auto;}
+.clearfix {clear: both;}
+.text-center {text-align: center;}
+.text-left {text-align: left;}
+.text-right {text-align: right;}
+.margin-top {margin-top: 20px;}
+.margin-bottom {margin-bottom: 20px;}
+.card {margin: 0 0 10px 0;padding: 20px;background: white;border: 1px solid gainsboro;border-radius: 4px;}
+.example {margin: 20px 0;}
+.logo {margin: 20px 0;padding-bottom: 40px;border-bottom: 1px solid gainsboro;}
+.user-id {color: #999;font-size: 13px;}
