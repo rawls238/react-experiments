@@ -70,13 +70,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var withExperimentParams = _interopRequire(__webpack_require__(6));
 
+	var parametrizeComponent = _interopRequire(__webpack_require__(7));
+
 	module.exports = {
 	  ABTest: ABTest,
 	  When: Variations.When,
 	  Default: Variations.Default,
 	  experimentClass: experimentClass,
 	  Parametrize: Parametrize,
-	  withExperimentParams: withExperimentParams
+	  withExperimentParams: withExperimentParams,
+	  parametrizeComponent: parametrizeComponent
 	};
 
 /***/ },
@@ -362,12 +365,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 
 	  renderExperiment: function renderExperiment() {
+	    var _this = this;
+
 	    if (!this.state.experimentParameters) {
 	      return null;
 	    }
 
+	    var passThrough = this.props._passThrough;
 	    var renderedChildren = React.Children.map(this.props.children, function (child) {
-	      return React.addons.cloneWithProps(child, {});
+	      if (passThrough) {
+	        return React.addons.cloneWithProps(child, _this.state.experimentParameters);
+	      } else {
+	        return React.addons.cloneWithProps(child, {});
+	      }
 	    });
 
 	    return React.createElement(
@@ -404,6 +414,30 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    render: function render() {
 	      return React.createElement(Component, _extends({}, this.props, this.context.experimentParameters));
+	    }
+	  });
+	};
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+
+	var React = _interopRequire(__webpack_require__(2));
+
+	var Parametrize = _interopRequire(__webpack_require__(5));
+
+	module.exports = function (experiment, experimentName, Component) {
+	  return React.createClass({
+	    render: function render() {
+	      return React.createElement(
+	        Parametrize,
+	        { experiment: experiment, experimentName: experimentName, _passThrough: true },
+	        React.createElement(Component, this.props)
+	      );
 	    }
 	  });
 	};

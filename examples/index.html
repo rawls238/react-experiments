@@ -121,8 +121,9 @@
       }
     });
 
-    var TextComponent = React.createClass({ 
+    var TextComponent = React.createClass({
       render: function() {
+        console.log('rendering');
         return (
           <div className="card">
             Experiment param value passed down via props: <strong>{this.props.foo}</strong>

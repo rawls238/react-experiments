@@ -49,8 +49,13 @@ const Parametrize = React.createClass({
       return null;
     }
 
+    const passThrough = this.props._passThrough;
     const renderedChildren = React.Children.map(this.props.children, (child) => {
-      return React.addons.cloneWithProps(child, {});
+      if (passThrough) {
+        return React.addons.cloneWithProps(child, this.state.experimentParameters);
+      } else {
+        return React.addons.cloneWithProps(child, {});
+      }
     });
 
     return (
