@@ -167,4 +167,38 @@ describe('Test that experiment component works with namespaces', () => {
     expect(getLogLength()).toEqual(0);
   });
 
+  it('works when a user is enrolled in a different experiment in a namespace', () => {
+    const namespace = new DefaultNamespace(expInitializeObject);
+    let SampleComponent = React.createClass({
+      getClassName() {
+        return this.props.foobar || 'default'
+      },
+
+      render() {
+        return (
+          <div className={this.getClassName()}>
+            Test
+          </div>
+        );
+      }
+    });
+    SampleComponent = ReactExperiments.withExperimentParams(SampleComponent);
+    const experimentComponent = TestUtils.renderIntoDocument(
+      <ReactExperiments.Parametrize experimentName='SampleExperiment2' experiment={namespace}>
+        <SampleComponent />
+      </ReactExperiments.Parametrize>
+    );
+
+    expect(TestUtils.scryRenderedDOMComponentsWithClass(
+      experimentComponent,
+      'Variation B'
+    ).length).toBe(0);
+
+    expect(TestUtils.scryRenderedDOMComponentsWithClass(
+      experimentComponent,
+      'default'
+    ).length).toBe(1);
+
+    expect(getLogLength()).toEqual(0);
+  });
 });

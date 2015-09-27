@@ -82,7 +82,7 @@ describe('Test parametrize component', () => {
     ).length).toBe(1);
     expect(TestUtils.scryRenderedDOMComponentsWithClass(
       parametrized,
-      'Num1'
+      'Num2'
     ).length).toBe(1);
   });
 
@@ -203,8 +203,5 @@ describe('Test parametrize component', () => {
       parametrized,
       otherVal
     ).length).toBe(1);
-
-
-
   });
 });

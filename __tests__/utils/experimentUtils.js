@@ -3,7 +3,7 @@ import PlanOut from 'PlanOut';
 let globalLog = [];
 class DefaultExperiment extends PlanOut.Experiment {
   setup() {
-    this.name = "SampleExperiment";
+    this.setName("SampleExperiment");
   }
 
   assign(params, args) {
@@ -39,6 +39,37 @@ class DefaultExperiment extends PlanOut.Experiment {
   }
 };
 
+class DefaultExperiment2 extends PlanOut.Experiment {
+  setup() {
+    this.setName('SampleExperiment2');
+  }
+
+  assign(params, args) {
+    params.set('foobar',
+      new PlanOut.Ops.Random.UniformChoice({
+        'choices': ['Variation A', 'Variation B'],
+        'unit': args.id
+      })
+    );
+  }
+
+  configureLogger() {
+    return;
+  }
+
+  log(stuff) {
+    globalLog.push(stuff);
+  }
+
+  getParamNames() {
+    return this.getDefaultParamNames();
+  }
+
+  previouslyLogged() {
+    return this._exposureLogged;
+  }
+}
+
 class DefaultNamespace extends PlanOut.Namespace.SimpleNamespace {
 
   setupDefaults() {
@@ -51,7 +82,8 @@ class DefaultNamespace extends PlanOut.Namespace.SimpleNamespace {
   }
 
   setupExperiments() {
-    this.addExperiment('SampleExperiment', DefaultExperiment, 100);
+    this.addExperiment('SampleExperiment', DefaultExperiment, 50);
+    this.addExperiment('SampleExperiment2', DefaultExperiment2, 50);
   }
 };
 
@@ -72,7 +104,7 @@ class DefaultEmptyNamespace extends PlanOut.Namespace.SimpleNamespace {
 };
 
 
-const expInitializeObject = { id: 233 };
+const expInitializeObject = { id: 2333 };
 
 const clearLogs = () => {
   globalLog = [];

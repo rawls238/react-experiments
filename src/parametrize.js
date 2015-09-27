@@ -31,17 +31,17 @@ const Parametrize = React.createClass({
       return;
     }
 
-    const params = experiment.getParams(experimentName) || {};
-    this.setState({
-      experimentParameters: params
-    });
-
-    if (experiment.previouslyLogged() === false) {
+    const params = experiment.getParams(experimentName);
+    if (params && experiment.previouslyLogged() === false) {
       experiment.logExposure({
         params: params,
         name: experiment.getName()
       });
     }
+
+    this.setState({
+      experimentParameters: params || {}
+    });
   },
 
   renderExperiment() {
@@ -54,9 +54,9 @@ const Parametrize = React.createClass({
     });
 
     return (
-      <div>
+      <span>
         { renderedChildren }  
-      </div>
+      </span>
     );
   },
 
