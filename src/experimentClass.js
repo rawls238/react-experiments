@@ -16,6 +16,7 @@ class experimentClass {
   }
 
 
+
   shouldFetchExperimentParameter(name) {
     throw "IMPLEMENT shouldFetchExperimentParameter";
   }
