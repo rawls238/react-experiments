@@ -11,7 +11,7 @@ npm install react-experiments
 
 # Usage
 
-react-experiments was built to work with [PlanOut.js](https://www.github.com/HubSpot/PlanOut.js) and most of its constructs are inspired by the structure of PlanOut.js. This library will work out of the box if you pass it an instantiated PlanOut Namespace or Experiment class, but if you want to use your own methods of assigning experiment parameters and logging exposure then you can extend the base [experiment class](https://github.com/HubSpot/react-experiments/blob/master/src/experimentClass.js) and pass that as the experiment prop to the Experiment class components.
+react-experiments was built to work with [PlanOut.js](https://www.github.com/HubSpot/PlanOut.js) and most of its constructs are inspired by the structure of PlanOut.js. This library will work out of the box if you pass it an instantiated PlanOut Namespace or Experiment class, but if you want to use your own methods of assigning experiment parameters and logging exposure then you can extend the base [experiment class](https://github.com/HubSpot/react-experiments/blob/master/src/experimentClass.js) and pass that as the experiment class prop.
 
 
 ## Implementing a simple experiment
@@ -24,7 +24,7 @@ This library serves as a way to declaratively implement UI experiments that are 
 signupText = uniformChoice(choices=['Signup', 'Join now'])
 ```
 
-2) Wrap the component where you want to implement your UI experiment with the parametrizeComponent function provided by the library along with the specific parameter names that you want to parametrize the component with. As an example,
+2) Wrap the component where you want to implement your UI experiment with the parametrizeComponent function provided by the library along with an instantiated experiment class and the specific parameter names that you want to parametrize the component with. As an example,
 
 ```
 const Signup = parametrizeComponent(DummyExperiment, ['signupText'], React.createClass({
@@ -37,7 +37,7 @@ const Signup = parametrizeComponent(DummyExperiment, ['signupText'], React.creat
   }
 }
 }));
-
+```
 
 Now you should be all set to run the sample experiment. The Signup component will render 'Sign up' or 'Join now' based on the randomized parameter assigned by PlanOut.js.
 
@@ -66,13 +66,9 @@ let Parent = React.createClass({
 ```
 
 
-## Base Components
+## Base Parametrize Component
 
-
-
-### Parametrize component
-
-The following are the props for the Parametrize component:
+The implementation of all the components provided by this library are wrappers around a base ```Parametrize``` component. The ```Parametrize``` component allows for parametrizing a given component with experiment parameters. The following are the props that the ```Parametrize``` component takes:
 
 **experiment**: This is an instance of a PlanOut.js experiment / namespace class or the base experimentClass. [REQUIRED]
 
@@ -81,6 +77,50 @@ The following are the props for the Parametrize component:
 **params**: This is the list of experiment parameters that you want to use to parametrize the component. [REQUIRED, if experimentName not provided]
 
 [any arbitrary prop]: You can pass arbitrary props to the Parametrize component and they will be available via context.experimentProps in all descendants of the Parametrize component.
+
+### Higher-order Parametrization Components
+
+There are two primary higher-order components to use for parametrization. 
+
+**parametrizeComponent**: The ```parametrizeComponent``` function takes an instantiated experiment class, either an experiment name or a list of params, and a React component. It takes the given component and sets the deterministically and randomly assigned experiment parameters of the experiment class as props.
+
+```parametrizeComponent(exp, ['signupText'], React.createClass({..}));```
+
+**withExperimentParams**: The ```withExperimentParams``` function is used in combination with the base ```Parametrize``` component. It is useful when running an experiment with nested components, but generally the ```parametrizeComponent``` function should be preferred.
+
+
+```javascript
+const Parent = React.createClass({
+  render() {
+    return (
+      <Parametrize experiment={exp} params=['signup_form_text', 'signup_nav_text']>
+        <SignupHeader />
+        <SignupForm />
+      </Parametrize>
+    );
+  }
+});
+
+const SignupHeader = withExperimentParams(React.createClass({
+  render() {
+    return (
+      <div>
+        {this.props.signup_nav_text}
+      </div>
+    );
+  }
+});
+
+const SignupForm = withExperimentParams(React.createClass({
+  render() {
+    return (
+      <div>
+        {this.props.signup_form_text}
+      </div>
+    );
+  }
+});
+```
 
 
 ## Running A/B Variation experiments:
@@ -128,7 +168,7 @@ If you want to create your own experiment component you can extend the base Para
 
 ## Logging
 
-react-experiments logs an exposure event when it determines that a user should be enrolled in an experiment (i.e. the shouldEnroll prop is not false). 
+react-experiments deals with logging experiment exposure. Using the base ```Parametrize``` component always triggers an exposure log when the component is mounted. The ```ABTest``` component also does the same thing unless the ```shouldEnroll``` prop is false.
 
 ## Development
 
@@ -137,4 +177,3 @@ This project is written using ES6 and all build steps / transpilation are done b
 To test API changes locally, open the examples/index.html file locally after building with your most recent changes. The index.html file contains a simple example of using this library paired with the [PlanOut.js sample experiment](https://github.com/HubSpot/PlanOut.js/blob/master/examples/sample_planout_es5.js).
 
 Please be sure to add tests to this project when making changes. This project uses [Jest](https://facebook.github.io/jest/) for running tests. Tests can be run either by building the project using build.sh or by using ```npm test```.
-
