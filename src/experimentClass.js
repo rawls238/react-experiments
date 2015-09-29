@@ -3,6 +3,10 @@ class experimentClass {
     throw "IMPLEMENT getParams";
   }
 
+  get(parameter) {
+    throw "IMPLEMENT get";
+  }
+
   logExposure(opts) {
     throw "IMPLEMENT logExposure";
   }

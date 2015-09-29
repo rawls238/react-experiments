@@ -201,6 +201,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        throw "IMPLEMENT getParams";
 	      }
 	    },
+	    get: {
+	      value: function get(parameter) {
+	        throw "IMPLEMENT get";
+	      }
+	    },
 	    logExposure: {
 	      value: function logExposure(opts) {
 	        throw "IMPLEMENT logExposure";
@@ -345,14 +350,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var _props = this.props;
 	    var experiment = _props.experiment;
 	    var experimentName = _props.experimentName;
+	    var params = _props.params;
 
 	    if (!experiment || !experiment.getParams) {
 	      console.error("You must pass in an experiment instance as a prop");
 	      return;
 	    }
 
-	    var params = experiment.getParams(experimentName);
-	    if (params && experiment.previouslyLogged() === false) {
+	    var paramsObj = {};
+	    if (experimentName) {
+	      paramsObj = experiment.getParams(experimentName) || {};
+	    } else if (params) {
+	      for (var i = 0; i < params.length; i++) {
+	        var param = params[i];
+	        var paramVal = experiment.get(param);
+	        if (paramVal !== null && paramVal !== undefined) {
+	          paramsObj[param] = paramVal;
+	        }
+	      }
+	    }
+	    if (Object.keys(paramsObj).length !== 0 && experiment.previouslyLogged() === false) {
 	      experiment.logExposure({
 	        params: params,
 	        name: experiment.getName()
@@ -360,7 +377,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    this.setState({
-	      experimentParameters: params || {}
+	      experimentParameters: paramsObj
 	    });
 	  },
 
@@ -430,12 +447,19 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var Parametrize = _interopRequire(__webpack_require__(5));
 
-	module.exports = function (experiment, experimentName, Component) {
+	module.exports = function (experiment, experimentParams, Component) {
 	  return React.createClass({
 	    render: function render() {
+	      if (typeof experimentParams === "string") {
+	        return React.createElement(
+	          Parametrize,
+	          { experiment: experiment, experimentName: experimentParams, _passThrough: true },
+	          React.createElement(Component, this.props)
+	        );
+	      }
 	      return React.createElement(
 	        Parametrize,
-	        { experiment: experiment, experimentName: experimentName, _passThrough: true },
+	        { experiment: experiment, params: experimentParams, _passThrough: true },
 	        React.createElement(Component, this.props)
 	      );
 	    }

@@ -14,26 +14,20 @@ npm install react-experiments
 react-experiments was built to work with [PlanOut.js](https://www.github.com/HubSpot/PlanOut.js) and most of its constructs are inspired by the structure of PlanOut.js. This library will work out of the box if you pass it an instantiated PlanOut Namespace or Experiment class, but if you want to use your own methods of assigning experiment parameters and logging exposure then you can extend the base [experiment class](https://github.com/HubSpot/react-experiments/blob/master/src/experimentClass.js) and pass that as the experiment prop to the Experiment class components.
 
 
-## Implementing an experiment
+## Implementing a simple experiment
 
 This library serves as a way to declaratively implement UI experiments that are defined via PlanOut. The standard usage of this library is as follows:
 
-1) Define experiment via PlanOut script / API. The PlanOut parameters that you set should map to the props on which you  want to run an experiment. Let's use the [sample PlanOut.js experiment](https://github.com/HubSpot/PlanOut.js/blob/master/examples/sample_planout_es5.js#L41) as an example, which is effectively: 
+1) Define experiment via PlanOut script / API. The PlanOut parameters that you set should map to the props on which you want to run an experiment. Let's use the [sample PlanOut.js experiment](https://github.com/HubSpot/PlanOut.js/blob/master/examples/sample_planout_es5.js#L41) as an example, which is effectively: 
 
 ```
 signupText = uniformChoice(choices=['Signup', 'Join now'])
 ```
 
-2) Wrap the component where you want to implement your UI experiment with the Parametrize component provided by the library. As an example,
+2) Wrap the component where you want to implement your UI experiment with the parametrizeComponent function provided by the library along with the specific parameter names that you want to parametrize the component with. As an example,
 
 ```
-<Parametrize experiment={DummyExperiment} experimentName='SampleExperiment'>
-  <Signup />
-</Parametrize>
-```
-
-3) Suppose your Signup component looks something like this:
-```javascript
+const Signup = parametrizeComponent(DummyExperiment, ['signupText'], React.createClass({
   render() {
     return (
       <div>
@@ -41,19 +35,19 @@ signupText = uniformChoice(choices=['Signup', 'Join now'])
       </div>
     );
   }
-```
+}
+}));
 
-Now, you can just use the ```WithExperimentParams``` component provided by the library and wrap the Signup component with it.
-```
-Signup = withExperimentParams(Signup);
-```
 
 Now you should be all set to run the sample experiment. The Signup component will render 'Sign up' or 'Join now' based on the randomized parameter assigned by PlanOut.js.
 
 To put it all together,
 
 ```javascript
-let Signup = React.createClass({
+
+exp = new DummyExperiment({ id: 'this_is_the_user_id'});
+
+let Signup = parametrizeComponent(exp, ['signupText'], React.createClass({
   render() {
     return (
       <div>
@@ -63,31 +57,33 @@ let Signup = React.createClass({
   }
 });
 
-Signup = withExperimentParams(Signup);
-exp = new DummyExperiment({ id: 'this_is_the_user_id'});
-
 let Parent = React.createClass({
   render() {
     ...
-    <Parametrize experiment={exp} experimentName='SampleExperiment'>
-      <Signup />
-    </Parametrize>
+    <Signup />
   }
 });
 ```
 
-###Parametrize component
+
+## Base Components
+
+
+
+### Parametrize component
 
 The following are the props for the Parametrize component:
 
 **experiment**: This is an instance of a PlanOut.js experiment / namespace class or the base experimentClass. [REQUIRED]
 
-**experimentName**: This is the name of the experiment. It is particularly important if you're using a PlanOut.js namespace, since this corresponds to the name of the experiment WITHIN the namespace, not the name of the namespace itself. This is required so that exposure gets logged correctly. [REQUIRED]
+**experimentName**: This is the name of the experiment. It is particularly important if you're using a PlanOut.js namespace, since this corresponds to the name of the experiment WITHIN the namespace, not the name of the namespace itself. This is required so that exposure gets logged correctly. [REQUIRED, if params prop not provided]
+
+**params**: This is the list of experiment parameters that you want to use to parametrize the component. [REQUIRED, if experimentName not provided]
 
 [any arbitrary prop]: You can pass arbitrary props to the Parametrize component and they will be available via context.experimentProps in all descendants of the Parametrize component.
 
 
-### ABTest component:
+## Running A/B Variation experiments:
 
 There are two common types of experimental parameters:
 
@@ -95,7 +91,7 @@ There are two common types of experimental parameters:
 
 2) "Branching" parameters where the parameter values correspond to different "variations" of the experiment. For instance, if one is testing two completely different user interfaces then it wouldn't make sense to parametrize every aspect that has changed, but rather to bin users into either 'Variation A' or 'Variation B'.
 
-While the core component of this library focuses on the first type of parameter, it also includes some convenience components built around the Parametrize component for running "branching" experiments.
+While the core component of this library focuses on the first type of parameter, it also includes some convenience components built around the Parametrize component for running "branching" experiments using the ```ABTest``` component.
 
 ```javascript
 <ABTest on='foo' experiment={TestNamespace} experimentName='SimpleExperiment' shouldEnroll={this.shouldEnroll()}>

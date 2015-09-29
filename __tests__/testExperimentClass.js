@@ -47,7 +47,7 @@ describe('Test experiment', () => {
     });
 
     const parametrized = TestUtils.renderIntoDocument(
-      <ReactExperiments.Parametrize experiment={expClass}>
+      <ReactExperiments.Parametrize experiment={expClass} experimentName={expClass.getName()}>
         <Comp />
       </ReactExperiments.Parametrize>
     );
