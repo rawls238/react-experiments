@@ -91,7 +91,7 @@
         return (
           <div className="card">
             <span>A single branch is rendered conditionally: </span>
-            <ReactExperiments.ABTest experiment={window.demo} experimentName='SampleExperiment' on='foo'>
+            <ReactExperiments.ABTest experiment={window.demo} on='foo'>
               <ReactExperiments.When value='Variation A'>
                 <strong>Variation A Component</strong>
               </ReactExperiments.When>
@@ -137,7 +137,7 @@
     var ParametrizeExperiment = React.createClass({
       render: function() {
         return (
-          <ReactExperiments.Parametrize experiment={window.demo}>
+          <ReactExperiments.Parametrize experiment={window.demo} params={['foo']}>
             <TextComponent />
             <FooComponent />
           </ReactExperiments.Parametrize>

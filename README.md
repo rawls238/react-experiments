@@ -72,9 +72,8 @@ The implementation of all the components provided by this library are wrappers a
 
 **experiment**: This is an instance of a PlanOut.js experiment / namespace class or the base experimentClass. [REQUIRED]
 
-**experimentName**: This is the name of the experiment. It is particularly important if you're using a PlanOut.js namespace, since this corresponds to the name of the experiment WITHIN the namespace, not the name of the namespace itself. This is required so that exposure gets logged correctly. [REQUIRED, if params prop not provided]
 
-**params**: This is the list of experiment parameters that you want to use to parametrize the component. [REQUIRED, if experimentName not provided]
+**params**: This is the list of experiment parameters that you want to use to parametrize the component. They should correspond to the parameter names defined in your PlanOut script / experiment definition. [REQUIRED]
 
 [any arbitrary prop]: You can pass arbitrary props to the Parametrize component and they will be available via context.experimentProps in all descendants of the Parametrize component.
 
@@ -134,7 +133,7 @@ There are two common types of experimental parameters:
 While the core component of this library focuses on the first type of parameter, it also includes some convenience components built around the Parametrize component for running "branching" experiments using the ```ABTest``` component.
 
 ```javascript
-<ABTest on='foo' experiment={TestNamespace} experimentName='SimpleExperiment' shouldEnroll={this.shouldEnroll()}>
+<ABTest on='foo' experiment={TestNamespace} shouldEnroll={this.shouldEnroll()}>
   <When value='foobar'>
     variation 1
   </When>
@@ -157,8 +156,6 @@ The ABTest component takes the following as props:
 **experiment** - an instantiated PlanOut namespace or experiment class or a custom experimentClass. [REQUIRED]
 
 **on** - the parameter name to "branch" off [REQUIRED]
-
-**experimentName** - the name of the experiment with which the component corresponds. This is particularly important if you are passing in a namespace class. If you are passing in a namespace class then experimentName should correspond to the name of the experiment within the namespace that this component should handle. Use this if you want your component to deal with any arbitrary number of parameters. [REQUIRED]
 
 **shouldEnroll** - this determines whether or not the user should be enrolled in the experiment or not. It defaults to true. If false is passed, nothing is returned and no exposure is logged. [OPTIONAL]
 

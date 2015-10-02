@@ -24,25 +24,25 @@ const Parametrize = React.createClass({
   },
 
   fetchParameters() {
-    const { experiment, experimentName, params } = this.props;
+    const { experiment, params } = this.props;
 
-    if (!experiment || !experiment.getParams) {
+    if (!experiment || !experiment.get) {
       console.error("You must pass in an experiment instance as a prop");
+      return;
+    } else if (!params) {
+      console.error("You mass pass a list of params in as a prop");
       return;
     }
 
     let paramsObj = {};
-    if (experimentName) {
-      paramsObj = experiment.getParams(experimentName) || {};
-    } else if (params) {
-      for (let i = 0; i < params.length; i++) {
-        const param = params[i];
-        const paramVal = experiment.get(param);
-        if (paramVal !== null && paramVal !== undefined) {
-          paramsObj[param] = paramVal;
-        }
+    for (let i = 0; i < params.length; i++) {
+      const param = params[i];
+      const paramVal = experiment.get(param);
+      if (paramVal !== null && paramVal !== undefined) {
+        paramsObj[param] = paramVal;
       }
     }
+
     if (Object.keys(paramsObj).length !== 0 && experiment.previouslyLogged() === false) {
       experiment.logExposure({
         params: params,

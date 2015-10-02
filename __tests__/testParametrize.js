@@ -23,7 +23,7 @@ describe('Test parametrize component', () => {
     });
     const ParametrizedComponentWithParams = ReactExperiments.withExperimentParams(ParametrizedComponent);
     const parametrized = TestUtils.renderIntoDocument(
-      <ReactExperiments.Parametrize experiment={exp} experimentName={exp.getName()}>
+      <ReactExperiments.Parametrize experiment={exp} params={['foo']}>
         <ParametrizedComponentWithParams />
       </ReactExperiments.Parametrize>
     );
@@ -73,7 +73,7 @@ describe('Test parametrize component', () => {
     });
 
     const parametrized = TestUtils.renderIntoDocument(
-      <ReactExperiments.Parametrize experiment={exp} experimentName={exp.getName()}>
+      <ReactExperiments.Parametrize experiment={exp} params={['foo', 'test2']}>
         <ParametrizedComponent />
       </ReactExperiments.Parametrize>
     );
@@ -108,7 +108,7 @@ describe('Test parametrize component', () => {
     const Parametrized = React.createClass({
       render() {
         return (
-          <ReactExperiments.Parametrize experiment={exp} experimentName={exp.getName()}>
+          <ReactExperiments.Parametrize experiment={exp} params={['foo']}>
             <TestComponent test={this.props.test}/>
           </ReactExperiments.Parametrize>
         );
@@ -186,50 +186,10 @@ describe('Test parametrize component', () => {
 
     const otherVal = 'ha';
     const parametrized = TestUtils.renderIntoDocument(
-      <ReactExperiments.Parametrize experiment={exp} experimentName={exp.getName()}>
+      <ReactExperiments.Parametrize experiment={exp} params={['foo', 'test2']}>
         <ExpButton other={otherVal} />
       </ReactExperiments.Parametrize>
     );
-    expect(TestUtils.scryRenderedDOMComponentsWithClass(
-      parametrized,
-      exp.get('foo')
-    ).length).toBe(1);
-
-    expect(TestUtils.scryRenderedDOMComponentsWithClass(
-      parametrized,
-      exp.get('test2')
-    ).length).toBe(1);
-
-    expect(TestUtils.scryRenderedDOMComponentsWithClass(
-      parametrized,
-      otherVal
-    ).length).toBe(1);
-  });
-
-  it('should work with the higher order component and experiment name', () => {
-    const Buttons = ReactExperiments.parametrizeComponent(exp, exp.getName(), React.createClass({
-      render() {
-        return (
-          <div>
-            <div className={this.props.foo}>
-              test
-            </div>
-            <div className={this.props.test2}>
-              testing2
-            </div>
-            <div className={this.props.other}>
-              testing3
-            </div>
-          </div>
-        );
-      }
-    }));
-
-    const otherVal = 'ha';
-    const parametrized = TestUtils.renderIntoDocument(
-      <Buttons other={otherVal} />
-    );
-
     expect(TestUtils.scryRenderedDOMComponentsWithClass(
       parametrized,
       exp.get('foo')

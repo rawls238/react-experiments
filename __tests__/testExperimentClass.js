@@ -5,10 +5,10 @@ let logs = [];
 const paramKey = 'foo';
 const paramVal = 'bar';
 class experiment extends ReactExperiments.experimentClass {
-  getParams() {
-    let ret = {};
-    ret[paramKey] = paramVal;
-    return ret;
+  get(param) {
+    if (param === paramKey) {
+      return paramVal;
+    }
   }
 
   logExposure(data) {
@@ -47,7 +47,7 @@ describe('Test experiment', () => {
     });
 
     const parametrized = TestUtils.renderIntoDocument(
-      <ReactExperiments.Parametrize experiment={expClass} experimentName={expClass.getName()}>
+      <ReactExperiments.Parametrize experiment={expClass} params={[paramKey]}>
         <Comp />
       </ReactExperiments.Parametrize>
     );

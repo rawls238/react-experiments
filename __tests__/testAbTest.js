@@ -17,7 +17,7 @@ describe('Test experiment component', () => {
 
   it('renders only one, correct variation', () => {
     const experimentComponent = TestUtils.renderIntoDocument(
-      <ReactExperiments.ABTest on='foo' experiment={exp} experimentName={exp.getName()}>
+      <ReactExperiments.ABTest on='foo' experiment={exp}>
         <ReactExperiments.When value='Variation A'>
           <span className='variation-a'>
             foo
@@ -48,7 +48,7 @@ describe('Test experiment component', () => {
 
   it('renders the default variation when needed', () => {
     const experimentComponent = TestUtils.renderIntoDocument(
-      <ReactExperiments.ABTest experiment={exp} experimentName='SampleExperiment' on='foo'>
+      <ReactExperiments.ABTest experiment={exp} on='foo'>
         <ReactExperiments.When value='foo'>
           foo
         </ReactExperiments.When>
@@ -67,7 +67,7 @@ describe('Test experiment component', () => {
 
   it('renders nothing with no default variation', () => {
     const experimentComponent = TestUtils.renderIntoDocument(
-      <ReactExperiments.ABTest experiment={exp} on='foob' experimentName='SampleExperiment'>
+      <ReactExperiments.ABTest experiment={exp} on='foob' >
         <ReactExperiments.When value = 'Variation B'>
           <div className='foobar'>
             test
@@ -83,7 +83,7 @@ describe('Test experiment component', () => {
 
   it('handles enrollment properly', () => {
     const experimentComponent = TestUtils.renderIntoDocument(
-      <ReactExperiments.ABTest on='foo' experiment={exp} shouldEnroll={false} experimentName='SampleExperiment'>
+      <ReactExperiments.ABTest on='foo' experiment={exp} shouldEnroll={false}>
         <ReactExperiments.When value='Variation B'>
           <div className='foo'>
             test
@@ -97,7 +97,7 @@ describe('Test experiment component', () => {
     ).length).toBe(0);
 
     const experimentComponent2 = TestUtils.renderIntoDocument(
-      <ReactExperiments.ABTest on='foo'experiment={exp} experimentName='SampleExperiment' shouldEnroll={true}>
+      <ReactExperiments.ABTest on='foo'experiment={exp} shouldEnroll={true}>
         <ReactExperiments.When value='Variation B'>
           <div className='foo'>
             test
