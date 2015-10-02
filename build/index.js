@@ -3,6 +3,7 @@ import experimentClass from '../src/experimentClass';
 import ABTest from '../src/abtest';
 import Parametrize from '../src/parametrize';
 import withExperimentParams from '../src/withExperimentParams';
+import parametrize from '../src/parametrizeComponent';
 
 export default {
   ABTest: ABTest,
@@ -10,5 +11,6 @@ export default {
   Default: Variations.Default,
   experimentClass: experimentClass,
   Parametrize: Parametrize,
-  withExperimentParams: withExperimentParams
+  withExperimentParams: withExperimentParams,
+  parametrize: parametrize
 };

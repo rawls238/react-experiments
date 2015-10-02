@@ -70,13 +70,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var withExperimentParams = _interopRequire(__webpack_require__(6));
 
+	var parametrize = _interopRequire(__webpack_require__(7));
+
 	module.exports = {
 	  ABTest: ABTest,
 	  When: Variations.When,
 	  Default: Variations.Default,
 	  experimentClass: experimentClass,
 	  Parametrize: Parametrize,
-	  withExperimentParams: withExperimentParams
+	  withExperimentParams: withExperimentParams,
+	  parametrize: parametrize
 	};
 
 /***/ },
@@ -193,9 +196,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 
 	  _createClass(experimentClass, {
-	    getParams: {
-	      value: function getParams(experimentName) {
-	        throw "IMPLEMENT getParams";
+	    get: {
+	      value: function get(parameter) {
+	        throw "IMPLEMENT get";
 	      }
 	    },
 	    logExposure: {
@@ -244,9 +247,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  getDefaultProps: function getDefaultProps() {
 	    return {
-	      shouldEnroll: true,
-	      param: null,
-	      experimentName: null
+	      shouldEnroll: true
 	    };
 	  },
 
@@ -269,15 +270,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var on = _props.on;
 	    var shouldEnroll = _props.shouldEnroll;
 	    var experiment = _props.experiment;
-	    var experimentName = _props.experimentName;
 
 	    if (!shouldEnroll) {
 	      return null;
 	    } else if (!experiment) {
 	      console.error("You must pass in an experiment instance as a prop");
-	      return null;
-	    } else if (!experimentName) {
-	      console.error("You must pass an experiment name as prop");
 	      return null;
 	    } else if (!on) {
 	      console.error("You must pass an 'on' prop indicating what parameter you want to branch off");
@@ -288,7 +285,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      Parametrize,
 	      {
 	        experiment: experiment,
-	        experimentName: experimentName,
+	        params: [on],
 	        on: on,
 	        enrolledInVariation: this.enrolledInVariation,
 	        hasRendered: this.state.hasRendered },
@@ -341,15 +338,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	  fetchParameters: function fetchParameters() {
 	    var _props = this.props;
 	    var experiment = _props.experiment;
-	    var experimentName = _props.experimentName;
+	    var params = _props.params;
 
-	    if (!experiment || !experiment.getParams) {
+	    if (!experiment || !experiment.get) {
 	      console.error("You must pass in an experiment instance as a prop");
+	      return;
+	    } else if (!params) {
+	      console.error("You mass pass a list of params in as a prop");
 	      return;
 	    }
 
-	    var params = experiment.getParams(experimentName);
-	    if (params && experiment.previouslyLogged() === false) {
+	    var paramsObj = {};
+	    for (var i = 0; i < params.length; i++) {
+	      var param = params[i];
+	      var paramVal = experiment.get(param);
+	      if (paramVal !== null && paramVal !== undefined) {
+	        paramsObj[param] = paramVal;
+	      }
+	    }
+
+	    if (Object.keys(paramsObj).length !== 0 && experiment.previouslyLogged() === false) {
 	      experiment.logExposure({
 	        params: params,
 	        name: experiment.getName()
@@ -357,17 +365,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    this.setState({
-	      experimentParameters: params || {}
+	      experimentParameters: paramsObj
 	    });
 	  },
 
 	  renderExperiment: function renderExperiment() {
+	    var _this = this;
+
 	    if (!this.state.experimentParameters) {
 	      return null;
 	    }
 
+	    var passThrough = this.props._passThrough;
 	    var renderedChildren = React.Children.map(this.props.children, function (child) {
-	      return React.addons.cloneWithProps(child, {});
+	      if (passThrough) {
+	        return React.addons.cloneWithProps(child, _this.state.experimentParameters);
+	      } else {
+	        return React.addons.cloneWithProps(child, {});
+	      }
 	    });
 
 	    return React.createElement(
@@ -404,6 +419,30 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    render: function render() {
 	      return React.createElement(Component, _extends({}, this.props, this.context.experimentParameters));
+	    }
+	  });
+	};
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+
+	var React = _interopRequire(__webpack_require__(2));
+
+	var Parametrize = _interopRequire(__webpack_require__(5));
+
+	module.exports = function (experiment, experimentParams, Component) {
+	  return React.createClass({
+	    render: function render() {
+	      return React.createElement(
+	        Parametrize,
+	        { experiment: experiment, params: experimentParams, _passThrough: true },
+	        React.createElement(Component, this.props)
+	      );
 	    }
 	  });
 	};

@@ -1,6 +1,6 @@
 class experimentClass {
-  getParams(experimentName) {
-    throw "IMPLEMENT getParams";
+  get(parameter) {
+    throw "IMPLEMENT get";
   }
 
   logExposure(opts) {
