@@ -70,7 +70,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var withExperimentParams = _interopRequire(__webpack_require__(6));
 
-	var parametrizeComponent = _interopRequire(__webpack_require__(7));
+	var parametrize = _interopRequire(__webpack_require__(7));
 
 	module.exports = {
 	  ABTest: ABTest,
@@ -79,7 +79,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  experimentClass: experimentClass,
 	  Parametrize: Parametrize,
 	  withExperimentParams: withExperimentParams,
-	  parametrizeComponent: parametrizeComponent
+	  parametrize: parametrize
 	};
 
 /***/ },

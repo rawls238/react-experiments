@@ -207,7 +207,7 @@ describe('Test parametrize component', () => {
   });
 
   it('should work with higher order component and list of params', () => {
-    const Buttons = ReactExperiments.parametrizeComponent(exp, ['foo', 'test2'], React.createClass({
+    const Buttons = ReactExperiments.parametrize(exp, ['foo', 'test2'], React.createClass({
       render() {
         return (
           <div>
@@ -247,7 +247,7 @@ describe('Test parametrize component', () => {
   });
 
   it('should not log exposure if no valid params are passed', () => {
-    const Test = ReactExperiments.parametrizeComponent(exp, ['foobar'], React.createClass({
+    const Test = ReactExperiments.parametrize(exp, ['foobar'], React.createClass({
       render() {
         return (
           <div>

@@ -3,7 +3,7 @@ import experimentClass from '../src/experimentClass';
 import ABTest from '../src/abtest';
 import Parametrize from '../src/parametrize';
 import withExperimentParams from '../src/withExperimentParams';
-import parametrizeComponent from '../src/parametrizeComponent';
+import parametrize from '../src/parametrizeComponent';
 
 export default {
   ABTest: ABTest,
@@ -12,5 +12,5 @@ export default {
   experimentClass: experimentClass,
   Parametrize: Parametrize,
   withExperimentParams: withExperimentParams,
-  parametrizeComponent: parametrizeComponent
+  parametrize: parametrize
 };

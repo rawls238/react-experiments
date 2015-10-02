@@ -24,10 +24,10 @@ This library serves as a way to declaratively implement UI experiments that are 
 signupText = uniformChoice(choices=['Signup', 'Join now'])
 ```
 
-2) Wrap the component where you want to implement your UI experiment with the parametrizeComponent function provided by the library along with an instantiated experiment class and the specific parameter names that you want to parametrize the component with. As an example,
+2) Wrap the component where you want to implement your UI experiment with the parametrize function provided by the library along with an instantiated experiment class and the specific parameter names that you want to parametrize the component with. As an example,
 
 ```
-const Signup = parametrizeComponent(DummyExperiment, ['signupText'], React.createClass({
+const Signup = parametrize(DummyExperiment, ['signupText'], React.createClass({
   render() {
     return (
       <div>
@@ -47,7 +47,7 @@ To put it all together,
 
 exp = new DummyExperiment({ id: 'this_is_the_user_id'});
 
-let Signup = parametrizeComponent(exp, ['signupText'], React.createClass({
+let Signup = parametrize(exp, ['signupText'], React.createClass({
   render() {
     return (
       <div>
@@ -81,11 +81,11 @@ The implementation of all the components provided by this library are wrappers a
 
 There are two primary higher-order components to use for parametrization. 
 
-**parametrizeComponent**: The ```parametrizeComponent``` function takes an instantiated experiment class, either an experiment name or a list of params, and a React component. It takes the given component and sets the deterministically and randomly assigned experiment parameters of the experiment class as props.
+**parametrize**: The ```parametrize``` function takes an instantiated experiment class, either an experiment name or a list of params, and a React component. It takes the given component and sets the deterministically and randomly assigned experiment parameters of the experiment class as props.
 
-```parametrizeComponent(exp, ['signupText'], React.createClass({..}));```
+```parametrize(exp, ['signupText'], React.createClass({..}));```
 
-**withExperimentParams**: The ```withExperimentParams``` function is used in combination with the base ```Parametrize``` component. It is useful when running an experiment with nested components, but generally the ```parametrizeComponent``` function should be preferred.
+**withExperimentParams**: The ```withExperimentParams``` function is used in combination with the base ```Parametrize``` component. It is useful when running an experiment with nested components, but generally the ```parametrize``` function should be preferred.
 
 
 ```javascript
