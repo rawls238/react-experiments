@@ -35,7 +35,6 @@ const Signup = parametrize(DummyExperiment, ['signupText'], React.createClass({
       </div>
     );
   }
-}
 }));
 ```
 
@@ -55,7 +54,7 @@ let Signup = parametrize(exp, ['signupText'], React.createClass({
       </div>
     );
   }
-});
+}));
 
 let Parent = React.createClass({
   render() {
