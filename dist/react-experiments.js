@@ -62,7 +62,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var Variations = _interopRequireWildcard(__webpack_require__(1));
 
-	var experimentClass = _interopRequire(__webpack_require__(3));
+	var Experiment = _interopRequire(__webpack_require__(3));
 
 	var ABTest = _interopRequire(__webpack_require__(4));
 
@@ -76,7 +76,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  ABTest: ABTest,
 	  When: Variations.When,
 	  Default: Variations.Default,
-	  experimentClass: experimentClass,
+	  Experiment: Experiment,
 	  Parametrize: Parametrize,
 	  withExperimentParams: withExperimentParams,
 	  parametrize: parametrize
@@ -190,12 +190,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 
-	var experimentClass = (function () {
-	  function experimentClass() {
-	    _classCallCheck(this, experimentClass);
+	var Experiment = (function () {
+	  function Experiment() {
+	    _classCallCheck(this, Experiment);
 	  }
 
-	  _createClass(experimentClass, {
+	  _createClass(Experiment, {
 	    get: {
 	      value: function get(parameter) {
 	        throw "IMPLEMENT get";
@@ -223,12 +223,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  });
 
-	  return experimentClass;
+	  return Experiment;
 	})();
 
-	;
-
-	module.exports = experimentClass;
+	module.exports = Experiment;
 
 /***/ },
 /* 4 */
