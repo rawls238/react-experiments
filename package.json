@@ -48,8 +48,8 @@
     ]
   },
   "scripts": {
-    "test": "jest",
-    "build-and-test": "sh build.sh"
+    "test": "sh build.sh && jest",
+    "build": "sh build.sh"
   },
   "license": "MIT"
 }
