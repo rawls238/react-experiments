@@ -4,7 +4,7 @@ import ReactExperiments from '../dist/react-experiments';
 let logs = [];
 const paramKey = 'foo';
 const paramVal = 'bar';
-class experiment extends ReactExperiments.experimentClass {
+class Experiment extends ReactExperiments.Experiment {
   get(param) {
     if (param === paramKey) {
       return paramVal;
@@ -24,7 +24,7 @@ class experiment extends ReactExperiments.experimentClass {
   }
 }
 
-const expClass = new experiment();
+const exp = new Experiment();
 const TestUtils = React.addons.TestUtils;
 describe('Test experiment', () => {
   beforeEach(() => {
@@ -47,7 +47,7 @@ describe('Test experiment', () => {
     });
 
     const parametrized = TestUtils.renderIntoDocument(
-      <ReactExperiments.Parametrize experiment={expClass} params={[paramKey]}>
+      <ReactExperiments.Parametrize experiment={exp} params={[paramKey]}>
         <Comp />
       </ReactExperiments.Parametrize>
     );

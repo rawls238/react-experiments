@@ -1,6 +1,6 @@
 {
   "name": "react-experiments",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "dependencies": {
     "react": "^0.13.3"
   },
@@ -48,8 +48,8 @@
     ]
   },
   "scripts": {
-    "test": "jest",
-    "build-and-test": "sh build.sh"
+    "test": "sh build.sh && jest",
+    "build": "sh build.sh"
   },
   "license": "MIT"
 }

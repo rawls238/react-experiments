@@ -1,4 +1,4 @@
-class experimentClass {
+export default class Experiment {
   get(parameter) {
     throw "IMPLEMENT get";
   }
@@ -19,5 +19,3 @@ class experimentClass {
     throw "IMPLEMENT shouldFetchExperimentParameter";
   }
 };
-
-export default experimentClass;
