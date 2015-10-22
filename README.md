@@ -11,14 +11,14 @@ npm install react-experiments
 
 # Usage
 
-react-experiments was built to work with [PlanOut.js](https://www.github.com/HubSpot/PlanOut.js) and most of its constructs are inspired by the structure of PlanOut.js. This library will work out of the box if you pass it an instantiated PlanOut Namespace or Experiment class, but if you want to use your own methods of assigning experiment parameters and logging exposure then you can extend the base [experiment class](https://github.com/HubSpot/react-experiments/blob/master/src/experimentClass.js) and pass that as the experiment class prop.
+react-experiments was built to work with [PlanOut.js](https://www.github.com/HubSpot/PlanOut.js) and most of its constructs are inspired by the structure of PlanOut.js. This library will work out of the box if you pass it an instantiated PlanOut Namespace or Experiment class, but if you want to use your own methods of assigning experiment parameters and logging exposure then you can extend the base [experiment class](https://github.com/HubSpot/react-experiments/blob/master/src/Experiment.js) and pass that as the experiment class prop.
 
 
 ## Implementing a simple experiment
 
 This library serves as a way to declaratively implement UI experiments that are defined via PlanOut. The standard usage of this library is as follows:
 
-1) Define experiment via PlanOut script / API. The PlanOut parameters that you set should map to the props on which you want to run an experiment. Let's use the [sample PlanOut.js experiment](https://github.com/HubSpot/PlanOut.js/blob/master/examples/sample_planout_es5.js#L41) as an example, which is effectively: 
+1) Define experiment via PlanOut script / API. The PlanOut parameters that you set should map to the props on which you want to run an experiment. Let's use the [sample PlanOut.js experiment](https://github.com/HubSpot/PlanOut.js/blob/master/examples/sample_planout_es5.js#L41) as an example, which is effectively:
 
 ```
 signupText = uniformChoice(choices=['Signup', 'Join now'])
@@ -69,7 +69,7 @@ let Parent = React.createClass({
 
 The implementation of all the components provided by this library are wrappers around a base ```Parametrize``` component. The ```Parametrize``` component allows for parametrizing a given component with experiment parameters. The following are the props that the ```Parametrize``` component takes:
 
-**experiment**: This is an instance of a PlanOut.js experiment / namespace class or the base experimentClass. [REQUIRED]
+**experiment**: This is an instance of a PlanOut.js experiment/namespace class or the base Experiment class. [REQUIRED]
 
 
 **params**: This is the list of experiment parameters that you want to use to parametrize the component. They should correspond to the parameter names defined in your PlanOut script / experiment definition. [REQUIRED]
@@ -78,7 +78,7 @@ The implementation of all the components provided by this library are wrappers a
 
 ### Higher-order Parametrization Components
 
-There are two primary higher-order components to use for parametrization. 
+There are two primary higher-order components to use for parametrization.
 
 **parametrize**: The ```parametrize``` function takes an instantiated experiment class, either an experiment name or a list of params, and a React component. It takes the given component and sets the deterministically and randomly assigned experiment parameters of the experiment class as props.
 
@@ -152,7 +152,7 @@ The ABTest component above branches off the value of ```this.props.experiment.ge
 
 The ABTest component takes the following as props:
 
-**experiment** - an instantiated PlanOut namespace or experiment class or a custom experimentClass. [REQUIRED]
+**experiment** - an instantiated PlanOut namespace/experiment class or a custom Experiment class. [REQUIRED]
 
 **on** - the parameter name to "branch" off [REQUIRED]
 
