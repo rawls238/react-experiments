@@ -1,7 +1,9 @@
 react-experiments
 ====================
 
-react-experiments is a Javascript library that assists in defining and managing UI experiments in React.
+react-experiments is a JavaScript library that assists in defining and managing UI experiments in React.
+
+For additional context behind why we built this, check out the accompanying [blog post](http://product.hubspot.com/blog/product-experimentation-with-planout-and-react.js)
 
 # Installation
 
