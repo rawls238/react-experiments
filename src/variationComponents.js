@@ -60,7 +60,7 @@ export const Default = React.createClass({
   },
 
   render() {
-    if (this.context.experimentProps.hasRendered) {
+    if (this.context.experimentProps.hasRendered || !this.context.experimentProps.shouldEnroll) {
       return null;
     }
 
