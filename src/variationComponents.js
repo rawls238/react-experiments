@@ -23,10 +23,11 @@ export const When = React.createClass({
   },
 
   shouldRenderVariation() {
-    const value = this.props.value;
-    const paramName = this.context.experimentProps.on;
+    const experimentProps = this.context.experimentProps || {};
+    const experimentParameters = this.context.experimentParameters || {};
+    const experimentParameterMatchesValue = experimentParameters[experimentProps.on] === this.props.value;
 
-    if (this.context.experimentParameters && this.context.experimentParameters[paramName] === value) {
+    if (experimentProps.shouldEnroll && experimentParameters && experimentParameterMatchesValue) {
       this.setState({
         shouldRender: true
       });
@@ -44,7 +45,7 @@ export const When = React.createClass({
   },
 
   render() {
-    if (!this.state.shouldRender || !this.props.shouldEnroll) {
+    if (!this.state.shouldRender) {
       return null;
     }
 
@@ -62,7 +63,7 @@ export const Default = React.createClass({
   },
 
   render() {
-    if (this.context.experimentProps.hasRendered || !this.context.experimentProps.shouldEnroll) {
+    if (this.context.experimentProps.hasRendered) {
       return null;
     }
 

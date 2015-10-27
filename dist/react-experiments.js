@@ -121,10 +121,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 
 	  shouldRenderVariation: function shouldRenderVariation() {
-	    var value = this.props.value;
-	    var paramName = this.context.experimentProps.on;
+	    var experimentProps = this.context.experimentProps || {};
+	    var experimentParameters = this.context.experimentParameters || {};
+	    var experimentParameterMatchesValue = experimentParameters[experimentProps.on] === this.props.value;
 
-	    if (this.context.experimentParameters && this.context.experimentParameters[paramName] === value) {
+	    if (experimentProps.shouldEnroll && experimentParameters && experimentParameterMatchesValue) {
 	      this.setState({
 	        shouldRender: true
 	      });
@@ -142,7 +143,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 
 	  render: function render() {
-	    if (!this.state.shouldRender || !this.props.shouldEnroll) {
+	    if (!this.state.shouldRender) {
 	      return null;
 	    }
 
@@ -163,7 +164,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 
 	  render: function render() {
-	    if (this.context.experimentProps.hasRendered || !this.context.experimentProps.shouldEnroll) {
+	    if (this.context.experimentProps.hasRendered) {
 	      return null;
 	    }
 
