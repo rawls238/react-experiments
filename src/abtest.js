@@ -14,7 +14,7 @@ const ABTest = React.createClass({
     };
   },
 
-  enrolledInVariation() {
+  childHasRendered() {
     if (!this.state.hasRendered) {
       this.setState({
         hasRendered: true
@@ -38,7 +38,8 @@ const ABTest = React.createClass({
         experiment={experiment} 
         params={[on]}
         on={on} 
-        enrolledInVariation={this.enrolledInVariation} 
+        shouldEnroll={shouldEnroll} 
+        childHasRendered={this.childHasRendered} 
         hasRendered={this.state.hasRendered}>
 
           {this.props.children}

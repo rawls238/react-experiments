@@ -112,7 +112,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  componentWillUpdate: function componentWillUpdate(props, state) {
 	    if (state.shouldRender) {
-	      this.context.experimentProps.enrolledInVariation();
+	      this.context.experimentProps.childHasRendered();
 	    }
 	  },
 
@@ -123,6 +123,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  shouldRenderVariation: function shouldRenderVariation() {
 	    var value = this.props.value;
 	    var paramName = this.context.experimentProps.on;
+
 	    if (this.context.experimentParameters && this.context.experimentParameters[paramName] === value) {
 	      this.setState({
 	        shouldRender: true
@@ -135,12 +136,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (React.isValidElement(child)) {
 	        return React.addons.cloneWithProps(child, {});
 	      }
+
 	      return child;
 	    });
 	  },
 
 	  render: function render() {
-	    if (!this.state.shouldRender) {
+	    if (!this.state.shouldRender || !this.props.shouldEnroll) {
 	      return null;
 	    }
 
@@ -161,7 +163,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 
 	  render: function render() {
-	    if (this.context.experimentProps.hasRendered) {
+	    if (this.context.experimentProps.hasRendered || !this.context.experimentProps.shouldEnroll) {
 	      return null;
 	    }
 
@@ -255,7 +257,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	  },
 
-	  enrolledInVariation: function enrolledInVariation() {
+	  childHasRendered: function childHasRendered() {
 	    if (!this.state.hasRendered) {
 	      this.setState({
 	        hasRendered: true
@@ -269,9 +271,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var shouldEnroll = _props.shouldEnroll;
 	    var experiment = _props.experiment;
 
-	    if (!shouldEnroll) {
-	      return null;
-	    } else if (!experiment) {
+	    if (!experiment) {
 	      console.error("You must pass in an experiment instance as a prop");
 	      return null;
 	    } else if (!on) {
@@ -285,7 +285,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        experiment: experiment,
 	        params: [on],
 	        on: on,
-	        enrolledInVariation: this.enrolledInVariation,
+	        shouldEnroll: shouldEnroll,
+	        childHasRendered: this.childHasRendered,
 	        hasRendered: this.state.hasRendered },
 	      this.props.children
 	    );
@@ -368,19 +369,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 
 	  renderExperiment: function renderExperiment() {
-	    var _this = this;
-
 	    if (!this.state.experimentParameters) {
 	      return null;
 	    }
 
-	    var passThrough = this.props._passThrough;
+	    var passThroughParameters = this.props._passThrough ? this.state.experimentParameters : {};
 	    var renderedChildren = React.Children.map(this.props.children, function (child) {
-	      if (passThrough) {
-	        return React.addons.cloneWithProps(child, _this.state.experimentParameters);
-	      } else {
-	        return React.addons.cloneWithProps(child, {});
-	      }
+	      return React.addons.cloneWithProps(child, passThroughParameters);
 	    });
 
 	    return React.createElement(
