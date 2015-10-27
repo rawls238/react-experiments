@@ -67,7 +67,7 @@ describe('Test experiment component', () => {
 
   it('renders nothing with no default variation', () => {
     const experimentComponent = TestUtils.renderIntoDocument(
-      <ReactExperiments.ABTest experiment={exp} on='foob' >
+      <ReactExperiments.ABTest experiment={exp} on='foob'>
         <ReactExperiments.When value = 'Variation B'>
           <div className='foobar'>
             test
@@ -108,6 +108,27 @@ describe('Test experiment component', () => {
     expect(TestUtils.scryRenderedDOMComponentsWithClass(
       experimentComponent2,
       'foo'
+    ).length).toBe(1);
+  });
+
+  it('renders default variation if no enrollment', () => {
+    const experimentComponent = TestUtils.renderIntoDocument(
+      <ReactExperiments.ABTest experiment={exp} on='foob' shouldEnroll={false}>
+        <ReactExperiments.When value = 'Variation B'>
+          <div className='foobar'>
+            test
+          </div>
+        </ReactExperiments.When>
+        <ReactExperiments.Default>
+          <div className='default-div'>
+            Test
+          </div>
+        </ReactExperiments.Default>
+      </ReactExperiments.ABTest>
+    );
+    expect(TestUtils.scryRenderedDOMComponentsWithClass(
+      experimentComponent,
+      'default-div'
     ).length).toBe(1);
   });
 });

@@ -14,7 +14,7 @@ export const When = React.createClass({
 
   componentWillUpdate(props, state) {
     if (state.shouldRender) {
-      this.context.experimentProps.enrolledInVariation();
+      this.context.experimentProps.childHasRendered();
     }
   },
 
@@ -23,9 +23,11 @@ export const When = React.createClass({
   },
 
   shouldRenderVariation() {
-    const value = this.props.value;
-    const paramName = this.context.experimentProps.on;
-    if (this.context.experimentParameters && this.context.experimentParameters[paramName] === value) {
+    const experimentProps = this.context.experimentProps || {};
+    const experimentParameters = this.context.experimentParameters || {};
+    const experimentParameterMatchesValue = experimentParameters[experimentProps.on] === this.props.value;
+
+    if (experimentProps.shouldEnroll && experimentParameters && experimentParameterMatchesValue) {
       this.setState({
         shouldRender: true
       });
@@ -37,6 +39,7 @@ export const When = React.createClass({
       if (React.isValidElement(child)) {
         return React.addons.cloneWithProps(child, {});
       }
+
       return child;
     });
   },

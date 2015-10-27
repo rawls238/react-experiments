@@ -14,7 +14,7 @@ const ABTest = React.createClass({
     };
   },
 
-  enrolledInVariation() {
+  childHasRendered() {
     if (!this.state.hasRendered) {
       this.setState({
         hasRendered: true
@@ -25,9 +25,7 @@ const ABTest = React.createClass({
   renderExposedVariation() {
     const { on, shouldEnroll, experiment } = this.props;
 
-    if (!shouldEnroll) {
-      return null;
-    } else if (!experiment) {
+    if (!experiment) {
       console.error("You must pass in an experiment instance as a prop");
       return null;
     } else if (!on) {
@@ -40,7 +38,8 @@ const ABTest = React.createClass({
         experiment={experiment} 
         params={[on]}
         on={on} 
-        enrolledInVariation={this.enrolledInVariation} 
+        shouldEnroll={shouldEnroll} 
+        childHasRendered={this.childHasRendered} 
         hasRendered={this.state.hasRendered}>
 
           {this.props.children}
