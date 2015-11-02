@@ -243,12 +243,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	var ABTest = React.createClass({
 	  displayName: "ABTest",
 
-	  getDefaultProps: function getDefaultProps() {
-	    return {
-	      shouldEnroll: true
-	    };
-	  },
-
 	  getInitialState: function getInitialState() {
 	    return {
 	      hasRendered: false
@@ -266,12 +260,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  renderExposedVariation: function renderExposedVariation() {
 	    var _props = this.props;
 	    var on = _props.on;
-	    var shouldEnroll = _props.shouldEnroll;
 	    var experiment = _props.experiment;
 
-	    if (!shouldEnroll) {
-	      return null;
-	    } else if (!experiment) {
+	    if (!experiment) {
 	      console.error("You must pass in an experiment instance as a prop");
 	      return null;
 	    } else if (!on) {

@@ -80,34 +80,4 @@ describe('Test experiment component', () => {
       'foobar'
     ).length).toBe(0);
   });
-
-  it('handles enrollment properly', () => {
-    const experimentComponent = TestUtils.renderIntoDocument(
-      <ReactExperiments.ABTest on='foo' experiment={exp} shouldEnroll={false}>
-        <ReactExperiments.When value='Variation B'>
-          <div className='foo'>
-            test
-          </div>
-        </ReactExperiments.When>
-      </ReactExperiments.ABTest>
-    );
-    expect(TestUtils.scryRenderedDOMComponentsWithClass(
-      experimentComponent,
-      'foo'
-    ).length).toBe(0);
-
-    const experimentComponent2 = TestUtils.renderIntoDocument(
-      <ReactExperiments.ABTest on='foo'experiment={exp} shouldEnroll={true}>
-        <ReactExperiments.When value='Variation B'>
-          <div className='foo'>
-            test
-          </div>
-        </ReactExperiments.When>
-      </ReactExperiments.ABTest>
-    );
-    expect(TestUtils.scryRenderedDOMComponentsWithClass(
-      experimentComponent2,
-      'foo'
-    ).length).toBe(1);
-  });
 });
