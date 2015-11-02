@@ -134,7 +134,7 @@ There are two common types of experimental parameters:
 While the core component of this library focuses on the first type of parameter, it also includes some convenience components built around the Parametrize component for running "branching" experiments using the ```ABTest``` component.
 
 ```javascript
-<ABTest on='foo' experiment={TestNamespace} shouldEnroll={this.shouldEnroll()}>
+<ABTest on='foo' experiment={TestNamespace}>
   <When value='foobar'>
     variation 1
   </When>
@@ -158,15 +158,13 @@ The ABTest component takes the following as props:
 
 **on** - the parameter name to "branch" off [REQUIRED]
 
-**shouldEnroll** - this determines whether or not the user should be enrolled in the experiment or not. It defaults to true. If false is passed, nothing is returned and no exposure is logged. [OPTIONAL]
-
 ## Customized Experiment Components
 
 If you want to create your own experiment component you can extend the base Parametrize component.
 
 ## Logging
 
-react-experiments deals with logging experiment exposure. Using the base ```Parametrize``` component always triggers an exposure log when the component is mounted. The ```ABTest``` component also does the same thing unless the ```shouldEnroll``` prop is false.
+react-experiments deals with logging experiment exposure. All the components provided by this library trigger an exposure log when the component is mounted.
 
 ## Development
 

@@ -2,12 +2,6 @@ import React from 'react';
 import Parametrize from './parametrize';
 
 const ABTest = React.createClass({
-  getDefaultProps() {
-    return {
-      shouldEnroll: true
-    };
-  },
-
   getInitialState() {
     return {
       hasRendered: false
@@ -23,11 +17,9 @@ const ABTest = React.createClass({
   },
 
   renderExposedVariation() {
-    const { on, shouldEnroll, experiment } = this.props;
+    const { on, experiment } = this.props;
 
-    if (!shouldEnroll) {
-      return null;
-    } else if (!experiment) {
+    if (!experiment) {
       console.error("You must pass in an experiment instance as a prop");
       return null;
     } else if (!on) {
