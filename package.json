@@ -19,10 +19,13 @@
     "url": "https://github.com/HubSpot/react-experiments"
   },
   "keywords": [
-    "ab testing",
+    "ab",
+    "a/b",
     "split testing",
     "ui experiments",
-    "experiments react"
+    "experiments react",
+    "react-component",
+    "component"
   ],
   "authors": [
     "Gustavo Vargas",
