@@ -93,7 +93,7 @@ There are two primary higher-order components to use for parametrization.
 const Parent = React.createClass({
   render() {
     return (
-      <Parametrize experiment={exp} params=['signup_form_text', 'signup_nav_text']>
+      <Parametrize experiment={exp} params={['signup_form_text', 'signup_nav_text']}>
         <SignupHeader />
         <SignupForm />
       </Parametrize>
