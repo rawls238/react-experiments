@@ -133,7 +133,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  renderChildren: function renderChildren() {
 	    return React.Children.map(this.props.children, function (child) {
 	      if (React.isValidElement(child)) {
-	        return React.addons.cloneWithProps(child, {});
+	        return React.cloneElement(child, {});
 	      }
 	      return child;
 	    });
@@ -368,9 +368,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var passThrough = this.props._passThrough;
 	    var renderedChildren = React.Children.map(this.props.children, function (child) {
 	      if (passThrough) {
-	        return React.addons.cloneWithProps(child, _this.state.experimentParameters);
+	        return React.cloneElement(child, _this.state.experimentParameters);
 	      } else {
-	        return React.addons.cloneWithProps(child, {});
+	        return React.cloneElement(child, {});
 	      }
 	    });
 

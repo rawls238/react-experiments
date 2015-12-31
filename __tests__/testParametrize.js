@@ -1,9 +1,9 @@
-import React from 'react/addons';
+import React from 'react';
+import TestUtils from 'react-addons-test-utils';
 import {DefaultExperiment, expInitializeObject, getLogLength, clearLogs} from './utils/experimentUtils';
 import ReactExperiments from '../dist/react-experiments';
 
 let exp;
-const TestUtils = React.addons.TestUtils;
 describe('Test parametrize component', () => {
 
   beforeEach(() => {
@@ -149,14 +149,14 @@ describe('Test parametrize component', () => {
 
     //click the button and the rendering component should have rendered
     const button = TestUtils.scryRenderedDOMComponentsWithClass(experimentComponent, 'input-button')[0];
-    React.addons.TestUtils.Simulate.click(button.getDOMNode());
+    TestUtils.Simulate.click(button);
     expect(TestUtils.scryRenderedDOMComponentsWithClass(
       experimentComponent,
       exp.get('foo')
     ).length).toBe(1);
 
     //click it again and it should be gone
-    React.addons.TestUtils.Simulate.click(button.getDOMNode());
+    TestUtils.Simulate.click(button);
     expect(TestUtils.scryRenderedDOMComponentsWithClass(
       experimentComponent,
       exp.get('foo')

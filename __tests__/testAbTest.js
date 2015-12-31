@@ -1,9 +1,9 @@
-import React from 'react/addons';
+import React from 'react';
+import TestUtils from 'react-addons-test-utils';
 import {DefaultExperiment, expInitializeObject, clearLogs, getLogLength} from './utils/experimentUtils';
 import ReactExperiments from '../dist/react-experiments';
 
 let exp;
-const TestUtils = React.addons.TestUtils;
 describe('Test experiment component', () => {
 
   beforeEach(() => {
