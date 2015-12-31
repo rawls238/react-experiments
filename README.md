@@ -1,7 +1,7 @@
 react-experiments
 ====================
 
-react-experiments is a JavaScript library that assists in defining and managing UI experiments in React.
+react-experiments is a set of React components for implementing UI experiments.
 
 For additional context behind why we built this, check out the accompanying [blog post](http://product.hubspot.com/blog/product-experimentation-with-planout-and-react.js)
 
@@ -13,8 +13,9 @@ npm install react-experiments
 
 # Usage
 
-react-experiments was built to work with [PlanOut.js](https://www.github.com/HubSpot/PlanOut.js) and most of its constructs are inspired by the structure of PlanOut.js. This library will work out of the box if you pass it an instantiated PlanOut Namespace or Experiment class, but if you want to use your own methods of assigning experiment parameters and logging exposure then you can extend the base [experiment class](https://github.com/HubSpot/react-experiments/blob/master/src/Experiment.js) and pass that as the experiment class prop.
+**If you are using React 0.13 the latest supported version is 3.0.1**
 
+react-experiments was built to work with [PlanOut.js](https://www.github.com/HubSpot/PlanOut.js) and most of its constructs are inspired by the structure of PlanOut.js. This library will work out of the box if you pass it an instantiated PlanOut Namespace or Experiment class, but if you want to use your own methods of assigning experiment parameters and logging exposure then you can extend the base [experiment class](https://github.com/HubSpot/react-experiments/blob/master/src/Experiment.js) and pass that as the experiment class prop.
 
 ## Implementing a simple experiment
 
