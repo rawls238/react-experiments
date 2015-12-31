@@ -2,7 +2,7 @@
   "name": "react-experiments",
   "version": "3.0.1",
   "dependencies": {
-    "react": "^0.13.3"
+    "react": "^0.14.3"
   },
   "devDependencies": {
     "babel-core": "^4.0.1",
@@ -10,7 +10,8 @@
     "webpack": "^1.5.3",
     "babel-jest": "5.0.1",
     "planout": "^1.3.0",
-    "jest-cli": "~0.5.8"
+    "jest-cli": "~0.5.8",
+    "react-addons-test-utils": "^0.14.5"
   },
   "description": "react-experiments is a Javascript library that assists in defining and managing UI experiments in React.",
   "main": "dist/react-experiments.js",

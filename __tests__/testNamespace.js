@@ -1,8 +1,8 @@
-import React from 'react/addons';
+import React from 'react';
+import TestUtils from 'react-addons-test-utils';
 import {DefaultNamespace, DefaultEmptyNamespace, expInitializeObject, clearLogs, getLogLength} from './utils/experimentUtils';
 import ReactExperiments from '../dist/react-experiments';
 
-const TestUtils = React.addons.TestUtils;
 describe('Test that experiment component works with namespaces', () => {
 
   beforeEach(() => {

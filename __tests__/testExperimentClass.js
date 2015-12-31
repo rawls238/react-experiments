@@ -1,4 +1,5 @@
-import React from 'react/addons';
+import React from 'react';
+import TestUtils from 'react-addons-test-utils';
 import ReactExperiments from '../dist/react-experiments';
 
 let logs = [];
@@ -25,7 +26,6 @@ class Experiment extends ReactExperiments.Experiment {
 }
 
 const exp = new Experiment();
-const TestUtils = React.addons.TestUtils;
 describe('Test experiment', () => {
   beforeEach(() => {
     logs = [];

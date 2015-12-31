@@ -35,7 +35,7 @@ export const When = React.createClass({
   renderChildren() {
     return React.Children.map(this.props.children, (child) => {
       if (React.isValidElement(child)) {
-        return React.addons.cloneWithProps(child, {});
+        return React.cloneElement(child, {});
       }
       return child;
     });
