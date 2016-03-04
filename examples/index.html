@@ -7,7 +7,8 @@
 </head>
 <body>
   <div class="examples-container"></div>
-  <script src="http://cdn.jsdelivr.net/react/0.13.3/react-with-addons.js"></script>
+  <script src="http://cdn.jsdelivr.net/react/0.14.3/react.js"></script>
+  <script src="http://cdn.jsdelivr.net/react/0.14.3/react-dom.js"></script>
   <script src="http://cdn.jsdelivr.net/react/0.13.3/JSXTransformer.js"></script>
   <script src="../node_modules/planout/dist/planout.js"></script>
   <script src="../dist/react-experiments.js"></script>
@@ -166,7 +167,7 @@
 
     });
 
-    React.render(
+    ReactDOM.render(
       <ExperimentExamples/>,
       document.getElementsByClassName('examples-container')[0]
     );
