@@ -8,7 +8,8 @@ module.exports = {
         loader: 'babel-loader',
         query: {
           cacheDirectory: true,
-          presets: ['react', 'es2015', 'jest']
+          presets: ['react', 'es2015', 'jest'],
+          plugins: ['add-module-exports']
         }
       },
     ]

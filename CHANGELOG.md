@@ -1,3 +1,6 @@
+# Changes in 4.1.0
+- Now transpile using babel 6 instead of babel 4
+
 # Changes in 3.0.1
 - Removed the ```shouldEnroll``` prop. If you want to use conditional enrollment then you should register the experimental input to the experiment you care about and then conditionally unenroll users in your PlanOut experiment definition (see here for more information: https://github.com/HubSpot/PlanOut.js/pull/15)
 

@@ -97,6 +97,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  withExperimentParams: _withExperimentParams2.default,
 	  parametrize: _parametrizeComponent2.default
 	};
+	module.exports = exports['default'];
 
 /***/ },
 /* 1 */
@@ -244,6 +245,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	exports.default = Experiment;
 	;
+	module.exports = exports["default"];
 
 /***/ },
 /* 4 */
@@ -310,6 +312,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 
 	exports.default = ABTest;
+	module.exports = exports['default'];
 
 /***/ },
 /* 5 */
@@ -412,6 +415,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 
 	exports.default = Parametrize;
+	module.exports = exports["default"];
 
 /***/ },
 /* 6 */
@@ -442,6 +446,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  });
 	};
+
+	module.exports = exports['default'];
 
 /***/ },
 /* 7 */
@@ -474,6 +480,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  });
 	};
+
+	module.exports = exports['default'];
 
 /***/ }
 /******/ ])
