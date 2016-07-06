@@ -54,60 +54,79 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 
-	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
+	var _variationComponents = __webpack_require__(1);
 
-	var Variations = _interopRequireWildcard(__webpack_require__(1));
+	var Variations = _interopRequireWildcard(_variationComponents);
 
-	var Experiment = _interopRequire(__webpack_require__(3));
+	var _Experiment = __webpack_require__(3);
 
-	var ABTest = _interopRequire(__webpack_require__(4));
+	var _Experiment2 = _interopRequireDefault(_Experiment);
 
-	var Parametrize = _interopRequire(__webpack_require__(5));
+	var _abtest = __webpack_require__(4);
 
-	var withExperimentParams = _interopRequire(__webpack_require__(6));
+	var _abtest2 = _interopRequireDefault(_abtest);
 
-	var parametrize = _interopRequire(__webpack_require__(7));
+	var _parametrize = __webpack_require__(5);
 
-	module.exports = {
-	  ABTest: ABTest,
+	var _parametrize2 = _interopRequireDefault(_parametrize);
+
+	var _withExperimentParams = __webpack_require__(6);
+
+	var _withExperimentParams2 = _interopRequireDefault(_withExperimentParams);
+
+	var _parametrizeComponent = __webpack_require__(7);
+
+	var _parametrizeComponent2 = _interopRequireDefault(_parametrizeComponent);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	exports.default = {
+	  ABTest: _abtest2.default,
 	  When: Variations.When,
 	  Default: Variations.Default,
-	  Experiment: Experiment,
-	  Parametrize: Parametrize,
-	  withExperimentParams: withExperimentParams,
-	  parametrize: parametrize
+	  Experiment: _Experiment2.default,
+	  Parametrize: _parametrize2.default,
+	  withExperimentParams: _withExperimentParams2.default,
+	  parametrize: _parametrizeComponent2.default
 	};
 
 /***/ },
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
-
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.Default = exports.When = undefined;
 
-	var React = _interopRequire(__webpack_require__(2));
+	var _react = __webpack_require__(2);
 
-	var When = React.createClass({
-	  displayName: "When",
+	var _react2 = _interopRequireDefault(_react);
 
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var When = exports.When = _react2.default.createClass({
+	  displayName: 'When',
 	  getInitialState: function getInitialState() {
 	    return {
 	      shouldRender: false
 	    };
 	  },
 
+
 	  contextTypes: {
-	    experimentParameters: React.PropTypes.object.isRequired,
-	    experimentProps: React.PropTypes.object.isRequired
+	    experimentParameters: _react2.default.PropTypes.object.isRequired,
+	    experimentProps: _react2.default.PropTypes.object.isRequired
 	  },
 
 	  componentWillUpdate: function componentWillUpdate(props, state) {
@@ -115,11 +134,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      this.context.experimentProps.enrolledInVariation();
 	    }
 	  },
-
 	  componentDidMount: function componentDidMount() {
 	    this.shouldRenderVariation();
 	  },
-
 	  shouldRenderVariation: function shouldRenderVariation() {
 	    var value = this.props.value;
 	    var paramName = this.context.experimentProps.on;
@@ -129,35 +146,32 @@ return /******/ (function(modules) { // webpackBootstrap
 	      });
 	    }
 	  },
-
 	  renderChildren: function renderChildren() {
-	    return React.Children.map(this.props.children, function (child) {
-	      if (React.isValidElement(child)) {
-	        return React.cloneElement(child, {});
+	    return _react2.default.Children.map(this.props.children, function (child) {
+	      if (_react2.default.isValidElement(child)) {
+	        return _react2.default.cloneElement(child, {});
 	      }
 	      return child;
 	    });
 	  },
-
 	  render: function render() {
 	    if (!this.state.shouldRender) {
 	      return null;
 	    }
 
-	    return React.createElement(
-	      "span",
-	      { className: "experiment-variation-component" },
+	    return _react2.default.createElement(
+	      'span',
+	      { className: 'experiment-variation-component' },
 	      this.renderChildren()
 	    );
 	  }
 	});
 
-	exports.When = When;
-	var Default = React.createClass({
-	  displayName: "Default",
+	var Default = exports.Default = _react2.default.createClass({
+	  displayName: 'Default',
 
 	  contextTypes: {
-	    experimentProps: React.PropTypes.object.isRequired
+	    experimentProps: _react2.default.PropTypes.object.isRequired
 	  },
 
 	  render: function render() {
@@ -165,14 +179,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return null;
 	    }
 
-	    return React.createElement(
-	      "span",
+	    return _react2.default.createElement(
+	      'span',
 	      null,
 	      this.props.children
 	    );
 	  }
 	});
-	exports.Default = Default;
 
 /***/ },
 /* 2 */
@@ -186,69 +199,79 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 
-	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 
-	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var Experiment = (function () {
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var Experiment = function () {
 	  function Experiment() {
 	    _classCallCheck(this, Experiment);
 	  }
 
-	  _createClass(Experiment, {
-	    get: {
-	      value: function get(parameter) {
-	        throw "IMPLEMENT get";
-	      }
-	    },
-	    logExposure: {
-	      value: function logExposure(opts) {
-	        throw "IMPLEMENT logExposure";
-	      }
-	    },
-	    getName: {
-	      value: function getName() {
-	        throw "IMPLEMENT getName";
-	      }
-	    },
-	    previouslyLogged: {
-	      value: function previouslyLogged() {
-	        throw "IMPLEMENT previouslyLogged";
-	      }
-	    },
-	    shouldFetchExperimentParameter: {
-	      value: function shouldFetchExperimentParameter(name) {
-	        throw "IMPLEMENT shouldFetchExperimentParameter";
-	      }
+	  _createClass(Experiment, [{
+	    key: "get",
+	    value: function get(parameter) {
+	      throw "IMPLEMENT get";
 	    }
-	  });
+	  }, {
+	    key: "logExposure",
+	    value: function logExposure(opts) {
+	      throw "IMPLEMENT logExposure";
+	    }
+	  }, {
+	    key: "getName",
+	    value: function getName() {
+	      throw "IMPLEMENT getName";
+	    }
+	  }, {
+	    key: "previouslyLogged",
+	    value: function previouslyLogged() {
+	      throw "IMPLEMENT previouslyLogged";
+	    }
+	  }, {
+	    key: "shouldFetchExperimentParameter",
+	    value: function shouldFetchExperimentParameter(name) {
+	      throw "IMPLEMENT shouldFetchExperimentParameter";
+	    }
+	  }]);
 
 	  return Experiment;
-	})();
+	}();
 
-	module.exports = Experiment;
+	exports.default = Experiment;
+	;
 
 /***/ },
 /* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 
-	var React = _interopRequire(__webpack_require__(2));
+	var _react = __webpack_require__(2);
 
-	var Parametrize = _interopRequire(__webpack_require__(5));
+	var _react2 = _interopRequireDefault(_react);
 
-	var ABTest = React.createClass({
-	  displayName: "ABTest",
+	var _parametrize = __webpack_require__(5);
 
+	var _parametrize2 = _interopRequireDefault(_parametrize);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var ABTest = _react2.default.createClass({
+	  displayName: 'ABTest',
 	  getInitialState: function getInitialState() {
 	    return {
 	      hasRendered: false
 	    };
 	  },
-
 	  enrolledInVariation: function enrolledInVariation() {
 	    if (!this.state.hasRendered) {
 	      this.setState({
@@ -256,11 +279,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	      });
 	    }
 	  },
-
 	  renderExposedVariation: function renderExposedVariation() {
 	    var _props = this.props;
 	    var on = _props.on;
 	    var experiment = _props.experiment;
+
 
 	    if (!experiment) {
 	      console.error("You must pass in an experiment instance as a prop");
@@ -270,8 +293,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return null;
 	    }
 
-	    return React.createElement(
-	      Parametrize,
+	    return _react2.default.createElement(
+	      _parametrize2.default,
 	      {
 	        experiment: experiment,
 	        params: [on],
@@ -281,13 +304,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	      this.props.children
 	    );
 	  },
-
 	  render: function render() {
 	    return this.renderExposedVariation();
 	  }
 	});
 
-	module.exports = ABTest;
+	exports.default = ABTest;
 
 /***/ },
 /* 5 */
@@ -295,22 +317,28 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 
-	var React = _interopRequire(__webpack_require__(2));
+	var _react = __webpack_require__(2);
 
-	var Parametrize = React.createClass({
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Parametrize = _react2.default.createClass({
 	  displayName: "Parametrize",
-
 	  getInitialState: function getInitialState() {
 	    return {
 	      experimentParameters: null
 	    };
 	  },
 
+
 	  childContextTypes: {
-	    experimentParameters: React.PropTypes.object,
-	    experimentProps: React.PropTypes.object.isRequired
+	    experimentParameters: _react2.default.PropTypes.object,
+	    experimentProps: _react2.default.PropTypes.object.isRequired
 	  },
 
 	  getChildContext: function getChildContext() {
@@ -319,15 +347,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	      experimentProps: this.props
 	    };
 	  },
-
 	  componentWillMount: function componentWillMount() {
 	    this.fetchParameters();
 	  },
-
 	  fetchParameters: function fetchParameters() {
 	    var _props = this.props;
 	    var experiment = _props.experiment;
 	    var params = _props.params;
+
 
 	    if (!experiment || !experiment.get) {
 	      console.error("You must pass in an experiment instance as a prop");
@@ -357,7 +384,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      experimentParameters: paramsObj
 	    });
 	  },
-
 	  renderExperiment: function renderExperiment() {
 	    var _this = this;
 
@@ -366,48 +392,53 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    var passThrough = this.props._passThrough;
-	    var renderedChildren = React.Children.map(this.props.children, function (child) {
+	    var renderedChildren = _react2.default.Children.map(this.props.children, function (child) {
 	      if (passThrough) {
-	        return React.cloneElement(child, _this.state.experimentParameters);
+	        return _react2.default.cloneElement(child, _this.state.experimentParameters);
 	      } else {
-	        return React.cloneElement(child, {});
+	        return _react2.default.cloneElement(child, {});
 	      }
 	    });
 
-	    return React.createElement(
+	    return _react2.default.createElement(
 	      "span",
 	      null,
 	      renderedChildren
 	    );
 	  },
-
 	  render: function render() {
 	    return this.renderExperiment();
 	  }
 	});
 
-	module.exports = Parametrize;
+	exports.default = Parametrize;
 
 /***/ },
 /* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-	var React = _interopRequire(__webpack_require__(2));
+	var _react = __webpack_require__(2);
 
-	module.exports = function (Component) {
-	  return React.createClass({
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = function (Component) {
+	  return _react2.default.createClass({
 	    contextTypes: {
-	      experimentParameters: React.PropTypes.object.isRequired
+	      experimentParameters: _react2.default.PropTypes.object.isRequired
 	    },
 
 	    render: function render() {
-	      return React.createElement(Component, _extends({}, this.props, this.context.experimentParameters));
+	      return _react2.default.createElement(Component, _extends({}, this.props, this.context.experimentParameters));
 	    }
 	  });
 	};
@@ -416,21 +447,29 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 
-	var React = _interopRequire(__webpack_require__(2));
+	var _react = __webpack_require__(2);
 
-	var Parametrize = _interopRequire(__webpack_require__(5));
+	var _react2 = _interopRequireDefault(_react);
 
-	module.exports = function (experiment, experimentParams, Component) {
-	  return React.createClass({
+	var _parametrize = __webpack_require__(5);
+
+	var _parametrize2 = _interopRequireDefault(_parametrize);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = function (experiment, experimentParams, Component) {
+	  return _react2.default.createClass({
 	    render: function render() {
-	      return React.createElement(
-	        Parametrize,
+	      return _react2.default.createElement(
+	        _parametrize2.default,
 	        { experiment: experiment, params: experimentParams, _passThrough: true },
-	        React.createElement(Component, this.props)
+	        _react2.default.createElement(Component, this.props)
 	      );
 	    }
 	  });

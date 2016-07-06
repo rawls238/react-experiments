@@ -4,7 +4,15 @@ module.exports = {
   entry: './build/index.js',
   module: {
     loaders: [
-      { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader'},
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+        query: {
+          cacheDirectory: true,
+          presets: ['react', 'es2015', 'jest']
+        }
+      },
     ]
   },
   output: {
