@@ -1,21 +1,21 @@
-import PlanOut from 'PlanOut';
+import planout from 'planout';
 
 let globalLog = [];
-class DefaultExperiment extends PlanOut.Experiment {
+class DefaultExperiment extends planout.Experiment {
   setup() {
     this.setName("SampleExperiment");
   }
 
   assign(params, args) {
     params.set('foo',
-      new PlanOut.Ops.Random.UniformChoice({
+      new planout.Ops.Random.UniformChoice({
         'choices': ['Variation A', 'Variation B'],
         'unit': args.id
       })
     );
 
     params.set('test2',
-      new PlanOut.Ops.Random.UniformChoice({
+      new planout.Ops.Random.UniformChoice({
         'choices': ['Num1', 'Num2'],
         'unit': args.id
       })
@@ -39,14 +39,14 @@ class DefaultExperiment extends PlanOut.Experiment {
   }
 };
 
-class DefaultExperiment2 extends PlanOut.Experiment {
+class DefaultExperiment2 extends planout.Experiment {
   setup() {
     this.setName('SampleExperiment2');
   }
 
   assign(params, args) {
     params.set('foobar',
-      new PlanOut.Ops.Random.UniformChoice({
+      new planout.Ops.Random.UniformChoice({
         'choices': ['Variation A', 'Variation B'],
         'unit': args.id
       })
@@ -70,7 +70,7 @@ class DefaultExperiment2 extends PlanOut.Experiment {
   }
 }
 
-class DefaultNamespace extends PlanOut.Namespace.SimpleNamespace {
+class DefaultNamespace extends planout.Namespace.SimpleNamespace {
 
   setupDefaults() {
     this.numSegments = 100;
@@ -87,7 +87,7 @@ class DefaultNamespace extends PlanOut.Namespace.SimpleNamespace {
   }
 };
 
-class DefaultEmptyNamespace extends PlanOut.Namespace.SimpleNamespace {
+class DefaultEmptyNamespace extends planout.Namespace.SimpleNamespace {
 
   setupDefaults() {
     this.numSegments = 100;

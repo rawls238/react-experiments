@@ -29,7 +29,7 @@ describe('Test parametrize component', () => {
     );
     expect(TestUtils.scryRenderedDOMComponentsWithClass(
       parametrized,
-      'Variation B'
+      'Variation A'
     ).length).toBe(1);
   });
 
@@ -79,11 +79,11 @@ describe('Test parametrize component', () => {
     );
     expect(TestUtils.scryRenderedDOMComponentsWithClass(
       parametrized,
-      'Variation B'
+      'Variation A'
     ).length).toBe(1);
     expect(TestUtils.scryRenderedDOMComponentsWithClass(
       parametrized,
-      'Num2'
+      'Num1'
     ).length).toBe(1);
   });
 

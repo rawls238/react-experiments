@@ -12,7 +12,7 @@ describe('Test experiment component', () => {
   });
 
   it('fetches the right value', () => {
-    expect(exp.get('foo')).toEqual('Variation B');
+    expect(exp.get('foo')).toEqual('Variation A');
   });
 
   it('renders only one, correct variation', () => {
@@ -40,7 +40,7 @@ describe('Test experiment component', () => {
     //renders the correct variation
     expect(TestUtils.scryRenderedDOMComponentsWithClass(
       experimentComponent,
-      'variation-b'
+      'variation-a'
     ).length).toBe(1);
 
     expect(getLogLength()).toEqual(1);
