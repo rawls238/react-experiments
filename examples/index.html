@@ -49,14 +49,14 @@
 
     /* End extend helper */
 
-    var DemoExperiment = window.PlanOut.Experiment.extend({
+    var DemoExperiment = window.planout.Experiment.extend({
       setup: function() {
         this.name = "SampleExperiment";
       },
       assign: function(params, args) {
         params.set(
           'foo',
-          new window.PlanOut.Ops.Random.UniformChoice({
+          new window.planout.Ops.Random.UniformChoice({
             'choices': ['Variation A', 'Variation B'],
             'unit': args.id
           })
@@ -64,7 +64,7 @@
 
         params.set(
           'test2',
-          new window.PlanOut.Ops.Random.UniformChoice({
+          new window.planout.Ops.Random.UniformChoice({
             'choices': ['Num1', 'Num2'],
             'unit': args.id
           })
