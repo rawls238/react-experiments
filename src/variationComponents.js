@@ -47,9 +47,9 @@ export const When = React.createClass({
     }
 
     return (
-      <span className='experiment-variation-component'>
+      <div className='experiment-variation-component'>
         {this.renderChildren()}
-      </span>
+      </div>
     );
   }
 });
@@ -65,9 +65,9 @@ export const Default = React.createClass({
     }
 
     return (
-      <span>
+      <div>
         {this.props.children}
-      </span>
+      </div>
     );
   }
 });

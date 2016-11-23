@@ -13,9 +13,9 @@ const Parametrize = React.createClass({
   },
 
   getChildContext() {
-    return { 
+    return {
       experimentParameters: this.state.experimentParameters,
-      experimentProps: this.props 
+      experimentProps: this.props
     };
   },
 
@@ -70,9 +70,9 @@ const Parametrize = React.createClass({
     });
 
     return (
-      <span>
-        { renderedChildren }  
-      </span>
+      <div>
+        { renderedChildren }
+      </div>
     );
   },
 
