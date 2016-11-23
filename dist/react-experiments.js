@@ -282,9 +282,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  },
 	  renderExposedVariation: function renderExposedVariation() {
-	    var _props = this.props;
-	    var on = _props.on;
-	    var experiment = _props.experiment;
+	    var _props = this.props,
+	        on = _props.on,
+	        experiment = _props.experiment;
 
 
 	    if (!experiment) {
@@ -354,9 +354,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.fetchParameters();
 	  },
 	  fetchParameters: function fetchParameters() {
-	    var _props = this.props;
-	    var experiment = _props.experiment;
-	    var params = _props.params;
+	    var _props = this.props,
+	        experiment = _props.experiment,
+	        params = _props.params;
 
 
 	    if (!experiment || !experiment.get) {
