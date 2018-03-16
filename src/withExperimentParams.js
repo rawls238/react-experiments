@@ -1,9 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import createReactClass from 'create-react-class';
 
 export default (Component) => {
-  return React.createClass({
+  return createReactClass({
     contextTypes: {
-      experimentParameters: React.PropTypes.object.isRequired
+      experimentParameters: PropTypes.object.isRequired
     },
 
     render() {

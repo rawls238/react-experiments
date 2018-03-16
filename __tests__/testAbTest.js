@@ -1,5 +1,5 @@
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
+import TestUtils from 'react-dom/test-utils';
 import {DefaultExperiment, expInitializeObject, clearLogs, getLogLength} from './utils/experimentUtils';
 import ReactExperiments from '../dist/react-experiments';
 

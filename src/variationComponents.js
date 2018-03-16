@@ -1,6 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import createReactClass from 'create-react-class';
 
-export const When = React.createClass({
+export const When = createReactClass({
   getInitialState() {
     return {
       shouldRender: false
@@ -8,8 +10,8 @@ export const When = React.createClass({
   },
 
   contextTypes: {
-    experimentParameters: React.PropTypes.object.isRequired,
-    experimentProps: React.PropTypes.object.isRequired
+    experimentParameters: PropTypes.object.isRequired,
+    experimentProps: PropTypes.object.isRequired
   },
 
   componentWillUpdate(props, state) {
@@ -54,9 +56,9 @@ export const When = React.createClass({
   }
 });
 
-export const Default = React.createClass({
+export const Default = createReactClass({
   contextTypes: {
-    experimentProps: React.PropTypes.object.isRequired
+    experimentProps: PropTypes.object.isRequired
   },
 
   render() {

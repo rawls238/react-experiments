@@ -1,5 +1,7 @@
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
+import createReactClass from 'create-react-class';
+import TestUtils from 'react-dom/test-utils';
+import PropTypes from 'prop-types';
 import ReactExperiments from '../dist/react-experiments';
 
 let logs = [];
@@ -32,9 +34,9 @@ describe('Test experiment', () => {
   });
 
   it('should work with experiment Class', () => {
-    const Comp = React.createClass({
+    const Comp = createReactClass({
       contextTypes: {
-        experimentParameters: React.PropTypes.object.isRequired
+        experimentParameters: PropTypes.object.isRequired
       },
 
       render() {
