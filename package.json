@@ -16,7 +16,6 @@
     "babel-preset-jest": "^13.0.0",
     "jest": "^22.4.2",
     "planout": "^3.0.0",
-    "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "webpack": "^1.5.3"
   },
