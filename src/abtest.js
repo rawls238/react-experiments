@@ -1,7 +1,8 @@
 import React from 'react';
+import createReactClass from 'create-react-class';
 import Parametrize from './parametrize';
 
-const ABTest = React.createClass({
+const ABTest = createReactClass({
   getInitialState() {
     return {
       hasRendered: false
@@ -28,11 +29,11 @@ const ABTest = React.createClass({
     }
 
     return (
-      <Parametrize 
-        experiment={experiment} 
+      <Parametrize
+        experiment={experiment}
         params={[on]}
-        on={on} 
-        enrolledInVariation={this.enrolledInVariation} 
+        on={on}
+        enrolledInVariation={this.enrolledInVariation}
         hasRendered={this.state.hasRendered}>
 
           {this.props.children}

@@ -1,5 +1,7 @@
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
+import createReactClass from 'create-react-class';
+import PropTypes from 'prop-types';
+import TestUtils from 'react-dom/test-utils';
 import {DefaultExperiment, expInitializeObject, getLogLength, clearLogs} from './utils/experimentUtils';
 import ReactExperiments from '../dist/react-experiments';
 
@@ -12,7 +14,7 @@ describe('Test parametrize component', () => {
   });
 
   it('should work with parametrize using props', () => {
-    const ParametrizedComponent = React.createClass({
+    const ParametrizedComponent = createReactClass({
       render() {
         return (
           <span className={this.props.foo}>
@@ -34,9 +36,9 @@ describe('Test parametrize component', () => {
   });
 
   it('should work with parametrize using context', () => {
-    const DoublyNestedComponent = React.createClass({
+    const DoublyNestedComponent = createReactClass({
       contextTypes: {
-        experimentParameters: React.PropTypes.object.isRequired,
+        experimentParameters: PropTypes.object.isRequired,
       },
 
       render() {
@@ -48,9 +50,9 @@ describe('Test parametrize component', () => {
       }
     });
 
-    const NestedComponent = React.createClass({
+    const NestedComponent = createReactClass({
       contextTypes: {
-        experimentParameters: React.PropTypes.object.isRequired,
+        experimentParameters: PropTypes.object.isRequired,
       },
 
       render() {
@@ -61,8 +63,8 @@ describe('Test parametrize component', () => {
         );
       }
     });
-    
-    const ParametrizedComponent = React.createClass({
+
+    const ParametrizedComponent = createReactClass({
       render() {
         return (
           <span>
@@ -88,9 +90,9 @@ describe('Test parametrize component', () => {
   });
 
   it('should work correctly after re-rendering', () => {
-    const TestComponent = React.createClass({
+    const TestComponent = createReactClass({
       contextTypes: {
-        experimentParameters: React.PropTypes.object.isRequired,
+        experimentParameters: PropTypes.object.isRequired,
       },
 
       render() {
@@ -105,7 +107,7 @@ describe('Test parametrize component', () => {
       }
     });
 
-    const Parametrized = React.createClass({
+    const Parametrized = createReactClass({
       render() {
         return (
           <ReactExperiments.Parametrize experiment={exp} params={['foo']}>
@@ -115,7 +117,7 @@ describe('Test parametrize component', () => {
       }
     });
 
-    const RerenderingComponent = React.createClass({
+    const RerenderingComponent = createReactClass({
       getInitialState() {
         return {
           'test': false
@@ -164,7 +166,7 @@ describe('Test parametrize component', () => {
   });
 
   it('should work with the withExperimentParams component', () => {
-    const Buttons = React.createClass({
+    const Buttons = createReactClass({
       render() {
         return (
           <div>
@@ -207,7 +209,7 @@ describe('Test parametrize component', () => {
   });
 
   it('should work with higher order component and list of params', () => {
-    const Buttons = ReactExperiments.parametrize(exp, ['foo', 'test2'], React.createClass({
+    const Buttons = ReactExperiments.parametrize(exp, ['foo', 'test2'], createReactClass({
       render() {
         return (
           <div>
@@ -247,7 +249,7 @@ describe('Test parametrize component', () => {
   });
 
   it('should not log exposure if no valid params are passed', () => {
-    const Test = ReactExperiments.parametrize(exp, ['foobar'], React.createClass({
+    const Test = ReactExperiments.parametrize(exp, ['foobar'], createReactClass({
       render() {
         return (
           <div>

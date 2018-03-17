@@ -1,6 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import createReactClass from 'create-react-class';
 
-const Parametrize = React.createClass({
+const Parametrize = createReactClass({
   getInitialState() {
     return {
       experimentParameters: null
@@ -8,14 +10,14 @@ const Parametrize = React.createClass({
   },
 
   childContextTypes: {
-    experimentParameters: React.PropTypes.object,
-    experimentProps: React.PropTypes.object.isRequired
+    experimentParameters: PropTypes.object,
+    experimentProps: PropTypes.object.isRequired
   },
 
   getChildContext() {
-    return { 
+    return {
       experimentParameters: this.state.experimentParameters,
-      experimentProps: this.props 
+      experimentProps: this.props
     };
   },
 
@@ -71,7 +73,7 @@ const Parametrize = React.createClass({
 
     return (
       <span>
-        { renderedChildren }  
+        { renderedChildren }
       </span>
     );
   },
