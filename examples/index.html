@@ -7,8 +7,10 @@
 </head>
 <body>
   <div class="examples-container"></div>
-  <script src="http://cdn.jsdelivr.net/react/15.0.1/react.js"></script>
-  <script src="http://cdn.jsdelivr.net/react/15.0.1/react-dom.js"></script>
+  <script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/create-react-class@15.6.2/create-react-class.min.js"></script>
+  <script src="https://unpkg.com/prop-types@15.5.10/prop-types.js"></script>
   <script src="http://cdn.jsdelivr.net/react/0.13.3/JSXTransformer.js"></script>
   <script src="../node_modules/planout/dist/planout.js"></script>
   <script src="../dist/react-experiments.js"></script>
@@ -87,7 +89,7 @@
     window.demo = new DemoExperiment({'id': userid});
   </script>
   <script type="text/jsx">
-    var VariationExperiment = React.createClass({
+    var VariationExperiment = createReactClass({
       render: function() {
         return (
           <div className="card">
@@ -108,9 +110,9 @@
       }
     });
     
-    var FooComponent = React.createClass({
+    var FooComponent = createReactClass({
       contextTypes: {
-        experimentParameters: React.PropTypes.object.isRequired
+        experimentParameters: PropTypes.object.isRequired
       },
 
       render: function() {
@@ -122,7 +124,7 @@
       }
     });
 
-    var TextComponent = React.createClass({
+    var TextComponent = createReactClass({
       render: function() {
         console.log('rendering');
         return (
@@ -136,7 +138,7 @@
 
     TextComponent = ReactExperiments.withExperimentParams(TextComponent);
     
-    var ParametrizeExperiment = React.createClass({
+    var ParametrizeExperiment = createReactClass({
       render: function() {
         return (
           <ReactExperiments.Parametrize experiment={window.demo} params={['foo']}>
@@ -147,7 +149,7 @@
       }
     });
 
-    var ExperimentExamples = React.createClass({
+    var ExperimentExamples = createReactClass({
       render: function() {
         return (
           <div className="wrap">

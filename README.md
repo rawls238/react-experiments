@@ -14,7 +14,7 @@ npm install react-experiments
 
 # Usage
 
-**If you are using React 0.13 the latest supported version is 3.0.1**
+**If you are using React 0.14 the latest supported version is 4.1.0**
 
 react-experiments was built to work with [PlanOut.js](https://www.github.com/HubSpot/PlanOut.js) and most of its constructs are inspired by the structure of PlanOut.js. This library will work out of the box if you pass it an instantiated PlanOut Namespace or Experiment class, but if you want to use your own methods of assigning experiment parameters and logging exposure then you can extend the base [experiment class](https://github.com/HubSpot/react-experiments/blob/master/src/Experiment.js) and pass that as the experiment class prop.
 
@@ -91,7 +91,7 @@ There are two primary higher-order components to use for parametrization.
 
 
 ```js
-const Parent = React.createClass({
+const Parent = createReactClass({
   render() {
     return (
       <Parametrize experiment={exp} params={['signup_form_text', 'signup_nav_text']}>
@@ -102,7 +102,7 @@ const Parent = React.createClass({
   }
 });
 
-const SignupHeader = withExperimentParams(React.createClass({
+const SignupHeader = withExperimentParams(createReactClass({
   render() {
     return (
       <div>
@@ -112,7 +112,7 @@ const SignupHeader = withExperimentParams(React.createClass({
   }
 });
 
-const SignupForm = withExperimentParams(React.createClass({
+const SignupForm = withExperimentParams(createReactClass({
   render() {
     return (
       <div>
