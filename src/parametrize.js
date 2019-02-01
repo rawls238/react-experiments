@@ -32,7 +32,7 @@ const Parametrize = createReactClass({
       console.error("You must pass in an experiment instance as a prop");
       return;
     } else if (!params) {
-      console.error("You mass pass a list of params in as a prop");
+      console.error("You must pass a list of params in as a prop");
       return;
     }
 
