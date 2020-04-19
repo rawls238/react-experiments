@@ -1,5 +1,5 @@
 # react-experiments
-[![Build Status](https://travis-ci.org/HubSpot/react-experiments.svg?branch=master)](https://travis-ci.org/HubSpot/react-experiments)
+[![Build Status](https://travis-ci.org/rawls238/react-experiments.svg?branch=master)](https://travis-ci.org/rawls238/react-experiments)
 
 
 react-experiments is a set of React components for implementing UI experiments.

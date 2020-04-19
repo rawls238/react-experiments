@@ -1,3 +1,6 @@
+# Changes in 5.1.0
+- Require latest version of planout
+
 # Changes in 4.1.0
 - Now transpile using babel 6 instead of babel 4
 
