@@ -3,6 +3,8 @@
 [![npm downloads](https://img.shields.io/npm/dm/react-experiments.svg?style=flat-square)](https://www.npmjs.com/package/react-experiments)
 
 
+### This library is no longer actively maintained. ###
+
 react-experiments is a set of React components for implementing UI experiments.
 
 For additional context behind why we built this, check out the accompanying [blog post](http://product.hubspot.com/blog/product-experimentation-with-planout-and-react.js)
